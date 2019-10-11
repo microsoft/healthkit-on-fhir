@@ -6,5 +6,4 @@
 trigger:
 - master
 
-pool:
-  vmImage: 'macos-latest'
+pool: 'Mac Readmissions'
