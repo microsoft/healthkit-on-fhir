@@ -6,7 +6,7 @@
         "repositoryURL": "git@github.com:microsoft/health-data-sync",
         "state": {
           "branch": "master",
-          "revision": "dbf642b06fe0acc711ca0cf195d81139876ef8d8",
+          "revision": "84a0c9300f74dc53c50c651a706cb3902120add7",
           "version": null
         }
       },
@@ -15,7 +15,7 @@
         "repositoryURL": "https://github.com/microsoft/healthkit-on-fhir.git",
         "state": {
           "branch": "master",
-          "revision": "2a283c8e9a68c8d56e1cecb5826e644eb99f57dc",
+          "revision": "d95b225788e7092f84c451529dbd5e3dadd96dc5",
           "version": null
         }
       },
@@ -24,7 +24,7 @@
         "repositoryURL": "git@github.com:microsoft/healthkit-to-fhir",
         "state": {
           "branch": "master",
-          "revision": "3f28b79710948a9ebd2de84806fe548095948900",
+          "revision": "b8b057d9a6bf36b27d1e08fd9ca34b4429d909dd",
           "version": null
         }
       },
@@ -33,7 +33,7 @@
         "repositoryURL": "git@github.com:microsoft/iomt-fhir-client",
         "state": {
           "branch": "master",
-          "revision": "662221854f19b8bdcb7edfd90e1a189b9d995045",
+          "revision": "f1a848bf120d9576c7465034c30ff6b6ee3add14",
           "version": null
         }
       },

@@ -20,7 +20,6 @@
 		A5567FF422EB827500C91001 /* DeviceExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5567FF322EB827500C91001 /* DeviceExtensions.swift */; };
 		A57A676F233EB21B006BFEEE /* SMART in Frameworks */ = {isa = PBXBuildFile; productRef = A57A676E233EB21B006BFEEE /* SMART */; };
 		A58684F723145507003FEC6A /* BundleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58684F623145507003FEC6A /* BundleExtensions.swift */; };
-		A5943A232350D442002211C2 /* HealthKitOnFhir in Frameworks */ = {isa = PBXBuildFile; productRef = A5943A222350D442002211C2 /* HealthKitOnFhir */; };
 		A5BCB3D422E103D20029F824 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BCB3D322E103D20029F824 /* LaunchViewController.swift */; };
 		A5BCB3D722E11CE80029F824 /* ServerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BCB3D622E11CE80029F824 /* ServerExtensions.swift */; };
 		A5BCB3D922E21F7E0029F824 /* PatientOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BCB3D822E21F7E0029F824 /* PatientOnboardingViewController.swift */; };
@@ -31,6 +30,7 @@
 		A5E75EAC22B457AF00206D74 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A5E75EAB22B457AF00206D74 /* Assets.xcassets */; };
 		A5E75EAF22B457AF00206D74 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5E75EAD22B457AF00206D74 /* LaunchScreen.storyboard */; };
 		A5E75EC722B4611F00206D74 /* QueryObserverDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E75EC622B4611F00206D74 /* QueryObserverDelegate.swift */; };
+		A5ECB32A2351266B00F2410B /* HealthKitOnFhir in Frameworks */ = {isa = PBXBuildFile; productRef = A5ECB3292351266B00F2410B /* HealthKitOnFhir */; };
 		A5F9C2BA2301C0E300B5A359 /* FhirDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F9C2B92301C0E300B5A359 /* FhirDelegate.swift */; };
 		A5F9C2BC2301C2AD00B5A359 /* ExternalStoreDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F9C2BB2301C2AD00B5A359 /* ExternalStoreDelegate.swift */; };
 /* End PBXBuildFile section */
@@ -71,7 +71,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A57A676F233EB21B006BFEEE /* SMART in Frameworks */,
-				A5943A232350D442002211C2 /* HealthKitOnFhir in Frameworks */,
+				A5ECB32A2351266B00F2410B /* HealthKitOnFhir in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -169,7 +169,7 @@
 			name = HealthKitOnFhir_Sample;
 			packageProductDependencies = (
 				A57A676E233EB21B006BFEEE /* SMART */,
-				A5943A222350D442002211C2 /* HealthKitOnFhir */,
+				A5ECB3292351266B00F2410B /* HealthKitOnFhir */,
 			);
 			productName = "HealthKit On FHIR Sample";
 			productReference = A5E75EA122B457AD00206D74 /* HealthKitOnFhir_Sample.app */;
@@ -209,7 +209,7 @@
 			mainGroup = A5E75E9822B457AD00206D74;
 			packageReferences = (
 				A57A676D233EB21B006BFEEE /* XCRemoteSwiftPackageReference "Swift-SMART" */,
-				A5943A212350D442002211C2 /* XCRemoteSwiftPackageReference "healthkit-on-fhir" */,
+				A5ECB3282351266B00F2410B /* XCRemoteSwiftPackageReference "healthkit-on-fhir" */,
 			);
 			productRefGroup = A5E75EA222B457AD00206D74 /* Products */;
 			projectDirPath = "";
@@ -472,7 +472,7 @@
 				minimumVersion = 4.2.0;
 			};
 		};
-		A5943A212350D442002211C2 /* XCRemoteSwiftPackageReference "healthkit-on-fhir" */ = {
+		A5ECB3282351266B00F2410B /* XCRemoteSwiftPackageReference "healthkit-on-fhir" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/microsoft/healthkit-on-fhir.git";
 			requirement = {
@@ -488,9 +488,9 @@
 			package = A57A676D233EB21B006BFEEE /* XCRemoteSwiftPackageReference "Swift-SMART" */;
 			productName = SMART;
 		};
-		A5943A222350D442002211C2 /* HealthKitOnFhir */ = {
+		A5ECB3292351266B00F2410B /* HealthKitOnFhir */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = A5943A212350D442002211C2 /* XCRemoteSwiftPackageReference "healthkit-on-fhir" */;
+			package = A5ECB3282351266B00F2410B /* XCRemoteSwiftPackageReference "healthkit-on-fhir" */;
 			productName = HealthKitOnFhir;
 		};
 /* End XCSwiftPackageProductDependency section */
