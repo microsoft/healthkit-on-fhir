@@ -1,0 +1,710 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 52;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A51662B822C407A10011E92E /* IomtFhirExternalStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51662B722C407A10011E92E /* IomtFhirExternalStoreTests.swift */; };
+		A51662BB22C4107E0011E92E /* MockEventDataSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51662BA22C4107E0011E92E /* MockEventDataSender.swift */; };
+		A51662BD22C419F10011E92E /* MockIomtFhirMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51662BC22C419F10011E92E /* MockIomtFhirMessage.swift */; };
+		A51662BF22C41F100011E92E /* MockExternalObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51662BE22C41F100011E92E /* MockExternalObject.swift */; };
+		A51662C122C4262A0011E92E /* MockError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51662C022C4262A0011E92E /* MockError.swift */; };
+		A51662C322C5126B0011E92E /* MockExternalStoreDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51662C222C5126B0011E92E /* MockExternalStoreDelegate.swift */; };
+		A51662C522C512900011E92E /* IomtFhirExternalStoreDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51662C422C512900011E92E /* IomtFhirExternalStoreDelegateTests.swift */; };
+		A58410572322F6BE00E9E779 /* ConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58410562322F6BE00E9E779 /* ConverterTests.swift */; };
+		A58410592322F81600E9E779 /* MockResourceFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58410582322F81600E9E779 /* MockResourceFactory.swift */; };
+		A584105B23269EFA00E9E779 /* FhirExternalStoreDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A584105A23269EFA00E9E779 /* FhirExternalStoreDelegateTests.swift */; };
+		A584105D2326A0B000E9E779 /* MockFhirExternalStoreDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A584105C2326A0B000E9E779 /* MockFhirExternalStoreDelegate.swift */; };
+		A584105F2326AD9400E9E779 /* FhirExternalStoreTestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = A584105E2326AD9400E9E779 /* FhirExternalStoreTestHelpers.swift */; };
+		A599F3C82321B89E00F95245 /* BundleExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A599F3C72321B89E00F95245 /* BundleExtensionsTests.swift */; };
+		A599F3CA2321B8B200F95245 /* IdentifierExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A599F3C92321B8B200F95245 /* IdentifierExtensionsTests.swift */; };
+		A5BFB389233D261800725456 /* BloodPressureMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BFB370233D261800725456 /* BloodPressureMessage.swift */; };
+		A5BFB38A233D261800725456 /* StepCountMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BFB371233D261800725456 /* StepCountMessage.swift */; };
+		A5BFB38B233D261800725456 /* HeartRateMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BFB372233D261800725456 /* HeartRateMessage.swift */; };
+		A5BFB38C233D261800725456 /* IomtFhirMessageBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BFB373233D261800725456 /* IomtFhirMessageBase.swift */; };
+		A5BFB38D233D261800725456 /* BloodGlucoseMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BFB374233D261800725456 /* BloodGlucoseMessage.swift */; };
+		A5BFB38E233D261800725456 /* IomtFhirExtrenalStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BFB375233D261800725456 /* IomtFhirExtrenalStore.swift */; };
+		A5BFB38F233D261800725456 /* IomtFhirExternalStoreDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BFB376233D261800725456 /* IomtFhirExternalStoreDelegate.swift */; };
+		A5BFB390233D261800725456 /* FhirExternalStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BFB378233D261800725456 /* FhirExternalStore.swift */; };
+		A5BFB391233D261800725456 /* BloodPressureContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BFB37A233D261800725456 /* BloodPressureContainer.swift */; };
+		A5BFB392233D261800725456 /* BloodGlucoseContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BFB37B233D261800725456 /* BloodGlucoseContainer.swift */; };
+		A5BFB393233D261800725456 /* ResourceContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BFB37C233D261800725456 /* ResourceContainer.swift */; };
+		A5BFB394233D261800725456 /* StepCountContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BFB37D233D261800725456 /* StepCountContainer.swift */; };
+		A5BFB395233D261800725456 /* Converter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BFB37E233D261800725456 /* Converter.swift */; };
+		A5BFB396233D261800725456 /* ResourceContainerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BFB37F233D261800725456 /* ResourceContainerProtocol.swift */; };
+		A5BFB397233D261800725456 /* HeartRateContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BFB380233D261800725456 /* HeartRateContainer.swift */; };
+		A5BFB398233D261800725456 /* FhirExternalStoreDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BFB381233D261800725456 /* FhirExternalStoreDelegate.swift */; };
+		A5BFB399233D261800725456 /* IdentifierExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BFB383233D261800725456 /* IdentifierExtensions.swift */; };
+		A5BFB39A233D261800725456 /* FHIRSearchExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BFB384233D261800725456 /* FHIRSearchExtensions.swift */; };
+		A5BFB39B233D261800725456 /* BundleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BFB385233D261800725456 /* BundleExtensions.swift */; };
+		A5BFB39C233D261800725456 /* ConverterError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BFB387233D261800725456 /* ConverterError.swift */; };
+		A5BFB39D233D261800725456 /* FetchError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BFB388233D261800725456 /* FetchError.swift */; };
+		A5BFB3AC233D29FC00725456 /* Quick in Frameworks */ = {isa = PBXBuildFile; productRef = A5BFB3AB233D29FC00725456 /* Quick */; };
+		A5BFB3AF233D2A5F00725456 /* Nimble in Frameworks */ = {isa = PBXBuildFile; productRef = A5BFB3AE233D2A5F00725456 /* Nimble */; };
+		A5D5CB122320602B00532768 /* HDSExternalObjectProtocolConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D5CB112320602B00532768 /* HDSExternalObjectProtocolConfiguration.swift */; };
+		A5D5CB15232066C600532768 /* BloodGlucoseMessageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D5CB14232066C600532768 /* BloodGlucoseMessageTests.swift */; };
+		A5D5CB1723206CEB00532768 /* IomtFhirMessageBaseConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D5CB1623206CEB00532768 /* IomtFhirMessageBaseConfiguration.swift */; };
+		A5D5CB1923215BDF00532768 /* BloodPressureMessageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D5CB1823215BDF00532768 /* BloodPressureMessageTests.swift */; };
+		A5D5CB1B23215C0300532768 /* HeartRateMessageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D5CB1A23215C0300532768 /* HeartRateMessageTests.swift */; };
+		A5D5CB1D23215C1100532768 /* StepCountMessageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D5CB1C23215C1100532768 /* StepCountMessageTests.swift */; };
+		A5D5CB1F2321722400532768 /* BloodGlucoseContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D5CB1E2321722400532768 /* BloodGlucoseContainerTests.swift */; };
+		A5D5CB212321723800532768 /* BloodPressureContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D5CB202321723800532768 /* BloodPressureContainerTests.swift */; };
+		A5D5CB232321724C00532768 /* HeartRateContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D5CB222321724C00532768 /* HeartRateContainerTests.swift */; };
+		A5D5CB252321728400532768 /* StepCountContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D5CB242321728400532768 /* StepCountContainerTests.swift */; };
+		A5D5CB272321762500532768 /* ResourceContainerProtocolConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D5CB262321762500532768 /* ResourceContainerProtocolConfiguration.swift */; };
+		A5D5CB2A232189E800532768 /* HKDeletedObject in Resources */ = {isa = PBXBuildFile; fileRef = A5D5CB29232189E800532768 /* HKDeletedObject */; };
+		A5D5CB2D23218A1700532768 /* HKDeletedObjectExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D5CB2C23218A1700532768 /* HKDeletedObjectExtensions.swift */; };
+		A5D5CB2F23218E0F00532768 /* MockConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D5CB2E23218E0F00532768 /* MockConverter.swift */; };
+		A5E781FA234CE2D4003D76D2 /* HealthDataSync in Frameworks */ = {isa = PBXBuildFile; productRef = A5E781F9234CE2D4003D76D2 /* HealthDataSync */; };
+		A5E781FD234CE2EF003D76D2 /* HealthKitToFhir in Frameworks */ = {isa = PBXBuildFile; productRef = A5E781FC234CE2EF003D76D2 /* HealthKitToFhir */; };
+		A5E78200234CE33B003D76D2 /* IomtFhirClient in Frameworks */ = {isa = PBXBuildFile; productRef = A5E781FF234CE33B003D76D2 /* IomtFhirClient */; };
+		A5EC976A22F9E82F00D10442 /* MockFHIRServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EC976922F9E82F00D10442 /* MockFHIRServer.swift */; };
+		A5EC976C22F9EB9D00D10442 /* FHIRSearchExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EC976B22F9EB9D00D10442 /* FHIRSearchExtensionsTests.swift */; };
+		A5EC976E22F9EF1700D10442 /* MockFHIRServerResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EC976D22F9EF1700D10442 /* MockFHIRServerResponse.swift */; };
+		A5EC977022FB179200D10442 /* FhirExternalStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EC976F22FB179200D10442 /* FhirExternalStoreTests.swift */; };
+		A5EC977222FB199700D10442 /* MockObservationFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EC977122FB199700D10442 /* MockObservationFactory.swift */; };
+		A5EC977422FB221D00D10442 /* MockObservationContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EC977322FB221D00D10442 /* MockObservationContainer.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		607FACE51AFB9204008FA782 /* HealthKitOnFhir_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HealthKitOnFhir_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A51662B722C407A10011E92E /* IomtFhirExternalStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IomtFhirExternalStoreTests.swift; sourceTree = "<group>"; };
+		A51662BA22C4107E0011E92E /* MockEventDataSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockEventDataSender.swift; sourceTree = "<group>"; };
+		A51662BC22C419F10011E92E /* MockIomtFhirMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockIomtFhirMessage.swift; sourceTree = "<group>"; };
+		A51662BE22C41F100011E92E /* MockExternalObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockExternalObject.swift; sourceTree = "<group>"; };
+		A51662C022C4262A0011E92E /* MockError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockError.swift; sourceTree = "<group>"; };
+		A51662C222C5126B0011E92E /* MockExternalStoreDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockExternalStoreDelegate.swift; sourceTree = "<group>"; };
+		A51662C422C512900011E92E /* IomtFhirExternalStoreDelegateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IomtFhirExternalStoreDelegateTests.swift; sourceTree = "<group>"; };
+		A58410562322F6BE00E9E779 /* ConverterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConverterTests.swift; sourceTree = "<group>"; };
+		A58410582322F81600E9E779 /* MockResourceFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockResourceFactory.swift; sourceTree = "<group>"; };
+		A584105A23269EFA00E9E779 /* FhirExternalStoreDelegateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FhirExternalStoreDelegateTests.swift; sourceTree = "<group>"; };
+		A584105C2326A0B000E9E779 /* MockFhirExternalStoreDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFhirExternalStoreDelegate.swift; sourceTree = "<group>"; };
+		A584105E2326AD9400E9E779 /* FhirExternalStoreTestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FhirExternalStoreTestHelpers.swift; sourceTree = "<group>"; };
+		A599F3C72321B89E00F95245 /* BundleExtensionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleExtensionsTests.swift; sourceTree = "<group>"; };
+		A599F3C92321B8B200F95245 /* IdentifierExtensionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifierExtensionsTests.swift; sourceTree = "<group>"; };
+		A5BFB370233D261800725456 /* BloodPressureMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BloodPressureMessage.swift; sourceTree = "<group>"; };
+		A5BFB371233D261800725456 /* StepCountMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StepCountMessage.swift; sourceTree = "<group>"; };
+		A5BFB372233D261800725456 /* HeartRateMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeartRateMessage.swift; sourceTree = "<group>"; };
+		A5BFB373233D261800725456 /* IomtFhirMessageBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IomtFhirMessageBase.swift; sourceTree = "<group>"; };
+		A5BFB374233D261800725456 /* BloodGlucoseMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BloodGlucoseMessage.swift; sourceTree = "<group>"; };
+		A5BFB375233D261800725456 /* IomtFhirExtrenalStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IomtFhirExtrenalStore.swift; sourceTree = "<group>"; };
+		A5BFB376233D261800725456 /* IomtFhirExternalStoreDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IomtFhirExternalStoreDelegate.swift; sourceTree = "<group>"; };
+		A5BFB378233D261800725456 /* FhirExternalStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FhirExternalStore.swift; sourceTree = "<group>"; };
+		A5BFB37A233D261800725456 /* BloodPressureContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BloodPressureContainer.swift; sourceTree = "<group>"; };
+		A5BFB37B233D261800725456 /* BloodGlucoseContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BloodGlucoseContainer.swift; sourceTree = "<group>"; };
+		A5BFB37C233D261800725456 /* ResourceContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceContainer.swift; sourceTree = "<group>"; };
+		A5BFB37D233D261800725456 /* StepCountContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StepCountContainer.swift; sourceTree = "<group>"; };
+		A5BFB37E233D261800725456 /* Converter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Converter.swift; sourceTree = "<group>"; };
+		A5BFB37F233D261800725456 /* ResourceContainerProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceContainerProtocol.swift; sourceTree = "<group>"; };
+		A5BFB380233D261800725456 /* HeartRateContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeartRateContainer.swift; sourceTree = "<group>"; };
+		A5BFB381233D261800725456 /* FhirExternalStoreDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FhirExternalStoreDelegate.swift; sourceTree = "<group>"; };
+		A5BFB383233D261800725456 /* IdentifierExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IdentifierExtensions.swift; sourceTree = "<group>"; };
+		A5BFB384233D261800725456 /* FHIRSearchExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FHIRSearchExtensions.swift; sourceTree = "<group>"; };
+		A5BFB385233D261800725456 /* BundleExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BundleExtensions.swift; sourceTree = "<group>"; };
+		A5BFB387233D261800725456 /* ConverterError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConverterError.swift; sourceTree = "<group>"; };
+		A5BFB388233D261800725456 /* FetchError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchError.swift; sourceTree = "<group>"; };
+		A5D5CB112320602B00532768 /* HDSExternalObjectProtocolConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HDSExternalObjectProtocolConfiguration.swift; sourceTree = "<group>"; };
+		A5D5CB14232066C600532768 /* BloodGlucoseMessageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BloodGlucoseMessageTests.swift; sourceTree = "<group>"; };
+		A5D5CB1623206CEB00532768 /* IomtFhirMessageBaseConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IomtFhirMessageBaseConfiguration.swift; sourceTree = "<group>"; };
+		A5D5CB1823215BDF00532768 /* BloodPressureMessageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BloodPressureMessageTests.swift; sourceTree = "<group>"; };
+		A5D5CB1A23215C0300532768 /* HeartRateMessageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateMessageTests.swift; sourceTree = "<group>"; };
+		A5D5CB1C23215C1100532768 /* StepCountMessageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepCountMessageTests.swift; sourceTree = "<group>"; };
+		A5D5CB1E2321722400532768 /* BloodGlucoseContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BloodGlucoseContainerTests.swift; sourceTree = "<group>"; };
+		A5D5CB202321723800532768 /* BloodPressureContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BloodPressureContainerTests.swift; sourceTree = "<group>"; };
+		A5D5CB222321724C00532768 /* HeartRateContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateContainerTests.swift; sourceTree = "<group>"; };
+		A5D5CB242321728400532768 /* StepCountContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepCountContainerTests.swift; sourceTree = "<group>"; };
+		A5D5CB262321762500532768 /* ResourceContainerProtocolConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceContainerProtocolConfiguration.swift; sourceTree = "<group>"; };
+		A5D5CB29232189E800532768 /* HKDeletedObject */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = HKDeletedObject; sourceTree = "<group>"; };
+		A5D5CB2C23218A1700532768 /* HKDeletedObjectExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HKDeletedObjectExtensions.swift; sourceTree = "<group>"; };
+		A5D5CB2E23218E0F00532768 /* MockConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockConverter.swift; sourceTree = "<group>"; };
+		A5EC976922F9E82F00D10442 /* MockFHIRServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFHIRServer.swift; sourceTree = "<group>"; };
+		A5EC976B22F9EB9D00D10442 /* FHIRSearchExtensionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FHIRSearchExtensionsTests.swift; sourceTree = "<group>"; };
+		A5EC976D22F9EF1700D10442 /* MockFHIRServerResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFHIRServerResponse.swift; sourceTree = "<group>"; };
+		A5EC976F22FB179200D10442 /* FhirExternalStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FhirExternalStoreTests.swift; sourceTree = "<group>"; };
+		A5EC977122FB199700D10442 /* MockObservationFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockObservationFactory.swift; sourceTree = "<group>"; };
+		A5EC977322FB221D00D10442 /* MockObservationContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockObservationContainer.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		607FACE21AFB9204008FA782 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A5E78200234CE33B003D76D2 /* IomtFhirClient in Frameworks */,
+				A5BFB3AF233D2A5F00725456 /* Nimble in Frameworks */,
+				A5E781FD234CE2EF003D76D2 /* HealthKitToFhir in Frameworks */,
+				A5BFB3AC233D29FC00725456 /* Quick in Frameworks */,
+				A5E781FA234CE2D4003D76D2 /* HealthDataSync in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		607FACC71AFB9204008FA782 = {
+			isa = PBXGroup;
+			children = (
+				607FACE81AFB9204008FA782 /* Tests */,
+				A5BFB36D233D261800725456 /* Sources */,
+				607FACD11AFB9204008FA782 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		607FACD11AFB9204008FA782 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				607FACE51AFB9204008FA782 /* HealthKitOnFhir_Tests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		607FACE81AFB9204008FA782 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				A5D5CB2B232189FD00532768 /* TestHelpers */,
+				A5D5CB1023205F6900532768 /* TestConfigurations */,
+				A51662B922C40F840011E92E /* Mocks */,
+				A5D5CB28232189E800532768 /* TestData */,
+				607FACE91AFB9204008FA782 /* Supporting Files */,
+				A5D5CB132320668000532768 /* ExternalObjects */,
+				A51662B722C407A10011E92E /* IomtFhirExternalStoreTests.swift */,
+				A51662C422C512900011E92E /* IomtFhirExternalStoreDelegateTests.swift */,
+				A5EC976B22F9EB9D00D10442 /* FHIRSearchExtensionsTests.swift */,
+				A5EC976F22FB179200D10442 /* FhirExternalStoreTests.swift */,
+				A584105A23269EFA00E9E779 /* FhirExternalStoreDelegateTests.swift */,
+				A599F3C72321B89E00F95245 /* BundleExtensionsTests.swift */,
+				A599F3C92321B8B200F95245 /* IdentifierExtensionsTests.swift */,
+				A58410562322F6BE00E9E779 /* ConverterTests.swift */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		607FACE91AFB9204008FA782 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				607FACEA1AFB9204008FA782 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		A51662B922C40F840011E92E /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				A51662BA22C4107E0011E92E /* MockEventDataSender.swift */,
+				A51662BC22C419F10011E92E /* MockIomtFhirMessage.swift */,
+				A51662BE22C41F100011E92E /* MockExternalObject.swift */,
+				A51662C022C4262A0011E92E /* MockError.swift */,
+				A51662C222C5126B0011E92E /* MockExternalStoreDelegate.swift */,
+				A5EC976922F9E82F00D10442 /* MockFHIRServer.swift */,
+				A5EC976D22F9EF1700D10442 /* MockFHIRServerResponse.swift */,
+				A5EC977122FB199700D10442 /* MockObservationFactory.swift */,
+				A5EC977322FB221D00D10442 /* MockObservationContainer.swift */,
+				A5D5CB2E23218E0F00532768 /* MockConverter.swift */,
+				A58410582322F81600E9E779 /* MockResourceFactory.swift */,
+				A584105C2326A0B000E9E779 /* MockFhirExternalStoreDelegate.swift */,
+			);
+			path = Mocks;
+			sourceTree = "<group>";
+		};
+		A5BFB36D233D261800725456 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				A5BFB36E233D261800725456 /* IomtFhir */,
+				A5BFB377233D261800725456 /* Fhir */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		A5BFB36E233D261800725456 /* IomtFhir */ = {
+			isa = PBXGroup;
+			children = (
+				A5BFB36F233D261800725456 /* Messages */,
+				A5BFB375233D261800725456 /* IomtFhirExtrenalStore.swift */,
+				A5BFB376233D261800725456 /* IomtFhirExternalStoreDelegate.swift */,
+			);
+			path = IomtFhir;
+			sourceTree = "<group>";
+		};
+		A5BFB36F233D261800725456 /* Messages */ = {
+			isa = PBXGroup;
+			children = (
+				A5BFB370233D261800725456 /* BloodPressureMessage.swift */,
+				A5BFB371233D261800725456 /* StepCountMessage.swift */,
+				A5BFB372233D261800725456 /* HeartRateMessage.swift */,
+				A5BFB373233D261800725456 /* IomtFhirMessageBase.swift */,
+				A5BFB374233D261800725456 /* BloodGlucoseMessage.swift */,
+			);
+			path = Messages;
+			sourceTree = "<group>";
+		};
+		A5BFB377233D261800725456 /* Fhir */ = {
+			isa = PBXGroup;
+			children = (
+				A5BFB378233D261800725456 /* FhirExternalStore.swift */,
+				A5BFB379233D261800725456 /* Resources */,
+				A5BFB381233D261800725456 /* FhirExternalStoreDelegate.swift */,
+				A5BFB382233D261800725456 /* Extensions */,
+				A5BFB386233D261800725456 /* Errors */,
+			);
+			path = Fhir;
+			sourceTree = "<group>";
+		};
+		A5BFB379233D261800725456 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A5BFB37A233D261800725456 /* BloodPressureContainer.swift */,
+				A5BFB37B233D261800725456 /* BloodGlucoseContainer.swift */,
+				A5BFB37C233D261800725456 /* ResourceContainer.swift */,
+				A5BFB37D233D261800725456 /* StepCountContainer.swift */,
+				A5BFB37E233D261800725456 /* Converter.swift */,
+				A5BFB37F233D261800725456 /* ResourceContainerProtocol.swift */,
+				A5BFB380233D261800725456 /* HeartRateContainer.swift */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		A5BFB382233D261800725456 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				A5BFB383233D261800725456 /* IdentifierExtensions.swift */,
+				A5BFB384233D261800725456 /* FHIRSearchExtensions.swift */,
+				A5BFB385233D261800725456 /* BundleExtensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		A5BFB386233D261800725456 /* Errors */ = {
+			isa = PBXGroup;
+			children = (
+				A5BFB387233D261800725456 /* ConverterError.swift */,
+				A5BFB388233D261800725456 /* FetchError.swift */,
+			);
+			path = Errors;
+			sourceTree = "<group>";
+		};
+		A5D5CB1023205F6900532768 /* TestConfigurations */ = {
+			isa = PBXGroup;
+			children = (
+				A5D5CB112320602B00532768 /* HDSExternalObjectProtocolConfiguration.swift */,
+				A5D5CB1623206CEB00532768 /* IomtFhirMessageBaseConfiguration.swift */,
+				A5D5CB262321762500532768 /* ResourceContainerProtocolConfiguration.swift */,
+			);
+			path = TestConfigurations;
+			sourceTree = "<group>";
+		};
+		A5D5CB132320668000532768 /* ExternalObjects */ = {
+			isa = PBXGroup;
+			children = (
+				A5D5CB14232066C600532768 /* BloodGlucoseMessageTests.swift */,
+				A5D5CB1823215BDF00532768 /* BloodPressureMessageTests.swift */,
+				A5D5CB1A23215C0300532768 /* HeartRateMessageTests.swift */,
+				A5D5CB1C23215C1100532768 /* StepCountMessageTests.swift */,
+				A5D5CB1E2321722400532768 /* BloodGlucoseContainerTests.swift */,
+				A5D5CB202321723800532768 /* BloodPressureContainerTests.swift */,
+				A5D5CB222321724C00532768 /* HeartRateContainerTests.swift */,
+				A5D5CB242321728400532768 /* StepCountContainerTests.swift */,
+			);
+			path = ExternalObjects;
+			sourceTree = "<group>";
+		};
+		A5D5CB28232189E800532768 /* TestData */ = {
+			isa = PBXGroup;
+			children = (
+				A5D5CB29232189E800532768 /* HKDeletedObject */,
+			);
+			path = TestData;
+			sourceTree = "<group>";
+		};
+		A5D5CB2B232189FD00532768 /* TestHelpers */ = {
+			isa = PBXGroup;
+			children = (
+				A5D5CB2C23218A1700532768 /* HKDeletedObjectExtensions.swift */,
+				A584105E2326AD9400E9E779 /* FhirExternalStoreTestHelpers.swift */,
+			);
+			path = TestHelpers;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		607FACE41AFB9204008FA782 /* HealthKitOnFhir_Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 607FACF21AFB9204008FA782 /* Build configuration list for PBXNativeTarget "HealthKitOnFhir_Tests" */;
+			buildPhases = (
+				607FACE11AFB9204008FA782 /* Sources */,
+				607FACE21AFB9204008FA782 /* Frameworks */,
+				607FACE31AFB9204008FA782 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HealthKitOnFhir_Tests;
+			packageProductDependencies = (
+				A5BFB3AB233D29FC00725456 /* Quick */,
+				A5BFB3AE233D2A5F00725456 /* Nimble */,
+				A5E781F9234CE2D4003D76D2 /* HealthDataSync */,
+				A5E781FC234CE2EF003D76D2 /* HealthKitToFhir */,
+				A5E781FF234CE33B003D76D2 /* IomtFhirClient */,
+			);
+			productName = Tests;
+			productReference = 607FACE51AFB9204008FA782 /* HealthKitOnFhir_Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		607FACC81AFB9204008FA782 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0830;
+				LastUpgradeCheck = 1100;
+				ORGANIZATIONNAME = CocoaPods;
+				TargetAttributes = {
+					607FACE41AFB9204008FA782 = {
+						CreatedOnToolsVersion = 6.3.1;
+						LastSwiftMigration = 1020;
+					};
+				};
+			};
+			buildConfigurationList = 607FACCB1AFB9204008FA782 /* Build configuration list for PBXProject "HealthKitOnFhir" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 607FACC71AFB9204008FA782;
+			packageReferences = (
+				A5BFB3AA233D29FC00725456 /* XCRemoteSwiftPackageReference "Quick" */,
+				A5BFB3AD233D2A5F00725456 /* XCRemoteSwiftPackageReference "Nimble" */,
+				A5E781F8234CE2D4003D76D2 /* XCRemoteSwiftPackageReference "health-data-sync" */,
+				A5E781FB234CE2EF003D76D2 /* XCRemoteSwiftPackageReference "healthkit-to-fhir" */,
+				A5E781FE234CE33B003D76D2 /* XCRemoteSwiftPackageReference "iomt-fhir-client" */,
+			);
+			productRefGroup = 607FACD11AFB9204008FA782 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				607FACE41AFB9204008FA782 /* HealthKitOnFhir_Tests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		607FACE31AFB9204008FA782 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A5D5CB2A232189E800532768 /* HKDeletedObject in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		607FACE11AFB9204008FA782 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A584105B23269EFA00E9E779 /* FhirExternalStoreDelegateTests.swift in Sources */,
+				A51662BF22C41F100011E92E /* MockExternalObject.swift in Sources */,
+				A5BFB38F233D261800725456 /* IomtFhirExternalStoreDelegate.swift in Sources */,
+				A5BFB391233D261800725456 /* BloodPressureContainer.swift in Sources */,
+				A5EC976A22F9E82F00D10442 /* MockFHIRServer.swift in Sources */,
+				A584105F2326AD9400E9E779 /* FhirExternalStoreTestHelpers.swift in Sources */,
+				A51662BD22C419F10011E92E /* MockIomtFhirMessage.swift in Sources */,
+				A5BFB38C233D261800725456 /* IomtFhirMessageBase.swift in Sources */,
+				A5BFB38E233D261800725456 /* IomtFhirExtrenalStore.swift in Sources */,
+				A5EC976C22F9EB9D00D10442 /* FHIRSearchExtensionsTests.swift in Sources */,
+				A5D5CB272321762500532768 /* ResourceContainerProtocolConfiguration.swift in Sources */,
+				A5D5CB252321728400532768 /* StepCountContainerTests.swift in Sources */,
+				A5BFB39A233D261800725456 /* FHIRSearchExtensions.swift in Sources */,
+				A58410572322F6BE00E9E779 /* ConverterTests.swift in Sources */,
+				A5BFB389233D261800725456 /* BloodPressureMessage.swift in Sources */,
+				A5BFB395233D261800725456 /* Converter.swift in Sources */,
+				A5EC976E22F9EF1700D10442 /* MockFHIRServerResponse.swift in Sources */,
+				A5EC977222FB199700D10442 /* MockObservationFactory.swift in Sources */,
+				A5D5CB122320602B00532768 /* HDSExternalObjectProtocolConfiguration.swift in Sources */,
+				A599F3C82321B89E00F95245 /* BundleExtensionsTests.swift in Sources */,
+				A5BFB38D233D261800725456 /* BloodGlucoseMessage.swift in Sources */,
+				A51662BB22C4107E0011E92E /* MockEventDataSender.swift in Sources */,
+				A5D5CB1923215BDF00532768 /* BloodPressureMessageTests.swift in Sources */,
+				A5BFB398233D261800725456 /* FhirExternalStoreDelegate.swift in Sources */,
+				A5BFB39C233D261800725456 /* ConverterError.swift in Sources */,
+				A599F3CA2321B8B200F95245 /* IdentifierExtensionsTests.swift in Sources */,
+				A5EC977022FB179200D10442 /* FhirExternalStoreTests.swift in Sources */,
+				A5BFB396233D261800725456 /* ResourceContainerProtocol.swift in Sources */,
+				A51662B822C407A10011E92E /* IomtFhirExternalStoreTests.swift in Sources */,
+				A58410592322F81600E9E779 /* MockResourceFactory.swift in Sources */,
+				A5BFB393233D261800725456 /* ResourceContainer.swift in Sources */,
+				A5D5CB212321723800532768 /* BloodPressureContainerTests.swift in Sources */,
+				A5BFB39B233D261800725456 /* BundleExtensions.swift in Sources */,
+				A5D5CB1723206CEB00532768 /* IomtFhirMessageBaseConfiguration.swift in Sources */,
+				A5BFB38B233D261800725456 /* HeartRateMessage.swift in Sources */,
+				A5D5CB1D23215C1100532768 /* StepCountMessageTests.swift in Sources */,
+				A5D5CB2F23218E0F00532768 /* MockConverter.swift in Sources */,
+				A5D5CB232321724C00532768 /* HeartRateContainerTests.swift in Sources */,
+				A5D5CB15232066C600532768 /* BloodGlucoseMessageTests.swift in Sources */,
+				A51662C122C4262A0011E92E /* MockError.swift in Sources */,
+				A5BFB38A233D261800725456 /* StepCountMessage.swift in Sources */,
+				A5D5CB1B23215C0300532768 /* HeartRateMessageTests.swift in Sources */,
+				A5BFB397233D261800725456 /* HeartRateContainer.swift in Sources */,
+				A5BFB394233D261800725456 /* StepCountContainer.swift in Sources */,
+				A5EC977422FB221D00D10442 /* MockObservationContainer.swift in Sources */,
+				A5D5CB2D23218A1700532768 /* HKDeletedObjectExtensions.swift in Sources */,
+				A584105D2326A0B000E9E779 /* MockFhirExternalStoreDelegate.swift in Sources */,
+				A5BFB390233D261800725456 /* FhirExternalStore.swift in Sources */,
+				A5BFB392233D261800725456 /* BloodGlucoseContainer.swift in Sources */,
+				A5BFB399233D261800725456 /* IdentifierExtensions.swift in Sources */,
+				A51662C322C5126B0011E92E /* MockExternalStoreDelegate.swift in Sources */,
+				A5BFB39D233D261800725456 /* FetchError.swift in Sources */,
+				A5D5CB1F2321722400532768 /* BloodGlucoseContainerTests.swift in Sources */,
+				A51662C522C512900011E92E /* IomtFhirExternalStoreDelegateTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		607FACED1AFB9204008FA782 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		607FACEE1AFB9204008FA782 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		607FACF31AFB9204008FA782 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		607FACF41AFB9204008FA782 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		607FACCB1AFB9204008FA782 /* Build configuration list for PBXProject "HealthKitOnFhir" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				607FACED1AFB9204008FA782 /* Debug */,
+				607FACEE1AFB9204008FA782 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		607FACF21AFB9204008FA782 /* Build configuration list for PBXNativeTarget "HealthKitOnFhir_Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				607FACF31AFB9204008FA782 /* Debug */,
+				607FACF41AFB9204008FA782 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A5BFB3AA233D29FC00725456 /* XCRemoteSwiftPackageReference "Quick" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Quick/Quick";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.2.0;
+			};
+		};
+		A5BFB3AD233D2A5F00725456 /* XCRemoteSwiftPackageReference "Nimble" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Quick/Nimble";
+			requirement = {
+				kind = exactVersion;
+				version = 8.0.2;
+			};
+		};
+		A5E781F8234CE2D4003D76D2 /* XCRemoteSwiftPackageReference "health-data-sync" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/microsoft/health-data-sync.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		A5E781FB234CE2EF003D76D2 /* XCRemoteSwiftPackageReference "healthkit-to-fhir" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/microsoft/healthkit-to-fhir.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		A5E781FE234CE33B003D76D2 /* XCRemoteSwiftPackageReference "iomt-fhir-client" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/microsoft/iomt-fhir-client.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A5BFB3AB233D29FC00725456 /* Quick */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A5BFB3AA233D29FC00725456 /* XCRemoteSwiftPackageReference "Quick" */;
+			productName = Quick;
+		};
+		A5BFB3AE233D2A5F00725456 /* Nimble */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A5BFB3AD233D2A5F00725456 /* XCRemoteSwiftPackageReference "Nimble" */;
+			productName = Nimble;
+		};
+		A5E781F9234CE2D4003D76D2 /* HealthDataSync */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A5E781F8234CE2D4003D76D2 /* XCRemoteSwiftPackageReference "health-data-sync" */;
+			productName = HealthDataSync;
+		};
+		A5E781FC234CE2EF003D76D2 /* HealthKitToFhir */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A5E781FB234CE2EF003D76D2 /* XCRemoteSwiftPackageReference "healthkit-to-fhir" */;
+			productName = HealthKitToFhir;
+		};
+		A5E781FF234CE33B003D76D2 /* IomtFhirClient */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A5E781FE234CE33B003D76D2 /* XCRemoteSwiftPackageReference "iomt-fhir-client" */;
+			productName = IomtFhirClient;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 607FACC81AFB9204008FA782 /* Project object */;
+}

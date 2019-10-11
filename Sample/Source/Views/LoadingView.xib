@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view autoresizesSubviews="NO" alpha="0.75" contentMode="scaleToFill" id="iN0-l3-epB" customClass="LoadingView" customModule="HealthKit_On_FHIR_Sample" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="155" height="99"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="KKP-Zd-lkp">
+                    <rect key="frame" x="67.5" y="24" width="20" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" id="YY3-Ux-gcK"/>
+                        <constraint firstAttribute="width" constant="20" id="no3-Lg-sHq"/>
+                    </constraints>
+                </activityIndicatorView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cqm-Sf-DGW">
+                    <rect key="frame" x="40" y="54" width="75" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="160" id="5vt-B3-dbR"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="Cqm-Sf-DGW" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="40" id="0fy-bW-8S0"/>
+                <constraint firstAttribute="trailing" secondItem="Cqm-Sf-DGW" secondAttribute="trailing" constant="40" id="Fgu-oS-9uh"/>
+                <constraint firstItem="Cqm-Sf-DGW" firstAttribute="top" secondItem="KKP-Zd-lkp" secondAttribute="bottom" constant="10" id="WBm-Qh-Suh"/>
+                <constraint firstItem="KKP-Zd-lkp" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="Xc1-mA-2cb"/>
+                <constraint firstAttribute="bottom" secondItem="Cqm-Sf-DGW" secondAttribute="bottom" constant="24" id="b8d-ha-BtI"/>
+                <constraint firstItem="KKP-Zd-lkp" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="24" id="mnq-x0-cee"/>
+            </constraints>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <userDefinedRuntimeAttributes>
+                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                    <integer key="value" value="16"/>
+                </userDefinedRuntimeAttribute>
+            </userDefinedRuntimeAttributes>
+            <connections>
+                <outlet property="messageLabel" destination="Cqm-Sf-DGW" id="YKW-2P-dTh"/>
+            </connections>
+        </view>
+    </objects>
+</document>

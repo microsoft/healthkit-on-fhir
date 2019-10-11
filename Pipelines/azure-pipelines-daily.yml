@@ -1,0 +1,27 @@
+# Xcode
+# Build, test, and archive an Xcode workspace on macOS.
+# Add steps that install certificates, test, sign, and distribute an app, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/xcode
+
+trigger: none
+
+schedules:
+- cron: "0 12 * * *"
+  displayName: Daily build
+  branches:
+    include:
+    - master
+
+pool: 'Mac Readmissions'
+
+steps:
+- task: Xcode@5
+  inputs:
+    actions: 'test'
+    configuration: 'Debug'
+    sdk: 'iphoneos'
+    xcWorkspacePath: '**/HealthKitOnFhir.xcworkspace'
+    scheme: 'HealthKitOnFhir_Tests'
+    packageApp: false
+    destinationPlatformOption: 'iOS'
+    destinationSimulators: 'iPhone 8'

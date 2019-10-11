@@ -2,6 +2,15 @@
 #
 # gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
 
+## Mac OS generated
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
 ## Build generated
 build/
 DerivedData/
@@ -39,6 +48,7 @@ playground.xcworkspace
 # Package.pins
 # Package.resolved
 .build/
+.swiftpm/
 
 # CocoaPods
 #

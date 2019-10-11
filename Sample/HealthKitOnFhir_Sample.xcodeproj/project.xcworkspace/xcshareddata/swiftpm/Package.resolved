@@ -1,0 +1,70 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "HealthDataSync",
+        "repositoryURL": "git@github.com:microsoft/health-data-sync",
+        "state": {
+          "branch": "master",
+          "revision": "dbf642b06fe0acc711ca0cf195d81139876ef8d8",
+          "version": null
+        }
+      },
+      {
+        "package": "HealthKitOnFhir",
+        "repositoryURL": "https://github.com/microsoft/healthkit-on-fhir.git",
+        "state": {
+          "branch": "master",
+          "revision": "2a283c8e9a68c8d56e1cecb5826e644eb99f57dc",
+          "version": null
+        }
+      },
+      {
+        "package": "HealthKitToFhir",
+        "repositoryURL": "git@github.com:microsoft/healthkit-to-fhir",
+        "state": {
+          "branch": "master",
+          "revision": "3f28b79710948a9ebd2de84806fe548095948900",
+          "version": null
+        }
+      },
+      {
+        "package": "IomtFhirClient",
+        "repositoryURL": "git@github.com:microsoft/iomt-fhir-client",
+        "state": {
+          "branch": "master",
+          "revision": "662221854f19b8bdcb7edfd90e1a189b9d995045",
+          "version": null
+        }
+      },
+      {
+        "package": "OAuth2",
+        "repositoryURL": "https://github.com/p2/OAuth2",
+        "state": {
+          "branch": null,
+          "revision": "e4deb6cf83c9f43a74cd2deb757af0a381af9635",
+          "version": "5.1.0"
+        }
+      },
+      {
+        "package": "FHIR",
+        "repositoryURL": "https://github.com/smart-on-fhir/Swift-FHIR",
+        "state": {
+          "branch": null,
+          "revision": "626ffd15ebbf6de6aa7e130b2708f47211216d62",
+          "version": "4.2.0"
+        }
+      },
+      {
+        "package": "SMART",
+        "repositoryURL": "https://github.com/smart-on-fhir/Swift-SMART",
+        "state": {
+          "branch": null,
+          "revision": "f5d283079e2e5cd12bd0076f05886d19bbd5e125",
+          "version": "4.2.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

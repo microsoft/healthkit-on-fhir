@@ -1,0 +1,7 @@
+{
+    "eventHubsConnectionString": "{ YOUR_DEVICE_CONNECTION_STRING }",
+    "smartClientBaseUrl": "{ YOUR_FHIR_SERVER_URL }",
+    "smartClientClientId": "{ YOUR_CLIENT_ID }",
+    "smartClientAuthorizeUri": "{ YOUR_FHIR_SERVER_AUTH_URI }",
+    "smartClientTokenUri": "{ YOUR_FHIR_SERVER_TOKEN_URI }"
+}

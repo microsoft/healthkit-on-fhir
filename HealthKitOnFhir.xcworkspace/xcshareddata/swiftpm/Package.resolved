@@ -1,0 +1,61 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "HealthDataSync",
+        "repositoryURL": "https://github.com/microsoft/health-data-sync.git",
+        "state": {
+          "branch": "master",
+          "revision": "2e77704d815ac033740c4a0d1d80961410acb1b3",
+          "version": null
+        }
+      },
+      {
+        "package": "HealthKitToFhir",
+        "repositoryURL": "https://github.com/microsoft/healthkit-to-fhir.git",
+        "state": {
+          "branch": "master",
+          "revision": "229175b32e73d96720d279a345696c1d0dc60cc6",
+          "version": null
+        }
+      },
+      {
+        "package": "IomtFhirClient",
+        "repositoryURL": "https://github.com/microsoft/iomt-fhir-client.git",
+        "state": {
+          "branch": "master",
+          "revision": "6388ff3fc3dbb9dd87939ee372f0710720a57f15",
+          "version": null
+        }
+      },
+      {
+        "package": "Nimble",
+        "repositoryURL": "https://github.com/Quick/Nimble",
+        "state": {
+          "branch": null,
+          "revision": "f8657642dfdec9973efc79cc68bcef43a653a2bc",
+          "version": "8.0.2"
+        }
+      },
+      {
+        "package": "Quick",
+        "repositoryURL": "https://github.com/Quick/Quick",
+        "state": {
+          "branch": null,
+          "revision": "33682c2f6230c60614861dfc61df267e11a1602f",
+          "version": "2.2.0"
+        }
+      },
+      {
+        "package": "FHIR",
+        "repositoryURL": "https://github.com/smart-on-fhir/Swift-FHIR",
+        "state": {
+          "branch": null,
+          "revision": "626ffd15ebbf6de6aa7e130b2708f47211216d62",
+          "version": "4.2.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
