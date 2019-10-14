@@ -38,12 +38,11 @@ There are several useful examples of how HealthKitOnFhir delegates and HealthDat
 
 The [QueryObserverDelegate](Source/QueryObserverDelegate.swift) is an implementation of the HDSQueryObserverDelegate protocol defined in the [HealthDataSync Swift library](https://github.com/microsoft/health-data-sync). The delegate methods call back to the application before an HDSQueryObserver executes a HealthKit query and after the HDSQueryObserver has completed the process of sending the HealthKit data to the FHIR Server.
 
-In the shouldExecute() method example, before the HDSQueryObserver executes, the application checks if the query has ever been executed. To avoid running a query that would contain "historical" data, the application modifies the query to only fetch data from the start of today. After the query succsessfully executes once, subsequent querys will fetch all data that has not been exported since the previous execution.  
+In the shouldExecute() method example, before the HDSQueryObserver executes, the application checks if the query has ever been successfully executed. To avoid running a query that would contain "historical" data, the application modifies the query to only fetch data from the start of today. After the query succsessfully executes once, subsequent querys will fetch all data that has not been exported since the previous execution.  
 
 ```swift
 public func shouldExecute(for observer: HDSQueryObserver, completion: @escaping (Bool) -> Void) {
-        // If an observer has never run before, we limit the number of "historical" samples to prevent memory exceptions.
-        // The number of samples could represent years of data.
+        // If an observer has never run before, we limit the number of "historical" - The number of samples could represent years of data.
         if observer.lastSuccessfulExecutionDate == nil {
             // Get a date object set to the start of today.
             let now = Date()
@@ -67,4 +66,91 @@ public func didFinishExecution(for observer: HDSQueryObserver, error: Error?) {
     }
 ```
 
-### 
+### ExternalStoreDelegate
+
+The [ExternalStoreDelegate](Source/ExternalStoreDelegate.swift) class contains code that is shared between the [IomtFhirDelegate](Source/IomtFhirDelegate.swift) class and [FhirDelegate](Source/FhirDelegate.swift) class. The ExternalStoreDelegate performs 2 important functions:
+
+1. It ensures that a Patient Resource exists in the FHIR Server before the HealthKit data is uploaded. This is important because the Observation Resources created must contain a reference to the Patient Resource.
+
+2. It fetches or creates a Device Resource in the FHIR Server for the given HealthKit data that is being uploaded. The Observation Resources must also contain a reference to the Device Resource. The Device Resource created will be converted from the given HKObject using the [HealthKitToFhir Swift library](https://github.com/microsoft/healthkit-to-fhir).
+
+#### IomtFhirDelegate
+
+The [IomtFhirDelegate](Source/IomtFhirDelegate) class implements the IomtFhirExternalStoreDelegate protocol, and provides an example of how to add data to the EventData before it is sent to the [IoMT FHIR Connector for Azure](https://github.com/microsoft/iomt-fhir).
+
+In the shouldAdd() method, the id from the Patient Resource and the identifier from the Device Resource is added to the payload of the EventData object. Errors that might occur are passed to the completion and will be handled by the HealthDataSync framework.
+
+```swift
+public func shouldAdd(eventData: EventData, object: HKObject?, completion: @escaping (Bool, Error?) -> Void) {
+        // Get the patient id and device id from the FHIR server
+        getPatientAndDeviceIds(object: object) { (patientId, deviceIdentifier, deviceId, error) in
+            // Ensure there is no error
+            guard error == nil else {
+                completion(false, error)
+                return
+            }
+
+            do {
+                if var dictionary = try JSONSerialization.jsonObject(with: eventData.data, options: .mutableContainers) as? [String : Any] {
+                    // Add the patient and device ids (which should be mapped in FHIR)
+                    dictionary["patientId"] = patientId
+                    dictionary["deviceId"] = deviceIdentifier
+                    eventData.data = try JSONSerialization.data(withJSONObject: dictionary, options: .sortedKeys)
+
+                    completion(true, nil)
+                } else {
+                    completion(false, ExternalStoreDelegateError.eventDataSerializationError)
+                }
+            } catch {
+                completion(false, error)
+            }
+        }
+    }
+```
+
+#### FhirDelegate
+
+The [FhirDelegate](Source/FhirDelegate) class implements the FhirExternalStoreDelegate protocol, and provides an example of how to add data to the FHIR Observation before it is sent to the FHIR Server. It also shows how an application can ensure that the current user is authenticated before making a request to the FHIR Server.
+
+In the shouldAdd() method, the connection status of the [Swift-SMART](https://github.com/smart-on-fhir/Swift-SMART) client checked by calling the authorize() method. The id from the Patient Resource and the id from the Device Resource is added to the FHIR Observation. Errors that might occur are passed to the completion and will be handled by the HealthDataSync framework.
+
+```swift
+public func shouldAdd(resource: Resource, object: HKObject?, completion: @escaping (Bool, Error?) -> Void) {
+        guard let observation = resource as? Observation else {
+            completion(true, nil)
+            return
+        }
+
+        // Ensure the token is valid
+        smartClient.authorize { (patient, error) in
+            guard error == nil else {
+                completion(false, error)
+                return
+            }
+
+            // For observation types set the patient id and device id on the resource.
+            self.getPatientAndDeviceIds(object: object) { (patientId, sourceRevisionId, deviceId, error) in
+                // Ensure there is no error and that the device id and patient id are not nil.
+                guard error == nil,
+                    patientId != nil,
+                    deviceId != nil else {
+                        completion(false, error)
+                        return
+                }
+
+                do {
+                    let patientReference = try Reference(json: ["reference" : "Patient/\(patientId!)"])
+                    let deviceReference = try Reference(json: ["reference" : "Device/\(deviceId!)"])
+                    observation.subject = patientReference
+                    observation.device = deviceReference
+
+                    // Finalize the observation
+                    observation.status = .final
+
+                    completion(true, nil)
+                } catch {
+                    completion(false, error)
+                }
+            }
+        }
+```
