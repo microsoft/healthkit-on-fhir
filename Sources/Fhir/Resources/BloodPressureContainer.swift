@@ -10,7 +10,7 @@ import FHIR
 import HealthDataSync
 import HealthKit
 
-public class BloodPressureContainer : ResourceContainer<Observation>, HDSExternalObjectProtocol {
+open class BloodPressureContainer : ResourceContainer<Observation>, HDSExternalObjectProtocol {
     internal let systolicUnit = "mmHg"
     internal let diastolicUnit = "mmHg"
     

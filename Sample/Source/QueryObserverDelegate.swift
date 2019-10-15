@@ -14,8 +14,7 @@ public class QueryObserverDelegate : HDSQueryObserverDelegate {
     public static let observerUpdated = Notification.Name("QueryObserverUpdated")
     
     public func shouldExecute(for observer: HDSQueryObserver, completion: @escaping (Bool) -> Void) {
-        // If an observer has never run before, we limit the number of "historical" samples to prevent memory exceptions.
-        // The number of samples could represent years of data.
+        // If an observer has never run before, we limit the number of "historical" - The number of samples could represent years of data.
         if observer.lastSuccessfulExecutionDate == nil {
             // Get a date object set to the start of today.
             let now = Date()

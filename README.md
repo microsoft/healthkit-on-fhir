@@ -1,6 +1,6 @@
 # HealthKitOnFhir
 
-[![Build Status](https://microsofthealth.visualstudio.com/Health/_apis/build/status/Readmissions/HealthKitOnFhir_Daily?branchName=master)](https://microsofthealth.visualstudio.com/Health/_build/latest?definitionId=434&branchName=master)
+[![Build Status](https://microsofthealth.visualstudio.com/Health/_apis/build/status/Readmissions/HealthKitOnFhir_Daily?branchName=master)](https://microsofthealth.visualstudio.com/Health/_build/latest?definitionId=441&branchName=master)
 
 HealthKitOnFhir is a Swift library that automates the export of Apple HealthKit Data to a FHIR Server. HealthKit data can be routed through the [IoMT FHIR Connector for Azure](https://github.com/microsoft/iomt-fhir) for grouping high frequency data to reduce the number of Observation Resources generated. HealthKit Data can also be exported directly to a FHIR Server (appropriate for low frequency data). The most basic implementation requires:
 
@@ -89,7 +89,7 @@ Creating an IomtFhirExternalStoreDelegate will provide your application a way to
 
 ### Adding a delegate to the FhirExternalStore
 
-Like the IomtFhirExternalStoreDelegate the FhirExternalStore delegate can provide your application before and after HealthKit data is exported to the FHIR server (POST), However the FhirExternalStore also supports GET, PUT and DELETE, so delegate methods can be added to receive callbacks before and after any of these operations. The implementation of any of these methods is optional:
+Like the IomtFhirExternalStoreDelegate the FhirExternalStore delegate can provide your application callbacks before and after HealthKit data is exported to the FHIR server (POST), However the FhirExternalStore also supports GET, PUT and DELETE, so delegate methods can be added to receive callbacks before and after any of these operations. The implementation of any of these methods is optional:
 
 ```swift
 /// Called after a HealthKit query has completed but before the data is fetched from the FHIR server.
@@ -153,6 +153,146 @@ Like the IomtFhirExternalStoreDelegate the FhirExternalStore delegate can provid
     ///   - success: Bool representing whether or not the request was successful.
     ///   - error: An Error with detail about the failure (will be nil if the operation was successful).
     func deleteComplete(success: Bool, error: Error?)
+```
+
+## Adding additional types
+
+HealthKitOnFhir currently supports the following types for both IoMTFhirClients and FhirClients:
+
+- HKQuantityTypeIdentifierHeartRate
+- HKCorrelationTypeIdentifierBloodPressure
+- HKQuantityTypeIdentifierBloodPressureDiastolic
+- HKQuantityTypeIdentifierBloodPressureSystolic
+- HKQuantityTypeIdentifierStepCount
+- HKQuantityTypeIdentifierBloodGlucose
+
+### IomtFhirClient (High Frequency Data)
+
+Adding new export types for the IomtFhirExternalStore requires creating a subclass of the [IomtFhirMessageBase](Source/IomtFhir/Messages/IomtFhirMessageBase.swift) and implementing the [HealthDataSync](https://github.com/microsoft/health-data-sync) Swift library's [HDSExternalObjectProtocol](https://github.com/microsoft/health-data-sync/blob/master/Sources/Synchronizers/HDSExternalObjectProtocol.swift). IomtFhirMessages are serialized into a JSON payload and sent to an [IoMT FHIR Connector for Azure](https://github.com/microsoft/iomt-fhir) and new types must be added to the IoMT FHIR Connector for Azure configuration file. Details about how to set up the configuration file can be found [here](https://github.com/microsoft/iomt-fhir/README.MD).
+
+Below is an example of a class created for exporting Blood Glucose.
+
+```swift
+open class BloodGlucoseMessage : IomtFhirMessageBase, HDSExternalObjectProtocol {
+    // These 2 properties will be serialized into the JSON payload.
+    internal var bloodGlucose: Double?
+    internal let unit = "mg/dL"
+
+    public init?(object: HKObject) {
+        guard let sample = object as? HKQuantitySample,
+            sample.quantityType == BloodGlucoseMessage.healthKitObjectType() else {
+                return nil
+        }
+
+        super.init(uuid: sample.uuid, startDate: sample.startDate, endDate: sample.endDate)
+
+        self.update(with: object)
+        self.healthKitObject = object
+    }
+
+    // Required because the super class conforms to Codable protocol.
+    public required init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+    }
+
+    // HDSExternalObjectProtocol method. HKObjectTypes returned here will be used for obtaining permissions from the user.
+    // Types returned here will be displayed to the user in the OS controlled health data permissions UI.
+    public static func authorizationTypes() -> [HKObjectType]? {
+        if let bloodGlucoseType = healthKitObjectType() {
+            return [bloodGlucoseType]
+        }
+
+        return nil
+    }
+
+    // HDSExternalObjectProtocol method. HKObjectTypes returned here will be used for querying HealthKit.
+    public static func healthKitObjectType() -> HKObjectType? {
+        return HKObjectType.quantityType(forIdentifier: .bloodGlucose)
+    }
+
+    // HDSExternalObjectProtocol method. Return an initialized IomtFhirMessageBase object here.
+    // The object will be serialized and exported using the IomtFhirExternalStore.
+    public static func externalObject(object: HKObject, converter: HDSConverterProtocol?) -> HDSExternalObjectProtocol? {
+        return BloodGlucoseMessage.init(object: object)
+    }
+
+    // HDSExternalObjectProtocol method. Should return nil.
+    // Deleting objects using the IomtFhirExternalStore is currently not supported.
+    public static func externalObject(deletedObject: HKDeletedObject, converter: HDSConverterProtocol?) -> HDSExternalObjectProtocol? {
+        return nil
+    }
+
+    // HDSExternalObjectProtocol method.
+    public func update(with object: HKObject) {
+        if let sample = object as? HKQuantitySample {
+            bloodGlucose = sample.quantity.doubleValue(for: HKUnit(from: unit))
+        }
+    }
+
+    // Required for serialization.
+    public override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(bloodGlucose, forKey: .bloodGlucose)
+        try container.encode(unit, forKey: .unit)
+    }
+
+    // Required for serialization.
+    private enum CodingKeys: String, CodingKey {
+        case bloodGlucose
+        case unit
+    }
+}
+```
+
+### FhirClient (Low Frequency Data)
+
+Adding new export types for the FhirExternalStore requires creating a subclass of the [ResourceContainer](Source/Fhir/Resources/ResourceContainer.swift) and also implementing the [HealthDataSync](https://github.com/microsoft/health-data-sync) Swift library's [HDSExternalObjectProtocol](https://github.com/microsoft/health-data-sync/blob/master/Sources/Synchronizers/HDSExternalObjectProtocol.swift). It's important to make sure that the HKObject to FHIR Resource converter supports any new export types added. The [HealthKitOnFhir Sample application](https://github.com/microsoft/healthkit-on-fhir/tree/master/Sample) uses the [HealthKitToFhir](https://github.com/microsoft/healthkit-to-fhir) Swift library to handle the conversion of HKObjects.
+
+```swift
+open class BloodGlucoseContainer : ResourceContainer<Observation>, HDSExternalObjectProtocol {
+    internal let unit = "mg/dL"
+
+    // HDSExternalObjectProtocol method. HKObjectTypes returned here will be used for obtaining permissions from the user.
+    // Types returned here will be displayed to the user in the OS controlled health data permissions UI.
+    public static func authorizationTypes() -> [HKObjectType]? {
+        if let bloodGlucoseType = healthKitObjectType() {
+            return [bloodGlucoseType]
+        }
+
+        return nil
+    }
+
+    // HDSExternalObjectProtocol method. HKObjectTypes returned here will be used for querying HealthKit.
+    public static func healthKitObjectType() -> HKObjectType? {
+        return HKObjectType.quantityType(forIdentifier: .bloodGlucose)
+    }
+
+    // HDSExternalObjectProtocol method. Return an initialized ResourceContainer here.
+    // The object and converter are passed to the super on initialization.
+    public static func externalObject(object: HKObject, converter: HDSConverterProtocol?) -> HDSExternalObjectProtocol? {
+        if let sample = object as? HKSample,
+            sample.sampleType == BloodGlucoseContainer.healthKitObjectType() {
+            return BloodGlucoseContainer(object: object, converter: converter)
+        }
+
+        return nil
+    }
+
+    // HDSExternalObjectProtocol method. Return an initialized ResourceContainer here.
+    // The deletedObject and converter are passed to the super on initialization.
+    public static func externalObject(deletedObject: HKDeletedObject, converter: HDSConverterProtocol?) -> HDSExternalObjectProtocol? {
+        return BloodGlucoseContainer(deletedObject: deletedObject, converter: converter)
+    }
+
+    // HDSExternalObjectProtocol method. Update the resource with the HKObject.
+    public func update(with object: HKObject) {
+        if let sample = object as? HKQuantitySample {
+            resource?.valueQuantity?.value = FHIRDecimal(Decimal(floatLiteral: sample.quantity.doubleValue(for: HKUnit(from: unit))))
+        }
+    }
+}
+
 ```
 
 ## Contributing

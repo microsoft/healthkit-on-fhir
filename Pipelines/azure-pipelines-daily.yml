@@ -5,13 +5,6 @@
 
 trigger: none
 
-schedules:
-- cron: "0 12 * * *"
-  displayName: Daily build
-  branches:
-    include:
-    - master
-
 pool: 'Mac Readmissions'
 
 steps:

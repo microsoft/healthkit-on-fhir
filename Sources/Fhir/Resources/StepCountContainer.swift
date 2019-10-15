@@ -10,7 +10,7 @@ import HealthDataSync
 import HealthKit
 import FHIR
 
-public class StepCountContainer : ResourceContainer<Observation>, HDSExternalObjectProtocol {
+open class StepCountContainer : ResourceContainer<Observation>, HDSExternalObjectProtocol {
     internal let unit = "count"
     
     public static func authorizationTypes() -> [HKObjectType]? {

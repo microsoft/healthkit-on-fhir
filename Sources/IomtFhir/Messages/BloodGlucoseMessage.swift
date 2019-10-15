@@ -9,7 +9,7 @@ import Foundation
 import HealthDataSync
 import HealthKit
 
-public class BloodGlucoseMessage : IomtFhirMessageBase, HDSExternalObjectProtocol {
+open class BloodGlucoseMessage : IomtFhirMessageBase, HDSExternalObjectProtocol {
     internal var bloodGlucose: Double?
     internal let unit = "mg/dL"
     
@@ -30,8 +30,7 @@ public class BloodGlucoseMessage : IomtFhirMessageBase, HDSExternalObjectProtoco
     }
     
     public static func authorizationTypes() -> [HKObjectType]? {
-        if let bloodGlucoseType = healthKitObjectType()
-        {
+        if let bloodGlucoseType = healthKitObjectType() {
             return [bloodGlucoseType]
         }
         
@@ -56,7 +55,7 @@ public class BloodGlucoseMessage : IomtFhirMessageBase, HDSExternalObjectProtoco
         }
     }
     
-    // Required for serializaion
+    // Required for serialization.
     public override func encode(to encoder: Encoder) throws {
         try super.encode(to: encoder)
         var container = encoder.container(keyedBy: CodingKeys.self)
