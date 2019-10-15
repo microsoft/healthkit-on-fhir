@@ -9,7 +9,7 @@ import Foundation
 import HealthDataSync
 import HealthKit
 
-public class HeartRateMessage : IomtFhirMessageBase, HDSExternalObjectProtocol {
+open class HeartRateMessage : IomtFhirMessageBase, HDSExternalObjectProtocol {
     internal var heartRate: Double?
     internal let unit = "beats/min"
     internal let healthKitUnit = "count/min"
@@ -56,7 +56,7 @@ public class HeartRateMessage : IomtFhirMessageBase, HDSExternalObjectProtocol {
         }
     }
     
-    // Required for serializaion
+    // Required for serialization
     public override func encode(to encoder: Encoder) throws {
         try super.encode(to: encoder)
         var container = encoder.container(keyedBy: CodingKeys.self)

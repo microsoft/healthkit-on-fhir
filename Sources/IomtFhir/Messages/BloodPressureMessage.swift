@@ -9,7 +9,7 @@ import Foundation
 import HealthDataSync
 import HealthKit
 
-public class BloodPressureMessage : IomtFhirMessageBase, HDSExternalObjectProtocol {
+open class BloodPressureMessage : IomtFhirMessageBase, HDSExternalObjectProtocol {
     internal var systolic: Double?
     internal var diastolic: Double?
     internal let systolicUnit = "mmHg"
@@ -62,7 +62,7 @@ public class BloodPressureMessage : IomtFhirMessageBase, HDSExternalObjectProtoc
         }
     }
     
-    // Required for serializaion
+    // Required for serialization
     public override func encode(to encoder: Encoder) throws {
         try super.encode(to: encoder)
         var container = encoder.container(keyedBy: CodingKeys.self)

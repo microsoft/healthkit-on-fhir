@@ -10,7 +10,7 @@ import HealthDataSync
 import HealthKit
 import FHIR
 
-public class BloodGlucoseContainer : ResourceContainer<Observation>, HDSExternalObjectProtocol {
+open class BloodGlucoseContainer : ResourceContainer<Observation>, HDSExternalObjectProtocol {
     internal let unit = "mg/dL"
     
     public static func authorizationTypes() -> [HKObjectType]? {

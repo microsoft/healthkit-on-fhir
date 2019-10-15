@@ -11,7 +11,7 @@ import HealthKit
 import HealthKitToFhir
 import FHIR
 
-public class HeartRateContainer : ResourceContainer<Observation>, HDSExternalObjectProtocol {
+open class HeartRateContainer : ResourceContainer<Observation>, HDSExternalObjectProtocol {
     internal let unit = "count/min"
     
     public static func authorizationTypes() -> [HKObjectType]? {

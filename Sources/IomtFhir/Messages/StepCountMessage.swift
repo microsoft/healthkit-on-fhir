@@ -9,11 +9,11 @@ import Foundation
 import HealthDataSync
 import HealthKit
 
-public class StepCountMessage : IomtFhirMessageBase, HDSExternalObjectProtocol {
+open class StepCountMessage : IomtFhirMessageBase, HDSExternalObjectProtocol {
     internal var stepCount: Double?
     internal let unit = "count"
     
-    required init(from decoder: Decoder) throws {
+    public required init(from decoder: Decoder) throws {
         try super.init(from: decoder)
     }
     
