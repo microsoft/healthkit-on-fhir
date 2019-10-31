@@ -16,12 +16,9 @@ import SMART
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     public static let servicesDidUpdateNotification = Notification.Name.init("ServicesDidUpdate")
-    
     public var smartClient: Client?
     public var syncManager: HDSManagerProtocol?
-    
     private static var callbackScheme = "healthkitonfhir"
-    
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -37,21 +34,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     private func initializeServices() {
         // Create the SMART on FHIR client
-        let client = Client(
+        smartClient = Client(
             baseURL: URL(string: ConfigurationHelper.smartClientBaseUrl)!,
-            settings: [
-                "client_id": ConfigurationHelper.smartClientClientId,
-                "authorize_uri": ConfigurationHelper.smartClientAuthorizeUri,
-                "token_uri": ConfigurationHelper.smartClientTokenUri,
-                "authorize_type": "authorization_code",
-                "redirect": AppDelegate.callbackScheme + "://callback",
-            ]
+            settings: [ "client_id": ConfigurationHelper.smartClientClientId, "redirect": AppDelegate.callbackScheme + "://callback" ]
         )
         
-        // Token only do the patient picker does not show.
-        client.authProperties.granularity = .tokenOnly
-        
-        smartClient = client
+        // Token only so the patient picker does not show.
+        smartClient?.authProperties.granularity = .tokenOnly
         
         // The Health Data Sync Manager must be initialized during the didFinishLaunching method call so that observer query callbacks
         // will be processed if the application was terminated.
@@ -67,14 +56,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // Initialize the external store object with the client.
             let iomtFhirExternalStore = IomtFhirExternalStore(iomtFhirClient: iomtFhirClient)
             // (Optional) Set the delegate to handle pre and post request.
-            iomtFhirExternalStore.delegate = IomtFhirDelegate(smartClient: client, deviceFactory: deviceFactory)
+            iomtFhirExternalStore.delegate = IomtFhirDelegate(smartClient: smartClient!, deviceFactory: deviceFactory)
             // Set the object types that will be synchronized and the destination store.
             syncManager?.addObjectTypes([HeartRateMessage.self, StepCountMessage.self], externalStore: iomtFhirExternalStore)
             
             // Create the FHIR external store to handle low frequency data.
-            let fhirExternalStore = FhirExternalStore(server: client.server)
+            let fhirExternalStore = FhirExternalStore(server: smartClient!.server)
             // (Optional) Set the delegate to handle pre and post request.
-            fhirExternalStore.delegate = FhirDelegate(smartClient: client, deviceFactory: deviceFactory)
+            fhirExternalStore.delegate = FhirDelegate(smartClient: smartClient!, deviceFactory: deviceFactory)
             syncManager?.addObjectTypes([BloodPressureContainer.self, BloodGlucoseContainer.self], externalStore: fhirExternalStore)
             // Set the converter
             syncManager?.converter = Converter(converterMap: [Observation.resourceType : try ObservationFactory()])
@@ -100,18 +89,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 return false
             }
             
-            // "smart" is your SMART `Client` instance
             if smartClient!.awaitingAuthCallback {
                 return smartClient!.didRedirect(to: url)
             }
         }
         
         if ConfigurationHelper.loadConfiguation(url: url) {
+            do {
+                // The configuration has already been loaded - Delete the JSON file
+                try FileManager.default.removeItem(at: url)
+            } catch {
+                print("Unable to delete configuration file - \(error)")
+            }
             initializeServices()
             NotificationCenter.default.post(name: AppDelegate.servicesDidUpdateNotification, object: nil)
             return true
         }
-        
         
         return false
     }

@@ -11,33 +11,22 @@ public class ConfigurationHelper {
     public static var eventHubsConnectionString = ""
     public static var smartClientBaseUrl = ""
     public static var smartClientClientId = ""
-    public static var smartClientAuthorizeUri = ""
-    public static var smartClientTokenUri = ""
     
-    private static let configPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("SavedConfiguration.json")
-    
-    public static func loadSavedConfiguration() -> Bool
-    {
-        return loadConfiguation(url: configPath)
+    public static func loadSavedConfiguration() -> Bool {
+        return fetchStoredConfig()
     }
     
     public static func loadConfiguation(url: URL) -> Bool {
         do {
             let data = try Data(contentsOf: url)
             if let dictionary = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String : String] {
-                
-                if set(variable: &eventHubsConnectionString, value: dictionary["eventHubsConnectionString"]) &&
-                set(variable: &smartClientBaseUrl, value: dictionary["smartClientBaseUrl"]) &&
-                set(variable: &smartClientClientId, value: dictionary["smartClientClientId"]) &&
-                set(variable: &smartClientAuthorizeUri, value: dictionary["smartClientAuthorizeUri"]) &&
-                    set(variable: &smartClientTokenUri, value: dictionary["smartClientTokenUri"]) {
-                    saveCurrentConfiguration(data: data)
-                    return true
-                }
+                try SecretStore.save(key: "eventHubsConnectionString", value: dictionary["eventHubsConnectionString"])
+                try SecretStore.save(key: "smartClientBaseUrl", value: dictionary["smartClientBaseUrl"])
+                try SecretStore.save(key: "smartClientClientId", value: dictionary["smartClientClientId"])
+                return fetchStoredConfig()
             }
         } catch {
             print("Error loading config file - \(error)")
-            return false
         }
         
         return false
@@ -52,11 +41,17 @@ public class ConfigurationHelper {
         return true
     }
     
-    private static func saveCurrentConfiguration(data: Data) {
+    private static func fetchStoredConfig() -> Bool {
         do {
-            try data.write(to: configPath)
+            if set(variable: &eventHubsConnectionString, value: try SecretStore.fetch(key: "eventHubsConnectionString")),
+                set(variable: &smartClientBaseUrl, value: try SecretStore.fetch(key: "smartClientBaseUrl")),
+                set(variable: &smartClientClientId, value: try SecretStore.fetch(key: "smartClientClientId")) {
+                return true
+            }
         } catch {
-            print("Error saving config file - \(error)")
+            print("Error loading stored config values - \(error)")
         }
+        
+        return false
     }
 }
