@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A50AF63322E8A03400F7465D /* GenderPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A50AF63222E8A03400F7465D /* GenderPickerView.swift */; };
+		A51BBAB72374C86300CA1948 /* ObservationListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51BBAB62374C86300CA1948 /* ObservationListViewController.swift */; };
 		A527747322B935F0006F5824 /* ObserverCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A527747222B935F0006F5824 /* ObserverCell.swift */; };
 		A527747522B95145006F5824 /* ConfigurationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A527747422B95145006F5824 /* ConfigurationHelper.swift */; };
 		A527747C22B98A94006F5824 /* IomtFhirDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A527747B22B98A94006F5824 /* IomtFhirDelegate.swift */; };
@@ -40,6 +41,7 @@
 /* Begin PBXFileReference section */
 		A504678522B7E66300DD456A /* HealthKitOnFhir_Sample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HealthKitOnFhir_Sample.entitlements; sourceTree = "<group>"; };
 		A50AF63222E8A03400F7465D /* GenderPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderPickerView.swift; sourceTree = "<group>"; };
+		A51BBAB62374C86300CA1948 /* ObservationListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationListViewController.swift; sourceTree = "<group>"; };
 		A527747222B935F0006F5824 /* ObserverCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObserverCell.swift; sourceTree = "<group>"; };
 		A527747422B95145006F5824 /* ConfigurationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationHelper.swift; sourceTree = "<group>"; };
 		A527747B22B98A94006F5824 /* IomtFhirDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IomtFhirDelegate.swift; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 				A5BCB3D322E103D20029F824 /* LaunchViewController.swift */,
 				A5BCB3D822E21F7E0029F824 /* PatientOnboardingViewController.swift */,
 				A5E75EA622B457AE00206D74 /* DataSyncViewController.swift */,
+				A51BBAB62374C86300CA1948 /* ObservationListViewController.swift */,
 				A5E75EAD22B457AF00206D74 /* LaunchScreen.storyboard */,
 				A5E75EA822B457AE00206D74 /* Main.storyboard */,
 				A5E75EAB22B457AF00206D74 /* Assets.xcassets */,
@@ -257,6 +260,7 @@
 				A50AF63322E8A03400F7465D /* GenderPickerView.swift in Sources */,
 				A5567FF222EB7D0300C91001 /* ExternalStoreDelegateError.swift in Sources */,
 				A5567FF422EB827500C91001 /* DeviceExtensions.swift in Sources */,
+				A51BBAB72374C86300CA1948 /* ObservationListViewController.swift in Sources */,
 				A5F9C2BC2301C2AD00B5A359 /* ExternalStoreDelegate.swift in Sources */,
 				A5BCB3DB22E2861A0029F824 /* PatientExtensions.swift in Sources */,
 				A527747C22B98A94006F5824 /* IomtFhirDelegate.swift in Sources */,

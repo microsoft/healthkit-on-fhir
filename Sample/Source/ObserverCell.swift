@@ -11,4 +11,5 @@ import UIKit
 open class ObserverCell : UITableViewCell {
     @IBOutlet var typeLabel: UILabel!
     @IBOutlet var dateLabel: UILabel!
+    var code: String?
 }

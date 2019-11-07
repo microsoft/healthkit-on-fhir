@@ -64,6 +64,7 @@
                                         <connections>
                                             <outlet property="dateLabel" destination="f6o-X7-TUw" id="I6L-xt-iO3"/>
                                             <outlet property="typeLabel" destination="i14-vi-er8" id="jqL-jH-0Ly"/>
+                                            <segue destination="rDl-s1-92Z" kind="show" identifier="ObservationListSegue" id="BUt-5K-krJ"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -80,7 +81,6 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="jOz-43-uv4" secondAttribute="bottom" constant="80" id="97b-8I-GXg"/>
                             <constraint firstItem="5i0-H7-OL1" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Ifb-IA-EhF"/>
@@ -113,6 +113,38 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1102" y="506"/>
+        </scene>
+        <!--Observation List View Controller-->
+        <scene sceneID="DWc-PD-vRu">
+            <objects>
+                <viewController id="rDl-s1-92Z" customClass="ObservationListViewController" customModule="HealthKitOnFhir_Sample" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="L03-HB-ufC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ru0-nM-Co9">
+                                <rect key="frame" x="0.0" y="88" width="375" height="690"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="ru0-nM-Co9" firstAttribute="top" secondItem="gwa-qm-Skc" secondAttribute="top" id="77T-Sh-PDb"/>
+                            <constraint firstItem="ru0-nM-Co9" firstAttribute="leading" secondItem="gwa-qm-Skc" secondAttribute="leading" id="8MP-ga-j6a"/>
+                            <constraint firstItem="gwa-qm-Skc" firstAttribute="trailing" secondItem="ru0-nM-Co9" secondAttribute="trailing" id="C3t-Wd-Rb5"/>
+                            <constraint firstItem="ru0-nM-Co9" firstAttribute="bottom" secondItem="gwa-qm-Skc" secondAttribute="bottom" id="ED4-ia-NZ9"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="gwa-qm-Skc"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="VdI-nb-2if"/>
+                    <connections>
+                        <outlet property="tableView" destination="ru0-nM-Co9" id="Qgp-to-ZNk"/>
+                        <outletCollection property="contentViews" destination="ru0-nM-Co9" collectionClass="NSMutableArray" id="9Qd-Yd-33y"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bGr-xU-GS3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1885.5999999999999" y="504.67980295566502"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="lcR-IC-QYE">

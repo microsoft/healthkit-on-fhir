@@ -9,7 +9,7 @@ param
     [ValidateNotNullOrEmpty()]
     [ValidateLength(5,12)]
     [ValidateScript({
-        if ("$_" -cmatch "(^([a-z]|\d)+$)") {
+        if ("$_" -Like "* *") {
             throw "Environment name cannot contain whitespace"
             return $false
         }
@@ -91,10 +91,12 @@ else {
 # Set up Auth Configuration and Resource Group
 ./Create-IomtFhirCloudAuthConfig.ps1 -EnvironmentName $EnvironmentName -EnvironmentLocation $EnvironmentLocation -AdminPassword $AdminPassword -ReplyUrl $ReplyUrl
 
-$sandboxTemplate = "..\Templates\default-azuredeploy-sandbox.json"
+$sandboxTemplate = "..\Template\default-azuredeploy-sandbox.json"
 
 $tenantDomain = $tenantInfo.TenantDomain
 $aadAuthority = "https://login.microsoftonline.com/${tenantDomain}"
+
+$iomtUrl = "https://${EnvironmentName}iomt.azurewebsites.net"
 
 $fhirServerUrl = "https://${EnvironmentName}.azurehealthcareapis.com"
 
@@ -102,8 +104,6 @@ $serviceClientId = (Get-AzKeyVaultSecret -VaultName "${EnvironmentName}-ts" -Nam
 $serviceClientSecret = (Get-AzKeyVaultSecret -VaultName "${EnvironmentName}-ts" -Name "${EnvironmentName}-service-client-secret").SecretValueText
 $serviceClientObjectId = (Get-AzureADServicePrincipal -Filter "AppId eq '$serviceClientId'").ObjectId
 $publicClientId = (Get-AzKeyVaultSecret -VaultName "${EnvironmentName}-ts" -Name "${EnvironmentName}-public-client-id").SecretValueText
-$publicClientUserUpn  = (Get-AzKeyVaultSecret -VaultName "${EnvironmentName}-ts" -Name "${EnvironmentName}-admin-upn").SecretValueText
-$publicClientUserPassword  = (Get-AzKeyVaultSecret -VaultName "${EnvironmentName}-ts" -Name "${EnvironmentName}-admin-password").SecretValueText
 
 $accessPolicies = @()
 $accessPolicies += @{ "objectId" = $currentObjectId.ToString() }
@@ -116,14 +116,10 @@ $connectionString = Get-AzEventHubKey -ResourceGroupName $EnvironmentName -Names
 
 ./Create-Config.ps1 -ConnectionString $connectionString -FhirServerUrl $fhirServerUrl -ClientId $publicClientId
 
-# Copy the config templates to storage
-$storageAcct = Get-AzStorageAccount -ResourceGroupName $EnvironmentName -Name $EnvironmentName
-Get-ChildItem -Path "..\Templates\ConnectorConfigs" -File | Set-AzStorageBlobContent -Context $storageAcct.Context -Container "template"
-
 Write-Host "Warming up services..."
 Invoke-WebRequest -Uri "${fhirServerUrl}/metadata" | Out-Null
 
 @{
-    applicationUserUpn          = $publicClientUserUpn
-    applicationUserPassword     = $publicClientUserPassword
+    iomtUrl                   = $iomtUrl
+    fhirServerUrl             = $fhirServerUrl
 }

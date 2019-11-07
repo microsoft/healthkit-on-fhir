@@ -10,7 +10,7 @@ param
     [ValidateLength(5,12)]
     [ValidateScript({
         Write-Host $_
-        if ("$_" -Like "[a-z]|[0-9]") {
+        if ("$_" -cmatch "(^([a-z]|\d)+$)") {
             throw "Environment name must be lowercase characters and/or numbers and cannot contain whitespace"
             return $false
         }
@@ -38,7 +38,6 @@ param
 
     [parameter(Mandatory = $true)]
     [ValidateNotNullOrEmpty()]
-    [ValidateLength(8,255)]
     [SecureString]$AdminPassword
 )
 
@@ -118,13 +117,12 @@ if ($currentObjectId) {
 
 Write-Host "Ensuring API application exists"
 
-$fhirServiceName = "${EnvironmentName}fhir"
 $fhirServiceUrl = "https://${EnvironmentName}.azurehealthcareapis.com"
 
 $application = Get-AzureAdApplication -Filter "identifierUris/any(uri:uri eq '$fhirServiceUrl')"
 
 if (!$application) {
-    $newApplication = New-FhirServerApiApplicationRegistration -FhirServiceAudience $fhirServiceUrl -AppRoles "admin"
+    New-FhirServerApiApplicationRegistration -FhirServiceAudience $fhirServiceUrl -AppRoles "admin"
     
     # Change to use applicationId returned
     $application = Get-AzureAdApplication -Filter "identifierUris/any(uri:uri eq '$fhirServiceUrl')"
@@ -174,7 +172,7 @@ if (!$serviceClient) {
     $serviceClient = New-FhirServerClientApplicationRegistration -ApiAppId $application.AppId -DisplayName $serviceClientAppName
     $secretSecureString = ConvertTo-SecureString $serviceClient.AppSecret -AsPlainText -Force
 } else {
-    $existingPassword = Get-AzureADApplicationPasswordCredential -ObjectId $serviceClient.ObjectId | Remove-AzureADApplicationPasswordCredential -ObjectId $serviceClient.ObjectId
+    Get-AzureADApplicationPasswordCredential -ObjectId $serviceClient.ObjectId | Remove-AzureADApplicationPasswordCredential -ObjectId $serviceClient.ObjectId
     $newPassword = New-AzureADApplicationPasswordCredential -ObjectId $serviceClient.ObjectId
     $secretSecureString = ConvertTo-SecureString $newPassword.Value -AsPlainText -Force
 }

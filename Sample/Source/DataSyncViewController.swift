@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import HealthDataSync
+import HealthKitOnFhir
 
 class DataSyncViewController: ViewControllerBase, UITableViewDelegate, UITableViewDataSource {
 
@@ -17,6 +18,10 @@ class DataSyncViewController: ViewControllerBase, UITableViewDelegate, UITableVi
     
     private var syncManager: HDSManagerProtocol?
     private static let CellIdentifier = "ObserverCell"
+    private let observerCodeMap = [String(describing: HeartRateMessage.self) : "8867-4",
+                                   String(describing: StepCountMessage.self) : "55423-8",
+                                   String(describing: BloodPressureContainer.self) : "85354-9",
+                                   String(describing: BloodGlucoseContainer.self) : "41653-7"]
     private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .short
@@ -137,6 +142,15 @@ class DataSyncViewController: ViewControllerBase, UITableViewDelegate, UITableVi
         }
     }
     
+    public override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ObservationListSegue",
+            let listViewController = segue.destination as? ObservationListViewController,
+            let cell = sender as? ObserverCell,
+            let code = cell.code {
+            listViewController.code = code
+        }
+    }
+    
     /// Mark - UITableViewDataSource
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -147,7 +161,9 @@ class DataSyncViewController: ViewControllerBase, UITableViewDelegate, UITableVi
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: DataSyncViewController.CellIdentifier, for: indexPath) as? ObserverCell,
             let observer = syncManager?.allObservers[indexPath.row] {
-            cell.typeLabel.text = String(describing: observer.externalObjectType)
+            let observerTypeString = String(describing: observer.externalObjectType)
+            cell.typeLabel.text = observerTypeString
+            cell.code = observerCodeMap[observerTypeString]
             
             if let lastSyncDate = observer.lastSuccessfulExecutionDate {
                 cell.dateLabel.text = dateFormatter.string(from: lastSyncDate)
