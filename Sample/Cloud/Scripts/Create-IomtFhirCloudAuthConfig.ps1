@@ -10,8 +10,8 @@ param
     [ValidateLength(5,12)]
     [ValidateScript({
         Write-Host $_
-        if ("$_" -Like "* *") {
-            throw "Environment name cannot contain whitespace"
+        if ("$_" -Like "[a-z]|[0-9]") {
+            throw "Environment name must be lowercase characters and/or numbers and cannot contain whitespace"
             return $false
         }
         else {
@@ -21,7 +21,11 @@ param
     [string]$EnvironmentName,
 
     [Parameter(Mandatory = $false)]
-    [string]$EnvironmentLocation = "Central US",
+    [string]$ReplyUrl = "healthkitonfhir://callback",
+
+    [Parameter(Mandatory = $false)]
+    [ValidateSet('Australia East','East US','East US 2','West US 2','North Central US','South Central US','Southeast Asia','North Europe','West Europe','UK West','UK South')]
+    [string]$EnvironmentLocation = "North Central US",
 
     [Parameter(Mandatory = $false )]
     [String]$WebAppSuffix = "azurewebsites.net",
@@ -136,17 +140,15 @@ Write-Host "Checking if UserPrincipalName exists"
 $aadUser = Get-AzureADUser -Filter "userPrincipalName eq '$userUpn'"
 if ($aadUser)
 {
-    Write-Host "User found, will update."
+    Write-Host "AAD user found, will update."
 }
 else 
 {
-    Write-Host "User not, will create."
+    Write-Host "Creating AAD user."
 }
 
-
-Add-Type -AssemblyName System.Web
-$password = [System.Web.Security.Membership]::GeneratePassword(16, 5)
-$passwordSecureString = ConvertTo-SecureString $password -AsPlainText -Force
+$passwordSecureString = $AdminPassword
+$password = (New-Object PSCredential "user",$passwordSecureString).GetNetworkCredential().Password
 
 if ($aadUser) {
     Set-AzureADUserPassword -ObjectId $aadUser.ObjectId -Password $passwordSecureString -EnforceChangePasswordPolicy $false -ForceChangePasswordNextLogin $false
@@ -182,3 +184,16 @@ Set-FhirServerClientAppRoleAssignments -AppId $serviceClient.AppId -ApiAppId $ap
 $secretServiceClientId = ConvertTo-SecureString $serviceClient.AppId -AsPlainText -Force
 Set-AzKeyVaultSecret -VaultName $KeyVaultName -Name "$serviceClientAppName-id" -SecretValue $secretServiceClientId| Out-Null
 Set-AzKeyVaultSecret -VaultName $KeyVaultName -Name "$serviceClientAppName-secret" -SecretValue $secretSecureString | Out-Null
+
+# Create public (SMART on FHIR) client
+$publicClientAppName = "${EnvironmentName}-public-client"
+$publicClient = Get-AzureAdApplication -Filter "DisplayName eq '$publicClientAppName'"
+if (!$publicClient) {
+    $publicClient = New-FhirServerClientApplicationRegistration -ApiAppId $application.AppId -DisplayName $publicClientAppName -PublicClient:$true
+    $secretPublicClientId = ConvertTo-SecureString $publicClient.AppId -AsPlainText -Force
+    Set-AzKeyVaultSecret -VaultName $KeyVaultName -Name "$publicClientAppName-id" -SecretValue $secretPublicClientId| Out-Null
+} 
+
+Set-FhirServerClientAppRoleAssignments -AppId $publicClient.AppId -ApiAppId $application.AppId -AppRoles admin
+New-FhirServerSmartClientReplyUrl -AppId $publicClient.AppId -FhirServerUrl $fhirServiceUrl -ReplyUrl $ReplyUrl
+New-FhirServerSmartClientReplyUrl -AppId $publicClient.AppId -FhirServerUrl $fhirServiceUrl -ReplyUrl "${ReplyUrl}/"

@@ -20,22 +20,24 @@ param
     [string]$EnvironmentName,
 
     [Parameter(Mandatory = $false)]
-    [ValidateSet('West US', 'South Central US')]
-    [string]$EnvironmentLocation = "West US",
-
-    [Parameter(Mandatory = $false)]
-    [ValidateSet('North Europe', 'Central US')]
-    [string]$IotCentralLocation = "Central US",
+    [ValidateSet('Australia East','East US','East US 2','West US 2','North Central US','South Central US','Southeast Asia','North Europe','West Europe','UK West','UK South')]
+    [string]$EnvironmentLocation = "North Central US",
 
     [Parameter(Mandatory = $false)]
     [string]$FhirApiLocation = "northcentralus",
 
     [Parameter(Mandatory = $false)]
-    [string]$SourceRepository = "https://t:@dev.azure.com/microsofthealth/Health/_git/health-iomt",
-    #"https://github.com/Microsoft/fhir-iomt",
+    [string]$SourceRepository = "https://github.com/Microsoft/fhir-iomt",
 
     [Parameter(Mandatory = $false)]
-    [string]$SourceRevision = "master"
+    [string]$SourceRevision = "master",
+
+    [Parameter(Mandatory = $false)]
+    [string]$ReplyUrl = "healthkitonfhir://callback",
+
+    [parameter(Mandatory = $true)]
+    [ValidateNotNullOrEmpty()]
+    [SecureString]$AdminPassword
 )
 
 Set-StrictMode -Version Latest
@@ -87,11 +89,9 @@ else {
 
 
 # Set up Auth Configuration and Resource Group
-./Create-IomtFhirSandboxAuthConfig.ps1 -EnvironmentName $EnvironmentName -EnvironmentLocation $EnvironmentLocation
+./Create-IomtFhirCloudAuthConfig.ps1 -EnvironmentName $EnvironmentName -EnvironmentLocation $EnvironmentLocation -AdminPassword $AdminPassword -ReplyUrl $ReplyUrl
 
-# $githubRawBaseUrl = $SourceRepository.Replace("github.com","raw.githubusercontent.com").TrimEnd('/')
-# $sandboxTemplate = "${githubRawBaseUrl}/${SourceRevision}/deploy/template/default-azuredeploy-sandbox.json"
-$sandboxTemplate = "..\template\default-azuredeploy-sandbox.json"
+$sandboxTemplate = "..\Template\default-azuredeploy-sandbox.json"
 
 $tenantDomain = $tenantInfo.TenantDomain
 $aadAuthority = "https://login.microsoftonline.com/${tenantDomain}"
@@ -103,18 +103,20 @@ $fhirServerUrl = "https://${EnvironmentName}.azurehealthcareapis.com"
 $serviceClientId = (Get-AzKeyVaultSecret -VaultName "${EnvironmentName}-ts" -Name "${EnvironmentName}-service-client-id").SecretValueText
 $serviceClientSecret = (Get-AzKeyVaultSecret -VaultName "${EnvironmentName}-ts" -Name "${EnvironmentName}-service-client-secret").SecretValueText
 $serviceClientObjectId = (Get-AzureADServicePrincipal -Filter "AppId eq '$serviceClientId'").ObjectId
-# $dashboardUserUpn  = (Get-AzKeyVaultSecret -VaultName "${EnvironmentName}-ts" -Name "${EnvironmentName}-admin-upn").SecretValueText
-# $dashboardUserOid = (Get-AzureADUser -Filter "UserPrincipalName eq '$dashboardUserUpn'").ObjectId
+$publicClientId = (Get-AzKeyVaultSecret -VaultName "${EnvironmentName}-ts" -Name "${EnvironmentName}-public-client-id").SecretValueText
 
 $accessPolicies = @()
 $accessPolicies += @{ "objectId" = $currentObjectId.ToString() }
 $accessPolicies += @{ "objectId" = $serviceClientObjectId.ToString() }
-# $accessPolicies += @{ "objectId" = $dashboardUserOid.ToString() }
 
 # Deploy the template
-New-AzResourceGroupDeployment -TemplateFile $sandboxTemplate -ResourceGroupName $EnvironmentName -ServiceName $EnvironmentName -FhirServiceLocation $FhirApiLocation -FhirServiceAuthority $aadAuthority -FhirServiceResource $fhirServerUrl -FhirServiceClientId $serviceClientId -FhirServiceClientSecret $serviceClientSecret -FhirServiceAccessPolicies $accessPolicies -RepositoryUrl $SourceRepository -RepositoryBranch $SourceRevision -FhirServiceUrl $fhirServerUrl -AppServiceLocation $EnvironmentLocation 
+New-AzResourceGroupDeployment -TemplateFile $sandboxTemplate -ResourceGroupName $EnvironmentName -ServiceName $EnvironmentName -FhirServiceLocation $FhirApiLocation -FhirServiceAuthority $aadAuthority -FhirServiceResource $fhirServerUrl -FhirServiceClientId $serviceClientId -FhirServiceClientSecret $serviceClientSecret -FhirServiceAccessPolicies $accessPolicies -RepositoryUrl $SourceRepository -RepositoryBranch $SourceRevision -FhirServiceUrl $fhirServerUrl -ResourceLocation $EnvironmentLocation
 
-Write-Host "Warming up site..."
+$connectionString = Get-AzEventHubKey -ResourceGroupName $EnvironmentName -Namespace $EnvironmentName -EventHub devicedata -AuthorizationRuleName writer
+
+./Create-Config.ps1 -ConnectionString $connectionString -FhirServerUrl $fhirServerUrl -ClientId $publicClientId
+
+Write-Host "Warming up services..."
 Invoke-WebRequest -Uri "${fhirServerUrl}/metadata" | Out-Null
 Invoke-WebRequest -Uri $iomtUrl | Out-Null 
 
