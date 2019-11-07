@@ -14,6 +14,15 @@ class LaunchViewController : ViewControllerBase {
     
     private var didAttemptAuthentication = false
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        // Set the configMessageLabel if the application is running in the simulator.
+#if targetEnvironment(simulator)
+        configMessageLabel.text = "Drag the Config.json file onto the Simulator screen to begin."
+#endif
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
