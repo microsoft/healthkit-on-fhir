@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		A50AF63322E8A03400F7465D /* GenderPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A50AF63222E8A03400F7465D /* GenderPickerView.swift */; };
 		A51BBAB72374C86300CA1948 /* ObservationListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51BBAB62374C86300CA1948 /* ObservationListViewController.swift */; };
+		A51BBAB9237B02AE00CA1948 /* ObservationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51BBAB8237B02AE00CA1948 /* ObservationCell.swift */; };
+		A51BBABB237B0FFD00CA1948 /* ObservationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51BBABA237B0FFD00CA1948 /* ObservationViewController.swift */; };
 		A527747322B935F0006F5824 /* ObserverCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A527747222B935F0006F5824 /* ObserverCell.swift */; };
 		A527747522B95145006F5824 /* ConfigurationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A527747422B95145006F5824 /* ConfigurationHelper.swift */; };
 		A527747C22B98A94006F5824 /* IomtFhirDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A527747B22B98A94006F5824 /* IomtFhirDelegate.swift */; };
@@ -42,6 +44,8 @@
 		A504678522B7E66300DD456A /* HealthKitOnFhir_Sample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HealthKitOnFhir_Sample.entitlements; sourceTree = "<group>"; };
 		A50AF63222E8A03400F7465D /* GenderPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderPickerView.swift; sourceTree = "<group>"; };
 		A51BBAB62374C86300CA1948 /* ObservationListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationListViewController.swift; sourceTree = "<group>"; };
+		A51BBAB8237B02AE00CA1948 /* ObservationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationCell.swift; sourceTree = "<group>"; };
+		A51BBABA237B0FFD00CA1948 /* ObservationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservationViewController.swift; sourceTree = "<group>"; };
 		A527747222B935F0006F5824 /* ObserverCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObserverCell.swift; sourceTree = "<group>"; };
 		A527747422B95145006F5824 /* ConfigurationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationHelper.swift; sourceTree = "<group>"; };
 		A527747B22B98A94006F5824 /* IomtFhirDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IomtFhirDelegate.swift; sourceTree = "<group>"; };
@@ -145,12 +149,14 @@
 				A5BCB3D822E21F7E0029F824 /* PatientOnboardingViewController.swift */,
 				A5E75EA622B457AE00206D74 /* DataSyncViewController.swift */,
 				A51BBAB62374C86300CA1948 /* ObservationListViewController.swift */,
+				A51BBABA237B0FFD00CA1948 /* ObservationViewController.swift */,
 				A5E75EAD22B457AF00206D74 /* LaunchScreen.storyboard */,
 				A5E75EA822B457AE00206D74 /* Main.storyboard */,
 				A5E75EAB22B457AF00206D74 /* Assets.xcassets */,
 				A5E75EB022B457AF00206D74 /* Info.plist */,
 				A5E75EC622B4611F00206D74 /* QueryObserverDelegate.swift */,
 				A527747222B935F0006F5824 /* ObserverCell.swift */,
+				A51BBAB8237B02AE00CA1948 /* ObservationCell.swift */,
 				A527747422B95145006F5824 /* ConfigurationHelper.swift */,
 				A5F9C2BB2301C2AD00B5A359 /* ExternalStoreDelegate.swift */,
 				A527747B22B98A94006F5824 /* IomtFhirDelegate.swift */,
@@ -256,12 +262,14 @@
 				A5BCB3D922E21F7E0029F824 /* PatientOnboardingViewController.swift in Sources */,
 				A5F9C2BA2301C0E300B5A359 /* FhirDelegate.swift in Sources */,
 				A527747322B935F0006F5824 /* ObserverCell.swift in Sources */,
+				A51BBABB237B0FFD00CA1948 /* ObservationViewController.swift in Sources */,
 				A5464C8F22E7898900791FD2 /* LoadingView.swift in Sources */,
 				A50AF63322E8A03400F7465D /* GenderPickerView.swift in Sources */,
 				A5567FF222EB7D0300C91001 /* ExternalStoreDelegateError.swift in Sources */,
 				A5567FF422EB827500C91001 /* DeviceExtensions.swift in Sources */,
 				A51BBAB72374C86300CA1948 /* ObservationListViewController.swift in Sources */,
 				A5F9C2BC2301C2AD00B5A359 /* ExternalStoreDelegate.swift in Sources */,
+				A51BBAB9237B02AE00CA1948 /* ObservationCell.swift in Sources */,
 				A5BCB3DB22E2861A0029F824 /* PatientExtensions.swift in Sources */,
 				A527747C22B98A94006F5824 /* IomtFhirDelegate.swift in Sources */,
 				A5D739AE2369D897002D8202 /* SecretStoreError.swift in Sources */,

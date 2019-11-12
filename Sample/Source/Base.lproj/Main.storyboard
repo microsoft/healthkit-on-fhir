@@ -125,6 +125,48 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ru0-nM-Co9">
                                 <rect key="frame" x="0.0" y="88" width="375" height="690"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ObservationCell" id="oEX-Wi-Aac" customClass="ObservationCell" customModule="HealthKitOnFhir_Sample" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="43.666667938232422"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="oEX-Wi-Aac" id="zod-er-ke0">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.666667938232422"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GlT-Ib-2Lv">
+                                                    <rect key="frame" x="15" y="11" width="36" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="Time - Time" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q66-rW-h0y">
+                                                    <rect key="frame" x="71" y="11" width="284" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="GlT-Ib-2Lv" secondAttribute="bottom" constant="11.666667938232422" id="0Bb-PI-G6b"/>
+                                                <constraint firstItem="GlT-Ib-2Lv" firstAttribute="top" secondItem="zod-er-ke0" secondAttribute="top" constant="11" id="5ZW-KC-Jfh"/>
+                                                <constraint firstItem="GlT-Ib-2Lv" firstAttribute="leading" secondItem="zod-er-ke0" secondAttribute="leading" constant="15" id="5ta-qS-swR"/>
+                                                <constraint firstAttribute="bottom" secondItem="Q66-rW-h0y" secondAttribute="bottom" constant="11.666667938232422" id="9wY-Ip-UvX"/>
+                                                <constraint firstItem="Q66-rW-h0y" firstAttribute="leading" secondItem="GlT-Ib-2Lv" secondAttribute="trailing" constant="20" id="Di2-ZO-jsW"/>
+                                                <constraint firstAttribute="trailing" secondItem="Q66-rW-h0y" secondAttribute="trailing" constant="20" id="Hor-rE-Nix"/>
+                                                <constraint firstItem="Q66-rW-h0y" firstAttribute="top" secondItem="zod-er-ke0" secondAttribute="top" constant="11" id="YTY-MF-y1f"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="dateLabel" destination="GlT-Ib-2Lv" id="FEj-pt-eHj"/>
+                                            <outlet property="timeLabel" destination="Q66-rW-h0y" id="jzy-bY-15t"/>
+                                            <segue destination="OMz-ET-Eld" kind="show" identifier="ObservationSegue" id="4QS-Mu-OEx"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="rDl-s1-92Z" id="niy-qz-WwG"/>
+                                    <outlet property="delegate" destination="rDl-s1-92Z" id="qHh-1t-uz5"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -145,6 +187,41 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bGr-xU-GS3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1885.5999999999999" y="504.67980295566502"/>
+        </scene>
+        <!--Observation View Controller-->
+        <scene sceneID="Olp-L9-JKD">
+            <objects>
+                <viewController id="OMz-ET-Eld" customClass="ObservationViewController" customModule="HealthKitOnFhir_Sample" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="aKv-RM-tka">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="LXV-3v-bxZ">
+                                <rect key="frame" x="20" y="88" width="335" height="690"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="wzc-gt-fBk" firstAttribute="bottom" secondItem="LXV-3v-bxZ" secondAttribute="bottom" id="MtZ-Vw-m6G"/>
+                            <constraint firstItem="wzc-gt-fBk" firstAttribute="trailing" secondItem="LXV-3v-bxZ" secondAttribute="trailing" constant="20" id="hfF-HZ-FsW"/>
+                            <constraint firstItem="LXV-3v-bxZ" firstAttribute="top" secondItem="wzc-gt-fBk" secondAttribute="top" id="pBA-IS-Kl6"/>
+                            <constraint firstItem="LXV-3v-bxZ" firstAttribute="leading" secondItem="wzc-gt-fBk" secondAttribute="leading" constant="20" id="ykW-iU-WqE"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="wzc-gt-fBk"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="5qH-6W-Zz6"/>
+                    <connections>
+                        <outlet property="observationTextView" destination="LXV-3v-bxZ" id="8KF-U8-X0N"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3E3-D3-aYt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2656.8000000000002" y="504.67980295566502"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="lcR-IC-QYE">

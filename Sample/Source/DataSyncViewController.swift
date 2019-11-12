@@ -143,6 +143,7 @@ class DataSyncViewController: ViewControllerBase, UITableViewDelegate, UITableVi
     }
     
     public override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        tableView.deselectRow(at: tableView.indexPathForSelectedRow!, animated: true)
         if segue.identifier == "ObservationListSegue",
             let listViewController = segue.destination as? ObservationListViewController,
             let cell = sender as? ObserverCell,

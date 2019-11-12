@@ -10,7 +10,6 @@ import UIKit
 import FHIR
 
 class ObservationListViewController: ViewControllerBase, UITableViewDelegate, UITableViewDataSource {
-
     @IBOutlet var tableView: UITableView!
     public var code: String?
     
@@ -19,6 +18,12 @@ class ObservationListViewController: ViewControllerBase, UITableViewDelegate, UI
     private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .short
+        formatter.timeStyle = .none
+        return formatter
+    }()
+    private let timeFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .none
         formatter.timeStyle = .short
         return formatter
     }()
@@ -30,8 +35,6 @@ class ObservationListViewController: ViewControllerBase, UITableViewDelegate, UI
         NotificationCenter.default.addObserver(self, selector: #selector(refresh(_:)), name: QueryObserverDelegate.observerUpdated, object: nil)
 
         refresh(nil)
-        
-        updateViewState(isLoading: false)
     }
     
     deinit {
@@ -39,6 +42,8 @@ class ObservationListViewController: ViewControllerBase, UITableViewDelegate, UI
     }
     
     @objc func refresh(_ notification: Notification?) {
+        updateViewState(isLoading: true, message: "Fetching Observations")
+        
         if let server = smartClient?.server {
             server.fetchAuthenticatedPatient { (patient, error) in
                 guard error == nil else {
@@ -49,35 +54,52 @@ class ObservationListViewController: ViewControllerBase, UITableViewDelegate, UI
                 if let id = patient?.id?.description {
                     Observation.search(["code" : self.code, "subject" : id]).perform(server) { (bundle, error) in
                         if let results: [Observation] = bundle?.resources() {
-                            self.observations.append(contentsOf: results)
+                            self.observations = results
                             print(results[0])
                         }
                         
                         DispatchQueue.main.async {
                             self.tableView.reloadData()
                         }
+                        
+                        self.updateViewState(isLoading: false)
                     }
                 }
             }
         }
     }
     
-    public override func updateViewState(isLoading: Bool, message: String? = nil) {
-       super.updateViewState(isLoading: isLoading, message: message)
-        
-        DispatchQueue.main.async {
+    public override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        tableView.deselectRow(at: tableView.indexPathForSelectedRow!, animated: true)
+        if segue.identifier == "ObservationSegue",
+            let observationViewController = segue.destination as? ObservationViewController,
+            let cell = sender as? ObservationCell,
+            let observation = cell.observation {
+            observationViewController.observation = observation
         }
     }
     
     /// Mark - UITableViewDataSource
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return observations.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if let cell = tableView.dequeueReusableCell(withIdentifier: ObservationListViewController.CellIdentifier, for: indexPath) as? ObserverCell {
+        if let cell = tableView.dequeueReusableCell(withIdentifier: ObservationListViewController.CellIdentifier, for: indexPath) as? ObservationCell {
+            cell.observation = observations[indexPath.row]
+            
+            if let dateTime = cell.observation!.effectiveDateTime?.nsDate {
+                cell.dateLabel.text = dateFormatter.string(from: dateTime)
+                cell.timeLabel.text = timeFormatter.string(from: dateTime)
+            }
+            else if let start = cell.observation!.effectivePeriod?.start?.nsDate,
+                let end = cell.observation!.effectivePeriod?.end?.nsDate {
+                cell.dateLabel.text = dateFormatter.string(from: start)
+                cell.timeLabel.text = "\(timeFormatter.string(from: start)) - \(timeFormatter.string(from: end))"
+             }
+            
             return cell
         }
         
