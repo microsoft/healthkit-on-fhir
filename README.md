@@ -13,6 +13,14 @@ HealthKitOnFhir is a Swift library that automates the export of Apple HealthKit 
 
 For a detailed example of how to use HealthKitOnFhir, see the sample application in the [Sample](https://github.com/microsoft/healthkit-on-fhir/tree/master/Sample) directory.
 
+## Installation
+
+HealthKitOnFhir uses **Swift Package Manger** to manage dependencies. It is recommended that you use Xcode 11 or newer to add HealthKitOnFhir to your project.
+
+1. Using Xcode 11 go to File > Swift Packages > Add Package Dependency
+2. Paste the project URL: https://github.com/microsoft/healthkit-on-fhir
+3. Click on next and select the project target
+
 ## Basic Implementation
 
 HealthKitOnFhir is an implementation of the [HealthDataSync Swift library](https://github.com/microsoft/health-data-sync). HealthKitOnFhir defines the External Store as a FHIR Server, and provides a simple way to export high frequency data using the [IoMT FHIR Connector for Azure](https://github.com/microsoft/iomt-fhir) and low frequency data using an instance of a [Swift-FHIR](https://github.com/smart-on-fhir/Swift-FHIR) FHIRServer.
