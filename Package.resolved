@@ -1,0 +1,43 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "HealthDataSync",
+        "repositoryURL": "git@github.com:microsoft/health-data-sync",
+        "state": {
+          "branch": null,
+          "revision": "1f4858210284d1234267e0c6b1f94e3689b9add6",
+          "version": "1.0.0"
+        }
+      },
+      {
+        "package": "HealthKitToFhir",
+        "repositoryURL": "git@github.com:microsoft/healthkit-to-fhir",
+        "state": {
+          "branch": null,
+          "revision": "1f23fea0ae02a6aba96c24f4239d0fa30733d2f5",
+          "version": "1.0.0"
+        }
+      },
+      {
+        "package": "IomtFhirClient",
+        "repositoryURL": "git@github.com:microsoft/iomt-fhir-client",
+        "state": {
+          "branch": null,
+          "revision": "73bca2d9262a17524a162084659667cbd8f62799",
+          "version": "1.0.0"
+        }
+      },
+      {
+        "package": "FHIR",
+        "repositoryURL": "https://github.com/smart-on-fhir/Swift-FHIR",
+        "state": {
+          "branch": null,
+          "revision": "b68fb5d6c8137de4a06894e683dc1a726a832907",
+          "version": "4.2.1"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
