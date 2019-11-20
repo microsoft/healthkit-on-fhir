@@ -15,7 +15,7 @@ For a detailed example of how to use HealthKitOnFhir, see the sample application
 
 ## Installation
 
-HealthKitOnFhir uses **Swift Package Manger** to manage dependencies. It is recommended that you use Xcode 11 or newer to add HealthKitOnFhir to your project.
+HealthKitOnFhir uses **Swift Package Manager** to manage dependencies. It is recommended that you use Xcode 11 or newer to add HealthKitOnFhir to your project.
 
 1. Using Xcode 11 go to File > Swift Packages > Add Package Dependency
 2. Paste the project URL: https://github.com/microsoft/healthkit-on-fhir
