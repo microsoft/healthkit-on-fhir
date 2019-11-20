@@ -423,6 +423,7 @@
         "[resourceId('Microsoft.EventHub/namespaces/eventhubs', variables('eventhub_namespace_name'), 'devicedata')]",
         "[resourceId('Microsoft.EventHub/namespaces/eventhubs', variables('eventhub_namespace_name'), 'normalizeddata')]",
         "[resourceId('Microsoft.EventHub/namespaces', variables('eventhub_namespace_name'))]",
+        "[resourceId('Microsoft.EventHub/namespaces/eventhubs/authorizationRules', variables('eventhub_namespace_name'), 'devicedata', 'reader')]",
         "[resourceId('Microsoft.EventHub/namespaces/AuthorizationRules', variables('eventhub_namespace_name'), 'RootManageSharedAccessKey')]"
       ],
       "properties": {
@@ -440,6 +441,8 @@
         "[resourceId('Microsoft.EventHub/namespaces/eventhubs', variables('eventhub_namespace_name'), 'devicedata')]",
         "[resourceId('Microsoft.EventHub/namespaces/eventhubs', variables('eventhub_namespace_name'), 'normalizeddata')]",
         "[resourceId('Microsoft.EventHub/namespaces', variables('eventhub_namespace_name'))]",
+        "[resourceId('Microsoft.EventHub/namespaces/eventhubs/authorizationRules', variables('eventhub_namespace_name'), 'devicedata', 'reader')]",
+        "[resourceId('Microsoft.EventHub/namespaces/eventhubs/authorizationRules', variables('eventhub_namespace_name'), 'devicedata', 'writer')]",
         "[resourceId('Microsoft.EventHub/namespaces/AuthorizationRules', variables('eventhub_namespace_name'), 'RootManageSharedAccessKey')]"
       ],
       "properties": {
@@ -457,6 +460,9 @@
         "[resourceId('Microsoft.EventHub/namespaces/eventhubs', variables('eventhub_namespace_name'), 'devicedata')]",
         "[resourceId('Microsoft.EventHub/namespaces/eventhubs', variables('eventhub_namespace_name'), 'normalizeddata')]",
         "[resourceId('Microsoft.EventHub/namespaces', variables('eventhub_namespace_name'))]",
+        "[resourceId('Microsoft.EventHub/namespaces/eventhubs/authorizationRules', variables('eventhub_namespace_name'), 'devicedata', 'reader')]",
+        "[resourceId('Microsoft.EventHub/namespaces/eventhubs/authorizationRules', variables('eventhub_namespace_name'), 'devicedata', 'writer')]",
+        "[resourceId('Microsoft.EventHub/namespaces/eventhubs/authorizationRules', variables('eventhub_namespace_name'), 'normalizeddata', 'reader')]",
         "[resourceId('Microsoft.EventHub/namespaces/AuthorizationRules', variables('eventhub_namespace_name'), 'RootManageSharedAccessKey')]"
       ],
       "properties": {
