@@ -27,7 +27,7 @@ param
     [string]$FhirApiLocation = "northcentralus",
 
     [Parameter(Mandatory = $false)]
-    [string]$SourceRepository = "https://github.com/Microsoft/fhir-iomt",
+    [string]$SourceRepository = "https://github.com/Microsoft/iomt-fhir",
 
     [Parameter(Mandatory = $false)]
     [string]$SourceRevision = "master",
