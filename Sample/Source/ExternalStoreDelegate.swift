@@ -129,7 +129,7 @@ public class ExternalStoreDelegate {
             objc_sync_exit(self.idMapSyncObject)
             
             if deviceId != nil {
-                self.completeDeviceCreation(deviceIdentifier: deviceIdentifier, deviceId: nil, error: error)
+                self.completeDeviceCreation(deviceIdentifier: deviceIdentifier, deviceId: deviceId, error: error)
                 return
             }
             
