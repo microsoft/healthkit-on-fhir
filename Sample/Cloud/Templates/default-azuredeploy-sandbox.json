@@ -447,7 +447,8 @@
       ],
       "properties": {
         "rights": [
-          "Listen"
+          "Listen",
+          "Send"
         ]
       }
     },
