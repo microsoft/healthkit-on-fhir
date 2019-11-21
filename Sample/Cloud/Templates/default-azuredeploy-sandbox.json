@@ -34,7 +34,7 @@
       "metadata": {
         "description": "The time period to collect events before sending them to the FHIR server."
       },
-      "defaultValue": "MINUTE"
+      "defaultValue": "SECOND"
     },
     "JobWindowMagnitude": {
       "type": "int",
