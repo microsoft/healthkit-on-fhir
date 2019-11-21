@@ -287,7 +287,7 @@
                   "serviceBusNamespace": "[variables('eventhub_namespace_name')]",
                   "eventHubName": "normalizeddata",
                   "consumerGroupName": null,
-                  "sharedAccessPolicyName": "reader",
+                  "sharedAccessPolicyName": "readerwriter",
                   "sharedAccessPolicyKey": "[listkeys(resourceId('Microsoft.EventHub/namespaces/eventhubs/authorizationRules', variables('eventhub_namespace_name'), 'normalizeddata', 'readerwriter'), '2017-04-01').primaryKey]"
                 }
               },
