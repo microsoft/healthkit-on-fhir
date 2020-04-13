@@ -15,8 +15,8 @@
         "repositoryURL": "git@github.com:microsoft/healthkit-to-fhir",
         "state": {
           "branch": null,
-          "revision": "1f23fea0ae02a6aba96c24f4239d0fa30733d2f5",
-          "version": "1.0.0"
+          "revision": "059f8f8ed3449231b2134ba2de484be91e4a2014",
+          "version": "1.0.1"
         }
       },
       {

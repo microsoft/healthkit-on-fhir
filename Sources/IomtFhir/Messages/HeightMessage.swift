@@ -1,5 +1,5 @@
 //
-//  BodyMassMessage.swift
+//  HeightMessage.swift
 //  HealthKitOnFhir
 //
 //  Copyright (c) Microsoft Corporation.
@@ -9,13 +9,13 @@ import Foundation
 import HealthDataSync
 import HealthKit
 
-open class BodyMassMessage : IomtFhirMessageBase, HDSExternalObjectProtocol {
-    internal var bodyMass: Double?
-    internal let unit = "kg"
+open class HeightMessage : IomtFhirMessageBase, HDSExternalObjectProtocol {
+    internal var height: Double?
+    internal let unit = "cm"
     
     public init?(object: HKObject) {
         guard let sample = object as? HKQuantitySample,
-            sample.quantityType == BodyMassMessage.healthKitObjectType() else {
+            sample.quantityType == HeightMessage.healthKitObjectType() else {
                 return nil
         }
         
@@ -30,19 +30,19 @@ open class BodyMassMessage : IomtFhirMessageBase, HDSExternalObjectProtocol {
     }
     
     public static func authorizationTypes() -> [HKObjectType]? {
-        if let bodyMassType = healthKitObjectType() {
-            return [bodyMassType]
+        if let heightType = healthKitObjectType() {
+            return [heightType]
         }
         
         return nil
     }
     
     public static func healthKitObjectType() -> HKObjectType? {
-        return HKObjectType.quantityType(forIdentifier: .bodyMass)
+        return HKObjectType.quantityType(forIdentifier: .height)
     }
     
     public static func externalObject(object: HKObject, converter: HDSConverterProtocol?) -> HDSExternalObjectProtocol? {
-        return BodyMassMessage.init(object: object)
+        return HeightMessage.init(object: object)
     }
     
     public static func externalObject(deletedObject: HKDeletedObject, converter: HDSConverterProtocol?) -> HDSExternalObjectProtocol? {
@@ -51,7 +51,7 @@ open class BodyMassMessage : IomtFhirMessageBase, HDSExternalObjectProtocol {
     
     public func update(with object: HKObject) {
         if let sample = object as? HKQuantitySample {
-            bodyMass = sample.quantity.doubleValue(for: HKUnit(from: unit))
+            height = sample.quantity.doubleValue(for: HKUnit(from: unit))
         }
     }
     
@@ -59,12 +59,12 @@ open class BodyMassMessage : IomtFhirMessageBase, HDSExternalObjectProtocol {
     public override func encode(to encoder: Encoder) throws {
         try super.encode(to: encoder)
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(bodyMass, forKey: .bodyMass)
+        try container.encode(height, forKey: .height)
         try container.encode(unit, forKey: .unit)
     }
     
     private enum CodingKeys: String, CodingKey {
-        case bodyMass
+        case height
         case unit
     }
 }

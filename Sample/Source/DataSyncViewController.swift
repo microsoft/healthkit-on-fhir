@@ -22,6 +22,11 @@ class DataSyncViewController: ViewControllerBase, UITableViewDelegate, UITableVi
     private let observerCodeMap = [String(describing: HeartRateMessage.self) : "8867-4",
                                    String(describing: StepCountMessage.self) : "55423-8",
                                    String(describing: BloodPressureContainer.self) : "85354-9",
+                                   String(describing: OxygenSaturationContainer.self) : "2708-6",
+                                   String(describing: HeightContainer.self) : "8302-2",
+                                   String(describing: BodyMassContainer.self) : "29463-7",
+                                   String(describing: BodyTemperatureContainer.self) : "8310-5",
+                                   String(describing: RespiratoryRateContainer.self) : "9279-1",
                                    String(describing: BloodGlucoseContainer.self) : "41653-7"]
     private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
