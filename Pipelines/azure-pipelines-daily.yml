@@ -5,6 +5,7 @@
 
 trigger: none
 
+pool:
   vmImage: 'macos-latest'
 
 steps:
