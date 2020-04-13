@@ -12,7 +12,7 @@ import HealthKitToFhir
 import FHIR
 
 open class BodyMassContainer : ResourceContainer<Observation>, HDSExternalObjectProtocol {
-    internal let unit = "lb"
+    internal let unit = "kg"
     
     public static func authorizationTypes() -> [HKObjectType]? {
         if let bodyMassType = healthKitObjectType() {
