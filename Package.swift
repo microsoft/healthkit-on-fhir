@@ -21,7 +21,7 @@ let package = Package(
         .package(url: "https://github.com/smart-on-fhir/Swift-FHIR", from: "4.2.0"),
         .package(url: "git@github.com:microsoft/iomt-fhir-client", from: "1.0.0"),
         .package(url: "git@github.com:microsoft/health-data-sync", from: "1.0.0"),
-        .package(url: "git@github.com:microsoft/healthkit-to-fhir", from: "1.0.0"),
+        .package(url: "git@github.com:microsoft/healthkit-to-fhir", from: "1.0.1"),
     ],
     targets: [
         .target(

@@ -21,7 +21,8 @@
 		A5464C9522E7BB7D00791FD2 /* InputAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A5464C9422E7BB7D00791FD2 /* InputAccessoryView.xib */; };
 		A5567FF222EB7D0300C91001 /* ExternalStoreDelegateError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5567FF122EB7D0300C91001 /* ExternalStoreDelegateError.swift */; };
 		A5567FF422EB827500C91001 /* DeviceExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5567FF322EB827500C91001 /* DeviceExtensions.swift */; };
-		A57A676F233EB21B006BFEEE /* SMART in Frameworks */ = {isa = PBXBuildFile; productRef = A57A676E233EB21B006BFEEE /* SMART */; };
+		A55925D52440C5420014A28A /* HealthKitOnFhir in Frameworks */ = {isa = PBXBuildFile; productRef = A55925D42440C5420014A28A /* HealthKitOnFhir */; };
+		A55925D82440C55B0014A28A /* SMART in Frameworks */ = {isa = PBXBuildFile; productRef = A55925D72440C55B0014A28A /* SMART */; };
 		A58684F723145507003FEC6A /* BundleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58684F623145507003FEC6A /* BundleExtensions.swift */; };
 		A5BCB3D422E103D20029F824 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BCB3D322E103D20029F824 /* LaunchViewController.swift */; };
 		A5BCB3D722E11CE80029F824 /* ServerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BCB3D622E11CE80029F824 /* ServerExtensions.swift */; };
@@ -35,7 +36,6 @@
 		A5E75EAC22B457AF00206D74 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A5E75EAB22B457AF00206D74 /* Assets.xcassets */; };
 		A5E75EAF22B457AF00206D74 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5E75EAD22B457AF00206D74 /* LaunchScreen.storyboard */; };
 		A5E75EC722B4611F00206D74 /* QueryObserverDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E75EC622B4611F00206D74 /* QueryObserverDelegate.swift */; };
-		A5ECB32A2351266B00F2410B /* HealthKitOnFhir in Frameworks */ = {isa = PBXBuildFile; productRef = A5ECB3292351266B00F2410B /* HealthKitOnFhir */; };
 		A5F9C2BA2301C0E300B5A359 /* FhirDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F9C2B92301C0E300B5A359 /* FhirDelegate.swift */; };
 		A5F9C2BC2301C2AD00B5A359 /* ExternalStoreDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F9C2BB2301C2AD00B5A359 /* ExternalStoreDelegate.swift */; };
 /* End PBXBuildFile section */
@@ -80,8 +80,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A57A676F233EB21B006BFEEE /* SMART in Frameworks */,
-				A5ECB32A2351266B00F2410B /* HealthKitOnFhir in Frameworks */,
+				A55925D82440C55B0014A28A /* SMART in Frameworks */,
+				A55925D52440C5420014A28A /* HealthKitOnFhir in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -183,8 +183,8 @@
 			);
 			name = HealthKitOnFhir_Sample;
 			packageProductDependencies = (
-				A57A676E233EB21B006BFEEE /* SMART */,
-				A5ECB3292351266B00F2410B /* HealthKitOnFhir */,
+				A55925D42440C5420014A28A /* HealthKitOnFhir */,
+				A55925D72440C55B0014A28A /* SMART */,
 			);
 			productName = "HealthKit On FHIR Sample";
 			productReference = A5E75EA122B457AD00206D74 /* HealthKitOnFhir_Sample.app */;
@@ -223,8 +223,8 @@
 			);
 			mainGroup = A5E75E9822B457AD00206D74;
 			packageReferences = (
-				A57A676D233EB21B006BFEEE /* XCRemoteSwiftPackageReference "Swift-SMART" */,
-				A5ECB3282351266B00F2410B /* XCRemoteSwiftPackageReference "healthkit-on-fhir" */,
+				A55925D32440C5420014A28A /* XCRemoteSwiftPackageReference "healthkit-on-fhir" */,
+				A55925D62440C55B0014A28A /* XCRemoteSwiftPackageReference "Swift-SMART" */,
 			);
 			productRefGroup = A5E75EA222B457AD00206D74 /* Products */;
 			projectDirPath = "";
@@ -484,15 +484,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		A57A676D233EB21B006BFEEE /* XCRemoteSwiftPackageReference "Swift-SMART" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/smart-on-fhir/Swift-SMART";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.2.0;
-			};
-		};
-		A5ECB3282351266B00F2410B /* XCRemoteSwiftPackageReference "healthkit-on-fhir" */ = {
+		A55925D32440C5420014A28A /* XCRemoteSwiftPackageReference "healthkit-on-fhir" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/microsoft/healthkit-on-fhir.git";
 			requirement = {
@@ -500,18 +492,26 @@
 				kind = branch;
 			};
 		};
+		A55925D62440C55B0014A28A /* XCRemoteSwiftPackageReference "Swift-SMART" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/smart-on-fhir/Swift-SMART.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.2.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		A57A676E233EB21B006BFEEE /* SMART */ = {
+		A55925D42440C5420014A28A /* HealthKitOnFhir */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = A57A676D233EB21B006BFEEE /* XCRemoteSwiftPackageReference "Swift-SMART" */;
-			productName = SMART;
-		};
-		A5ECB3292351266B00F2410B /* HealthKitOnFhir */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = A5ECB3282351266B00F2410B /* XCRemoteSwiftPackageReference "healthkit-on-fhir" */;
+			package = A55925D32440C5420014A28A /* XCRemoteSwiftPackageReference "healthkit-on-fhir" */;
 			productName = HealthKitOnFhir;
+		};
+		A55925D72440C55B0014A28A /* SMART */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A55925D62440C55B0014A28A /* XCRemoteSwiftPackageReference "Swift-SMART" */;
+			productName = SMART;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

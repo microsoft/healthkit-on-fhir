@@ -15,7 +15,7 @@
         "repositoryURL": "https://github.com/microsoft/healthkit-on-fhir.git",
         "state": {
           "branch": "master",
-          "revision": "4869f292d2bbc427d23d8600b52376deaba0eb58",
+          "revision": "1680ce7f30868a88798456fda0694be6008c76e4",
           "version": null
         }
       },
@@ -42,8 +42,8 @@
         "repositoryURL": "https://github.com/p2/OAuth2",
         "state": {
           "branch": null,
-          "revision": "e4deb6cf83c9f43a74cd2deb757af0a381af9635",
-          "version": "5.1.0"
+          "revision": "b0c71466176f3d7a22e5da20532c01d78a661f1d",
+          "version": "5.2.0"
         }
       },
       {
@@ -57,7 +57,7 @@
       },
       {
         "package": "SMART",
-        "repositoryURL": "https://github.com/smart-on-fhir/Swift-SMART",
+        "repositoryURL": "https://github.com/smart-on-fhir/Swift-SMART.git",
         "state": {
           "branch": null,
           "revision": "f5d283079e2e5cd12bd0076f05886d19bbd5e125",

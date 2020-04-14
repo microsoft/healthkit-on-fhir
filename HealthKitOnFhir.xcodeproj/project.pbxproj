@@ -14,6 +14,26 @@
 		A51662C122C4262A0011E92E /* MockError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51662C022C4262A0011E92E /* MockError.swift */; };
 		A51662C322C5126B0011E92E /* MockExternalStoreDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51662C222C5126B0011E92E /* MockExternalStoreDelegate.swift */; };
 		A51662C522C512900011E92E /* IomtFhirExternalStoreDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51662C422C512900011E92E /* IomtFhirExternalStoreDelegateTests.swift */; };
+		A55925E224411D3D0014A28A /* OxygenSaturationMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55925E124411D3D0014A28A /* OxygenSaturationMessage.swift */; };
+		A55925E424411F080014A28A /* OxygenSaturationMessageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55925E324411F080014A28A /* OxygenSaturationMessageTests.swift */; };
+		A55925E6244120B30014A28A /* BodyMassMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55925E5244120B30014A28A /* BodyMassMessage.swift */; };
+		A55925E82441214F0014A28A /* BodyTemperatureMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55925E72441214F0014A28A /* BodyTemperatureMessage.swift */; };
+		A55925EA244121FD0014A28A /* RespiratoryRateMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55925E9244121FD0014A28A /* RespiratoryRateMessage.swift */; };
+		A55925EC244122870014A28A /* BodyMassMessageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55925EB244122870014A28A /* BodyMassMessageTests.swift */; };
+		A55925EE2441230F0014A28A /* BodyTemperatureMessageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55925ED2441230F0014A28A /* BodyTemperatureMessageTests.swift */; };
+		A55925F0244123970014A28A /* RespiratoryRateMessageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55925EF244123970014A28A /* RespiratoryRateMessageTests.swift */; };
+		A55925F2244124D80014A28A /* OxygenSaturationContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55925F1244124D80014A28A /* OxygenSaturationContainer.swift */; };
+		A55925F4244125B70014A28A /* OxygenSaturationContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55925F3244125B70014A28A /* OxygenSaturationContainerTests.swift */; };
+		A55925F6244126490014A28A /* BodyMassContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55925F5244126490014A28A /* BodyMassContainer.swift */; };
+		A55925F8244126F70014A28A /* BodyTemperatureContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55925F7244126F70014A28A /* BodyTemperatureContainer.swift */; };
+		A55925FE244127BC0014A28A /* RespiratoryRateContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55925FD244127BC0014A28A /* RespiratoryRateContainer.swift */; };
+		A55926002441280E0014A28A /* BodyMassContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55925FF2441280D0014A28A /* BodyMassContainerTests.swift */; };
+		A5592602244128800014A28A /* BodyTemperatureContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5592601244128800014A28A /* BodyTemperatureContainerTests.swift */; };
+		A5592604244129E90014A28A /* RespiratoryRateContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5592603244129E90014A28A /* RespiratoryRateContainerTests.swift */; };
+		A55926122444DCAD0014A28A /* HeightMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55926112444DCAD0014A28A /* HeightMessage.swift */; };
+		A55926142444E1580014A28A /* HeightMessageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55926132444E1580014A28A /* HeightMessageTests.swift */; };
+		A55926162444E7A10014A28A /* HeightContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55926152444E7A10014A28A /* HeightContainer.swift */; };
+		A55926182444E82B0014A28A /* HeightContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55926172444E82B0014A28A /* HeightContainerTests.swift */; };
 		A58410572322F6BE00E9E779 /* ConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58410562322F6BE00E9E779 /* ConverterTests.swift */; };
 		A58410592322F81600E9E779 /* MockResourceFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58410582322F81600E9E779 /* MockResourceFactory.swift */; };
 		A584105B23269EFA00E9E779 /* FhirExternalStoreDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A584105A23269EFA00E9E779 /* FhirExternalStoreDelegateTests.swift */; };
@@ -79,6 +99,26 @@
 		A51662C022C4262A0011E92E /* MockError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockError.swift; sourceTree = "<group>"; };
 		A51662C222C5126B0011E92E /* MockExternalStoreDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockExternalStoreDelegate.swift; sourceTree = "<group>"; };
 		A51662C422C512900011E92E /* IomtFhirExternalStoreDelegateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IomtFhirExternalStoreDelegateTests.swift; sourceTree = "<group>"; };
+		A55925E124411D3D0014A28A /* OxygenSaturationMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OxygenSaturationMessage.swift; sourceTree = "<group>"; };
+		A55925E324411F080014A28A /* OxygenSaturationMessageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OxygenSaturationMessageTests.swift; sourceTree = "<group>"; };
+		A55925E5244120B30014A28A /* BodyMassMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyMassMessage.swift; sourceTree = "<group>"; };
+		A55925E72441214F0014A28A /* BodyTemperatureMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyTemperatureMessage.swift; sourceTree = "<group>"; };
+		A55925E9244121FD0014A28A /* RespiratoryRateMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RespiratoryRateMessage.swift; sourceTree = "<group>"; };
+		A55925EB244122870014A28A /* BodyMassMessageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyMassMessageTests.swift; sourceTree = "<group>"; };
+		A55925ED2441230F0014A28A /* BodyTemperatureMessageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyTemperatureMessageTests.swift; sourceTree = "<group>"; };
+		A55925EF244123970014A28A /* RespiratoryRateMessageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RespiratoryRateMessageTests.swift; sourceTree = "<group>"; };
+		A55925F1244124D80014A28A /* OxygenSaturationContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OxygenSaturationContainer.swift; sourceTree = "<group>"; };
+		A55925F3244125B70014A28A /* OxygenSaturationContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OxygenSaturationContainerTests.swift; sourceTree = "<group>"; };
+		A55925F5244126490014A28A /* BodyMassContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyMassContainer.swift; sourceTree = "<group>"; };
+		A55925F7244126F70014A28A /* BodyTemperatureContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyTemperatureContainer.swift; sourceTree = "<group>"; };
+		A55925FD244127BC0014A28A /* RespiratoryRateContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RespiratoryRateContainer.swift; sourceTree = "<group>"; };
+		A55925FF2441280D0014A28A /* BodyMassContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyMassContainerTests.swift; sourceTree = "<group>"; };
+		A5592601244128800014A28A /* BodyTemperatureContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyTemperatureContainerTests.swift; sourceTree = "<group>"; };
+		A5592603244129E90014A28A /* RespiratoryRateContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RespiratoryRateContainerTests.swift; sourceTree = "<group>"; };
+		A55926112444DCAD0014A28A /* HeightMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeightMessage.swift; sourceTree = "<group>"; };
+		A55926132444E1580014A28A /* HeightMessageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeightMessageTests.swift; sourceTree = "<group>"; };
+		A55926152444E7A10014A28A /* HeightContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeightContainer.swift; sourceTree = "<group>"; };
+		A55926172444E82B0014A28A /* HeightContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeightContainerTests.swift; sourceTree = "<group>"; };
 		A58410562322F6BE00E9E779 /* ConverterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConverterTests.swift; sourceTree = "<group>"; };
 		A58410582322F81600E9E779 /* MockResourceFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockResourceFactory.swift; sourceTree = "<group>"; };
 		A584105A23269EFA00E9E779 /* FhirExternalStoreDelegateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FhirExternalStoreDelegateTests.swift; sourceTree = "<group>"; };
@@ -237,6 +277,11 @@
 				A5BFB372233D261800725456 /* HeartRateMessage.swift */,
 				A5BFB373233D261800725456 /* IomtFhirMessageBase.swift */,
 				A5BFB374233D261800725456 /* BloodGlucoseMessage.swift */,
+				A55925E124411D3D0014A28A /* OxygenSaturationMessage.swift */,
+				A55925E5244120B30014A28A /* BodyMassMessage.swift */,
+				A55925E72441214F0014A28A /* BodyTemperatureMessage.swift */,
+				A55925E9244121FD0014A28A /* RespiratoryRateMessage.swift */,
+				A55926112444DCAD0014A28A /* HeightMessage.swift */,
 			);
 			path = Messages;
 			sourceTree = "<group>";
@@ -263,6 +308,11 @@
 				A5BFB37E233D261800725456 /* Converter.swift */,
 				A5BFB37F233D261800725456 /* ResourceContainerProtocol.swift */,
 				A5BFB380233D261800725456 /* HeartRateContainer.swift */,
+				A55925F1244124D80014A28A /* OxygenSaturationContainer.swift */,
+				A55925F5244126490014A28A /* BodyMassContainer.swift */,
+				A55925F7244126F70014A28A /* BodyTemperatureContainer.swift */,
+				A55925FD244127BC0014A28A /* RespiratoryRateContainer.swift */,
+				A55926152444E7A10014A28A /* HeightContainer.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -301,11 +351,21 @@
 			children = (
 				A5D5CB14232066C600532768 /* BloodGlucoseMessageTests.swift */,
 				A5D5CB1823215BDF00532768 /* BloodPressureMessageTests.swift */,
+				A55925EB244122870014A28A /* BodyMassMessageTests.swift */,
+				A55925ED2441230F0014A28A /* BodyTemperatureMessageTests.swift */,
 				A5D5CB1A23215C0300532768 /* HeartRateMessageTests.swift */,
+				A55926132444E1580014A28A /* HeightMessageTests.swift */,
+				A55925E324411F080014A28A /* OxygenSaturationMessageTests.swift */,
+				A55925EF244123970014A28A /* RespiratoryRateMessageTests.swift */,
 				A5D5CB1C23215C1100532768 /* StepCountMessageTests.swift */,
 				A5D5CB1E2321722400532768 /* BloodGlucoseContainerTests.swift */,
 				A5D5CB202321723800532768 /* BloodPressureContainerTests.swift */,
+				A55925FF2441280D0014A28A /* BodyMassContainerTests.swift */,
+				A5592601244128800014A28A /* BodyTemperatureContainerTests.swift */,
 				A5D5CB222321724C00532768 /* HeartRateContainerTests.swift */,
+				A55926172444E82B0014A28A /* HeightContainerTests.swift */,
+				A55925F3244125B70014A28A /* OxygenSaturationContainerTests.swift */,
+				A5592603244129E90014A28A /* RespiratoryRateContainerTests.swift */,
 				A5D5CB242321728400532768 /* StepCountContainerTests.swift */,
 			);
 			path = ExternalObjects;
@@ -413,6 +473,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				A584105B23269EFA00E9E779 /* FhirExternalStoreDelegateTests.swift in Sources */,
+				A55925F4244125B70014A28A /* OxygenSaturationContainerTests.swift in Sources */,
+				A55925F8244126F70014A28A /* BodyTemperatureContainer.swift in Sources */,
 				A51662BF22C41F100011E92E /* MockExternalObject.swift in Sources */,
 				A5BFB38F233D261800725456 /* IomtFhirExternalStoreDelegate.swift in Sources */,
 				A5BFB391233D261800725456 /* BloodPressureContainer.swift in Sources */,
@@ -430,12 +492,14 @@
 				A5BFB395233D261800725456 /* Converter.swift in Sources */,
 				A5EC976E22F9EF1700D10442 /* MockFHIRServerResponse.swift in Sources */,
 				A5EC977222FB199700D10442 /* MockObservationFactory.swift in Sources */,
+				A55926142444E1580014A28A /* HeightMessageTests.swift in Sources */,
 				A5D5CB122320602B00532768 /* HDSExternalObjectProtocolConfiguration.swift in Sources */,
 				A599F3C82321B89E00F95245 /* BundleExtensionsTests.swift in Sources */,
 				A5BFB38D233D261800725456 /* BloodGlucoseMessage.swift in Sources */,
 				A51662BB22C4107E0011E92E /* MockEventDataSender.swift in Sources */,
 				A5D5CB1923215BDF00532768 /* BloodPressureMessageTests.swift in Sources */,
 				A5BFB398233D261800725456 /* FhirExternalStoreDelegate.swift in Sources */,
+				A55925F0244123970014A28A /* RespiratoryRateMessageTests.swift in Sources */,
 				A5BFB39C233D261800725456 /* ConverterError.swift in Sources */,
 				A599F3CA2321B8B200F95245 /* IdentifierExtensionsTests.swift in Sources */,
 				A5EC977022FB179200D10442 /* FhirExternalStoreTests.swift in Sources */,
@@ -444,25 +508,41 @@
 				A58410592322F81600E9E779 /* MockResourceFactory.swift in Sources */,
 				A5BFB393233D261800725456 /* ResourceContainer.swift in Sources */,
 				A5D5CB212321723800532768 /* BloodPressureContainerTests.swift in Sources */,
+				A5592602244128800014A28A /* BodyTemperatureContainerTests.swift in Sources */,
 				A5BFB39B233D261800725456 /* BundleExtensions.swift in Sources */,
 				A5D5CB1723206CEB00532768 /* IomtFhirMessageBaseConfiguration.swift in Sources */,
 				A5BFB38B233D261800725456 /* HeartRateMessage.swift in Sources */,
 				A5D5CB1D23215C1100532768 /* StepCountMessageTests.swift in Sources */,
+				A55926002441280E0014A28A /* BodyMassContainerTests.swift in Sources */,
 				A5D5CB2F23218E0F00532768 /* MockConverter.swift in Sources */,
 				A5D5CB232321724C00532768 /* HeartRateContainerTests.swift in Sources */,
+				A55926162444E7A10014A28A /* HeightContainer.swift in Sources */,
+				A55925F2244124D80014A28A /* OxygenSaturationContainer.swift in Sources */,
+				A5592604244129E90014A28A /* RespiratoryRateContainerTests.swift in Sources */,
+				A55925EA244121FD0014A28A /* RespiratoryRateMessage.swift in Sources */,
+				A55925EE2441230F0014A28A /* BodyTemperatureMessageTests.swift in Sources */,
 				A5D5CB15232066C600532768 /* BloodGlucoseMessageTests.swift in Sources */,
 				A51662C122C4262A0011E92E /* MockError.swift in Sources */,
 				A5BFB38A233D261800725456 /* StepCountMessage.swift in Sources */,
+				A55925FE244127BC0014A28A /* RespiratoryRateContainer.swift in Sources */,
+				A55925F6244126490014A28A /* BodyMassContainer.swift in Sources */,
 				A5D5CB1B23215C0300532768 /* HeartRateMessageTests.swift in Sources */,
 				A5BFB397233D261800725456 /* HeartRateContainer.swift in Sources */,
 				A5BFB394233D261800725456 /* StepCountContainer.swift in Sources */,
+				A55925E82441214F0014A28A /* BodyTemperatureMessage.swift in Sources */,
+				A55925E6244120B30014A28A /* BodyMassMessage.swift in Sources */,
 				A5EC977422FB221D00D10442 /* MockObservationContainer.swift in Sources */,
+				A55925E424411F080014A28A /* OxygenSaturationMessageTests.swift in Sources */,
+				A55926122444DCAD0014A28A /* HeightMessage.swift in Sources */,
+				A55925E224411D3D0014A28A /* OxygenSaturationMessage.swift in Sources */,
 				A5D5CB2D23218A1700532768 /* HKDeletedObjectExtensions.swift in Sources */,
+				A55925EC244122870014A28A /* BodyMassMessageTests.swift in Sources */,
 				A584105D2326A0B000E9E779 /* MockFhirExternalStoreDelegate.swift in Sources */,
 				A5BFB390233D261800725456 /* FhirExternalStore.swift in Sources */,
 				A5BFB392233D261800725456 /* BloodGlucoseContainer.swift in Sources */,
 				A5BFB399233D261800725456 /* IdentifierExtensions.swift in Sources */,
 				A51662C322C5126B0011E92E /* MockExternalStoreDelegate.swift in Sources */,
+				A55926182444E82B0014A28A /* HeightContainerTests.swift in Sources */,
 				A5BFB39D233D261800725456 /* FetchError.swift in Sources */,
 				A5D5CB1F2321722400532768 /* BloodGlucoseContainerTests.swift in Sources */,
 				A51662C522C512900011E92E /* IomtFhirExternalStoreDelegateTests.swift in Sources */,

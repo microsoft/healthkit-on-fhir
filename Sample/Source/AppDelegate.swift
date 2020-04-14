@@ -58,13 +58,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // (Optional) Set the delegate to handle pre and post request.
             iomtFhirExternalStore.delegate = IomtFhirDelegate(smartClient: smartClient!, deviceFactory: deviceFactory)
             // Set the object types that will be synchronized and the destination store.
-            syncManager?.addObjectTypes([HeartRateMessage.self, StepCountMessage.self], externalStore: iomtFhirExternalStore)
+            syncManager?.addObjectTypes([HeartRateMessage.self, StepCountMessage.self, OxygenSaturationMessage.self, BodyTemperatureMessage.self, RespiratoryRateMessage.self], externalStore: iomtFhirExternalStore)
             
             // Create the FHIR external store to handle low frequency data.
             let fhirExternalStore = FhirExternalStore(server: smartClient!.server)
             // (Optional) Set the delegate to handle pre and post request.
             fhirExternalStore.delegate = FhirDelegate(smartClient: smartClient!, deviceFactory: deviceFactory)
-            syncManager?.addObjectTypes([BloodPressureContainer.self, BloodGlucoseContainer.self], externalStore: fhirExternalStore)
+            syncManager?.addObjectTypes([BloodPressureContainer.self, BloodGlucoseContainer.self, BodyMassContainer.self, HeightContainer.self], externalStore: fhirExternalStore)
             // Set the converter
             syncManager?.converter = Converter(converterMap: [Observation.resourceType : try ObservationFactory()])
             
