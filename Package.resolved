@@ -3,7 +3,7 @@
     "pins": [
       {
         "package": "HealthDataSync",
-        "repositoryURL": "git@github.com:microsoft/health-data-sync",
+        "repositoryURL": "https://github.com/microsoft/health-data-sync",
         "state": {
           "branch": null,
           "revision": "6e0f8d923c551a71e1ce512cc1354453c3de250e",
@@ -12,7 +12,7 @@
       },
       {
         "package": "HealthKitToFhir",
-        "repositoryURL": "git@github.com:microsoft/healthkit-to-fhir",
+        "repositoryURL": "https://github.com/microsoft/healthkit-to-fhir",
         "state": {
           "branch": null,
           "revision": "059f8f8ed3449231b2134ba2de484be91e4a2014",
@@ -21,7 +21,7 @@
       },
       {
         "package": "IomtFhirClient",
-        "repositoryURL": "git@github.com:microsoft/iomt-fhir-client",
+        "repositoryURL": "https://github.com/microsoft/iomt-fhir-client",
         "state": {
           "branch": null,
           "revision": "73bca2d9262a17524a162084659667cbd8f62799",
