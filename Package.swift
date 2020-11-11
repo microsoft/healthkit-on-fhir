@@ -1,4 +1,4 @@
-// swift-tools-version:5.0
+// swift-tools-version:5.3
 //  Package.swift
 //  HealthKitOnFhir
 //
@@ -10,7 +10,7 @@ import PackageDescription
 let package = Package(
     name: "HealthKitOnFhir",
 	platforms: [
-        .iOS(.v11)
+        .iOS(.v13)
 	],
     products: [
         .library(
@@ -18,10 +18,10 @@ let package = Package(
             targets: ["HealthKitOnFhir"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/smart-on-fhir/Swift-FHIR", from: "4.2.0"),
-        .package(url: "https://github.com/microsoft/iomt-fhir-client", from: "1.0.0"),
-        .package(url: "https://github.com/microsoft/health-data-sync", from: "1.0.0"),
-        .package(url: "https://github.com/microsoft/healthkit-to-fhir", from: "1.0.1"),
+        .package(name: "FHIR", url: "https://github.com/smart-on-fhir/Swift-FHIR", from: "4.2.0"),
+        .package(name: "IomtFhirClient", url: "https://github.com/microsoft/iomt-fhir-client", from: "1.0.0"),
+        .package(name: "HealthDataSync", url: "https://github.com/microsoft/health-data-sync", from: "1.0.0"),
+        .package(name: "HealthKitToFhir", url: "https://github.com/microsoft/healthkit-to-fhir", from: "1.0.1"),
     ],
     targets: [
         .target(
