@@ -173,6 +173,19 @@ HealthKitOnFhir currently supports the following types for both IoMTFhirClients 
 - HKQuantityTypeIdentifierBloodPressureSystolic
 - HKQuantityTypeIdentifierStepCount
 - HKQuantityTypeIdentifierBloodGlucose
+- HKQuantityTypeIdentifierOxygenSaturation
+- HKQuantityTypeIdentifierBodyMass
+- HKQuantityTypeIdentifierBodyTemperature
+- HKQuantityTypeIdentifierRespiratoryRate
+- HKQuantityTypeIdentifierHeight
+- HKQuantityTypeIdentifierRestingHeartRate
+- HKQuantityTypeIdentifierHeartRateVariabilitySDNN
+- HKQuantityTypeIdentifierWalkingHeartRateAverage
+- HKQuantityTypeIdentifierAppleExerciseTime
+- HKQuantityTypeIdentifierAppleStandTime
+- HKQuantityTypeIdentifierActiveEnergyBurned
+- HKQuantityTypeIdentifierEnvironmentalAudioExposure
+- HKQuantityTypeIdentifierDietaryEnergyConsumed
 
 ### IomtFhirClient (High Frequency Data)
 
