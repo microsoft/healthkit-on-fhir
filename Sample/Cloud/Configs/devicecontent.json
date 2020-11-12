@@ -12,7 +12,7 @@
           {
             "required": "true",
             "valueExpression": "$.heartRate",
-            "valueName": "heartRate"
+            "valueName": "hr"
           }
         ]
       }
@@ -20,7 +20,7 @@
     {
       "templateType": "JsonPathContent",
       "template": {
-        "typeName": "stepCount",
+        "typeName": "steps",
         "typeMatchExpression": "$..[?(@stepCount)]",
         "deviceIdExpression": "$.deviceId",
         "timestampExpression": "$.endDate",
@@ -28,7 +28,7 @@
           {
             "required": "true",
             "valueExpression": "$.stepCount",
-            "valueName": "stepCount"
+            "valueName": "steps"
           }
         ]
       }
@@ -57,7 +57,7 @@
     {
       "templateType": "JsonPathContent",
       "template": {
-        "typeName": "bloodGlucose",
+        "typeName": "glucose",
         "typeMatchExpression": "$..[?(@bloodGlucose)]",
         "deviceIdExpression": "$.deviceId",
         "timestampExpression": "$.endDate",
@@ -65,7 +65,7 @@
           {
             "required": "true",
             "valueExpression": "$.bloodGlucose",
-            "valueName": "bloodGlucose"
+            "valueName": "glucose"
           }
         ]
       }

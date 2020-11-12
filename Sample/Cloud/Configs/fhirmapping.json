@@ -21,7 +21,7 @@
                 "value": {
                     "defaultPeriod": 5000,
                     "unit": "count/min",
-                    "valueName": "heartRate",
+                    "valueName": "hr",
                     "valueType": "SampledData"
                 }
             }
@@ -42,11 +42,11 @@
                     }
                 ],
                 "periodInterval": 60,
-                "typeName": "stepCount",
+                "typeName": "steps",
                 "value": {
                     "defaultPeriod": 5000,
                     "unit": "count",
-                    "valueName": "stepCount",
+                    "valueName": "steps",
                     "valueType": "SampledData"
                 }
             }
@@ -67,11 +67,11 @@
                     }
                 ],
                 "periodInterval": 60,
-                "typeName": "bloodGlucose",
+                "typeName": "glucose",
                 "value": {
                     "defaultPeriod": 5000,
                     "unit": "mg/dL",
-                    "valueName": "bloodGlucose",
+                    "valueName": "glucose",
                     "valueType": "SampledData"
                 }
             }
