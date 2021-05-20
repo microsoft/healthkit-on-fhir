@@ -4,6 +4,8 @@ People with diabetes need to monitor their blood sugar and take insulin regularl
 
 ## As a developer, how do I collect data from consumer diabetes devices to Azure FHIR so that I can build an application for health care providers to remotely review/monitor patient data and provide care
 
+### Archtecture
+
 The following diagram shows how to integrate data from consumer diabetes devices to Azure FHIR:
 ![Alt text](Media/DiabetesDeviceToFHIR.png?raw=true "device_to_fhir")
 
@@ -24,5 +26,21 @@ We recommend option #2, as illustrated in the above diagram, for the following r
 
 1. iPhone and Andriod phone dominates the mobile market and have very mature developer support for their HealthKit and Google Fit apps. As a developer, you only need to write one app for iPhone and one for Android to collect data from a variety of devices to send to Azure FHIR.
 2. Device vendors are already integrating their mobile apps to HealthKit and Google Fit so their users can have a single pane of glass for health/fitness management.
+3. TODO: Authentication and authorization are largely handled by the vendor app and HealthKit.
+
+### Deploying Azure Resources
+
+TODO: Call out the different options to deploy IoMT Connector and recommendation for developer.
+
+### Map or ingest diabetes data
+
+TODO: 1. Call out the difference between Observations and MedicationAdministered, and IoMT only supports Observations
+TODO: 1. Add the IoMT diagram to illustrate the 2-step mapping that a developer has to do.
+
+### Testing end-to-end
+
+TODO:
 
 ## As a patient, how do I send my data already logged in my diabetes device to my doctor so that I can get better care remotely
+
+TODO:
