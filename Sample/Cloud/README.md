@@ -15,6 +15,8 @@ Install-Module AzureAd
 
 **Mac:** Powershell can be [installed using Homebrew].
 
+Launch the PowerShell shell environment (`pwsh` if installed via Homebrew).
+
 Register the package source to install the module:
 
 ```PowerShell
