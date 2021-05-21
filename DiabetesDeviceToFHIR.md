@@ -20,7 +20,7 @@ From the mobile app, there are multiple options to send data to [Azure FHIR](htt
 
 1. If the vendor integrates their mobile app with the Health app on iPhone, then a developer could:
 
-   1. write an app, such as the sample provided in this repo, for Apple HealthKit to ingest high frequency data to [Azure IoMT Connector to Azure FHIR](https://github.com/microsoft/iomt-fhir/) and low frequency data to Azure FHIR directly.
+   1. write an app, such as the sample provided in this repo, for Apple HealthKit to ingest high frequency data to [Azure IoMT Connector](https://github.com/microsoft/iomt-fhir/) and low frequency data to Azure FHIR directly.
 
 We recommend **option #2**, as illustrated in the above diagram, for the following reasons:
 
@@ -88,6 +88,10 @@ POST https://{myfhirapi}.azurehealthcareapis.com/MedicationAdministration
 ```
 
 ### Troubleshooting tips
+
+1. **Functions failed to run** - this is typically caused by data mapping error. This [tool](https://github.com/microsoft/iomt-fhir/tree/master/tools/data-mapper) can do both device mapping and FHIR mapping. However, you do need to know the input data. You can use VSCode or Azure Service Bus Explorer to listen on the EventHub for device data ingestion to inspect the input data.
+1. **Functions run successfully, but there's no data ingested when you query FHIR service** - This could be caused by the IoMT Connector running in [Create]() mode, but there's no `PatientID` mapped. Or, it could be that you are trying to ingest a resource for the same `Device`, but different `PatientID` from the one already exists in FHIR. See this [GitHub issue](https://github.com/microsoft/iomt-fhir/issues/105).
+1. **The data ingested is not what you expected.** For example, you ingested a single data point of heart rate, but when you query the data back from FHIR, it has something like "E E E E ...". - This is because when you ingest `SampledData` FHIR data type, and specify [periodInterval](https://github.com/microsoft/iomt-fhir/blob/master/docs/Configuration.md#codevaluefhirtemplate) and [defaultPeriod](https://github.com/microsoft/iomt-fhir/blob/master/docs/Configuration.md#codevaluefhirtemplate) for the measurement, the number of readings should be `periodInterval (in minutes) / defaultPeriod (in milliSeconds)`. So if `periodInterval` is 60(min), and `defaultPeriod` is 5000(ms), you will have 60x60/5 = 720 - 1 [empty values of "E"](https://github.com/microsoft/iomt-fhir/blob/master/docs/Configuration.md#sampleddata) and one actual reading.
 
 ## As a patient, how do I send my data already logged in my diabetes device to my doctor so that I can get better care remotely
 
