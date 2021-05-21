@@ -95,6 +95,11 @@ POST https://{myfhirapi}.azurehealthcareapis.com/MedicationAdministration
 
 ## As a patient, how do I send my data already logged in my diabetes device to my doctor so that I can get better care remotely
 
-```
+1. If your diabetes monitoring/management device has Bluetooth connection to your mobile phone, then your device vendor typically offers an app on the phone that can communicate with your device. Install the app and follow the instructions to connect it with your device.
+1. If your device doesn't have Bluetooth connection, then you have two options -
+   - install the device vendor's mobile app, and enter data into it manually
+   - enter data directly to iPhone Health app
+1. If you are using the device vendor's app, then follow the device vendor's instructions to share your data with iPhone Health app.
+1. Assuming your healthcare provider also has a mobile app (such as the sample app as we discussed in the first section of this doc), install it and follow the instructions to share your data in Health app with this app.
 
-```
+Now whenever you sync or enter new data to your device or phone, your doctor will have access to the data which potentially enables them to provide better care.
