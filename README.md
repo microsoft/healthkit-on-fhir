@@ -268,7 +268,7 @@ open class BloodGlucoseMessage : IomtFhirMessageBase, HDSExternalObjectProtocol 
 
 ### FhirClient (Low Frequency Data)
 
-Adding new export types for the FhirExternalStore requires creating a subclass of the [ResourceContainer](Source/Fhir/Resources/ResourceContainer.swift) and also implementing the [HealthDataSync](https://github.com/microsoft/health-data-sync) Swift library's [HDSExternalObjectProtocol](https://github.com/microsoft/health-data-sync/blob/master/Sources/Synchronizers/HDSExternalObjectProtocol.swift). It's important to make sure that the HKObject to FHIR Resource converter supports any new export types added. The [HealthKitOnFhir Sample application](https://github.com/microsoft/healthkit-on-fhir/tree/master/Sample) uses the [HealthKitToFhir](https://github.com/microsoft/healthkit-to-fhir) Swift library to handle the conversion of HKObjects.
+Adding new export types for the FhirExternalStore requires creating a subclass of the [ResourceContainer](Sources/Fhir/Resources/ResourceContainer.swift) and also implementing the [HealthDataSync](https://github.com/microsoft/health-data-sync) Swift library's [HDSExternalObjectProtocol](https://github.com/microsoft/health-data-sync/blob/master/Sources/Synchronizers/HDSExternalObjectProtocol.swift). It's important to make sure that the HKObject to FHIR Resource converter supports any new export types added. The [HealthKitOnFhir Sample application](https://github.com/microsoft/healthkit-on-fhir/tree/master/Sample) uses the [HealthKitToFhir](https://github.com/microsoft/healthkit-to-fhir) Swift library to handle the conversion of HKObjects.
 
 ```swift
 open class BloodGlucoseContainer : ResourceContainer<Observation>, HDSExternalObjectProtocol {
