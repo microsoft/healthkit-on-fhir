@@ -1,0 +1,35 @@
+{
+  "resourceType": "Questionnaire",
+  "id": "HKOF",
+  "identifier": [
+      "sample"
+  ],
+  "title": "Sample Survey",
+  "status": "active",
+  "subjectType": [
+    "Patient"
+  ],
+  "date": "2010",
+  "item": [
+    {
+      "linkId": "1",
+      "text": "What is your given name?",
+      "type": "string"
+    },
+    {
+      "linkId": "2",
+      "text": "What is your surname?",
+      "type": "string"
+    },
+    {
+      "linkId": "3",
+      "text": "What is your age?",
+      "type": "number"
+    },
+    {
+      "linkId": "4",
+      "text": "What country do you live in?",
+      "type": "string"
+    },
+  ]
+}
