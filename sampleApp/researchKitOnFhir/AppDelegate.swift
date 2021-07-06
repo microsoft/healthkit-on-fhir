@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let redirect = ConfigHelper.redirect
         
         smartClient = Client(
-            baseURL: URL(string: smartClientBaseUrl)!,
+            baseURL: URL(string: smartClientBaseUrl!)!,
             settings: ["client_id": smartClientClientId, "redirect": redirect])
         
         smartClient?.authProperties.granularity = .tokenOnly

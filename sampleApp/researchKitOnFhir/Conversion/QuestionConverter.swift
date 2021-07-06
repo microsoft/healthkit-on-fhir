@@ -89,6 +89,42 @@ public class QuestionnaireConverter {
                     if newQuestionResponseAnswer.valueTime != nil && newQuestionResponse.answer != nil {
                         newQuestionResponse.answer! += [newQuestionResponseAnswer]
                     }
+                
+                case "dateTime":
+                    let dateTimeResult = result as! ORKDateQuestionResult
+                    let newQuestionResponseAnswer = QuestionnaireResponseItemAnswer()
+                    let newAnswerAsFHIRDateTime = getFHIRDateTime(result: dateTimeResult)
+                    newQuestionResponseAnswer.valueDateTime = newAnswerAsFHIRDateTime
+                    
+                    newQuestionResponse.answer = [QuestionnaireResponseItemAnswer]()
+                    if newQuestionResponseAnswer.valueDateTime != nil && newQuestionResponse.answer != nil {
+                        newQuestionResponse.answer! += [newQuestionResponseAnswer]
+                    }
+                    
+                case "open-choice":
+                    let openChoiceResult = result as! ORKChoiceQuestionResult
+                    let newQuestionResponseAnswer = QuestionnaireResponseItemAnswer()
+                    let answerArray = openChoiceResult.answer as! NSArray
+                    
+                    var newAnswerAsFHIRString = FHIRString("no response")
+                    
+                    // TODO: better error handling
+                    if answerArray.count > 0 {
+                        newAnswerAsFHIRString.string = answerArray[0] as! String
+                    }
+                    
+                    newQuestionResponseAnswer.valueString = newAnswerAsFHIRString
+                    
+                    newQuestionResponse.answer = [QuestionnaireResponseItemAnswer]()
+                    if newQuestionResponseAnswer.valueString != nil && newQuestionResponse.answer != nil {
+                        newQuestionResponse.answer! += [newQuestionResponseAnswer]
+                    }
+                    
+                case "reference":
+                    let locationResult = result as! ORKLocationQuestionResult
+                    print(locationResult)
+                    let newQuestionResponseAnswer = QuestionnaireResponseItemAnswer()
+                    let newAnswerAsFHIRRef = buildFHIRLocation(result: locationResult)
                     
                     /* TODO: finish email
                     case "email":
@@ -112,6 +148,52 @@ public class QuestionnaireConverter {
         questionnaireResponse.item = FHIRQuestionResponses
         questionnaireResponse.status = QuestionnaireResponseStatus.completed
         return questionnaireResponse
+    }
+    
+    func buildFHIRLocation(result: ORKLocationQuestionResult) -> Location {
+        let FHIRLocation = Location()
+        let resultLocation = result.locationAnswer
+        let resultAddress = Address()
+        
+        resultAddress.line = resultLocation?.addressDictionary!["FormattedAddressLines"] as? [FHIRString]
+        resultAddress.city = resultLocation?.addressDictionary!["City"] as? FHIRString
+        resultAddress.district = resultLocation?.addressDictionary!["SubAdministrativeArea"] as? FHIRString
+        resultAddress.country = resultLocation?.addressDictionary!["Country"] as? FHIRString
+        resultAddress.postalCode = resultLocation?.addressDictionary!["ZIP"] as? FHIRString
+        resultAddress.state = resultLocation?.addressDictionary!["State"] as? FHIRString
+        
+        FHIRLocation.address = resultAddress
+        FHIRLocation.name?.string = (resultLocation?.userInput)!
+        FHIRLocation.position?.latitude = resultLocation?.region?.center.latitude
+        FHIRLocation.position?.longitude = resultLocation?.region?.center.longitude
+        // FHIRLocation.position?.longitude = resultLocation?.region?.identifier[1]
+        
+        return FHIRLocation
+    }
+    
+    func getFHIRDateTime(result: ORKDateQuestionResult) -> DateTime {
+        let calendar = Calendar.current
+        var components = calendar.dateComponents([.year], from: result.dateAnswer!)
+        let resultYear = components.year!
+        
+        components = calendar.dateComponents([.month], from: result.dateAnswer!)
+        let resultMonth = UInt8(exactly: components.month!)
+        components = calendar.dateComponents([.day], from: result.dateAnswer!)
+        let resultDay = UInt8(exactly: components.day!)
+        let resultDate = FHIRDate(year: resultYear, month: resultMonth, day: resultDay)
+        
+        components = calendar.dateComponents([.hour], from: result.dateAnswer!)
+        let resultHour = UInt8(exactly: components.hour ?? 0) ?? 0
+        components = calendar.dateComponents([.minute], from: result.dateAnswer!)
+        let resultMinute = UInt8(exactly: components.minute ?? 0) ?? 0
+        components = calendar.dateComponents([.second], from: result.dateAnswer!)
+        let resultSecond = Double(components.second ?? 0)
+        let resultTime = FHIRTime(hour: resultHour, minute: resultMinute, second: resultSecond)
+        
+        let resultTimeZone = result.timeZone
+ 
+        let resultDateTime = DateTime(date: resultDate, time: resultTime, timeZone: resultTimeZone)
+        return resultDateTime
     }
     
     func getFHIRTime(result: ORKTimeOfDayQuestionResult) -> FHIRTime {
@@ -145,6 +227,16 @@ public class QuestionnaireConverter {
             case "time":
                 answer = ORKTimeOfDayAnswerFormat()
             
+            case "dateTime":
+                answer = ORKDateAnswerFormat(style: ORKDateAnswerStyle.dateAndTime)
+                
+            case "open-choice":
+                let answerOptions = getTextChoiceFromFHIRType(question: question)
+                answer = ORKValuePickerAnswerFormat(textChoices: answerOptions)
+                
+            case "reference":
+                answer = ORKLocationAnswerFormat()
+                
             /* TODO: finish email
             case "email":
                 answer = ORKEmailAnswerFormat()
@@ -162,6 +254,15 @@ public class QuestionnaireConverter {
             surveySteps += [newStep]
         }
         return surveySteps
+    }
+    
+    func getTextChoiceFromFHIRType (question: QuestionnaireItem) -> [ORKTextChoice] {
+        var answerOptions = [ORKTextChoice]()
+        for option in question.answerOption! {
+            let textChoice = ORKTextChoice(text: option.valueString!.string, value: option.valueString!.string as NSString)
+            answerOptions.append(textChoice)
+        }
+        return answerOptions
     }
     
     func extractSteps (completion: @escaping (String?, [ORKStep]?, Error?) -> Void) {
