@@ -12,9 +12,7 @@ extension Server {
     
     public func fetchQuestionnaire(completion: @escaping (Questionnaire?, Error?) -> Void) {
         
-        // let query = "SELECT * FROM Questionnaire"
-        
-        Questionnaire.search(["identifier" : "sample"])
+        Questionnaire.search(["identifier" : "genTest"])
             .perform(self) { (bundle, error) in
                 guard error == nil else {
                     completion(nil, error)

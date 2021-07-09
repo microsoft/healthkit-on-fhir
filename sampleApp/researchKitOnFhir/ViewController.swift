@@ -46,7 +46,8 @@ class ViewController: UIViewController {
     @IBAction func surveyClicked(sender : AnyObject) {
         let questionnaireConverter = QuestionnaireConverter()
         questionnaireConverter.extractSteps { (title, steps, error) in
-            let surveyTask = ORKOrderedTask(identifier: title!, steps: QuestionnaireConverter.ORKStepQuestionnaire)
+
+            let surveyTask = ORKOrderedTask(identifier: title ?? "Questionnaire", steps: QuestionnaireConverter.ORKStepQuestionnaire)
             DispatchQueue.main.async {
                 let taskViewController = ORKTaskViewController(task: surveyTask, taskRun: nil)
                 taskViewController.delegate = self

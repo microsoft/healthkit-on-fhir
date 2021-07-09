@@ -35,6 +35,18 @@ public class QuestionnaireConverter {
                 let newQuestionResponse = QuestionnaireResponseItem(linkId: resultLinkID)
                 
                 switch(QuestionnaireConverter.FHIRQuestionMap[result.identifier]?.type?.rawValue) {
+                
+                case "text":
+                    let stringResult = result as! ORKTextQuestionResult
+                    let newQuestionResponseAnswer = QuestionnaireResponseItemAnswer()
+                    let newAnswerAsFHIRString = FHIRString(stringResult.textAnswer!)
+                    newQuestionResponseAnswer.valueString = newAnswerAsFHIRString
+                    
+                    newQuestionResponse.answer = [QuestionnaireResponseItemAnswer]()
+                    if newQuestionResponseAnswer.valueString != nil && newQuestionResponse.answer != nil {
+                        newQuestionResponse.answer! += [newQuestionResponseAnswer]
+                    }
+                    
                 case "string":
                     let stringResult = result as! ORKTextQuestionResult
                     let newQuestionResponseAnswer = QuestionnaireResponseItemAnswer()
@@ -78,7 +90,7 @@ public class QuestionnaireConverter {
                     if newQuestionResponseAnswer.valueDecimal != nil && newQuestionResponse.answer != nil {
                         newQuestionResponse.answer! += [newQuestionResponseAnswer]
                     }
-                
+                    
                 case "time":
                     let timeOfDayResult = result as! ORKTimeOfDayQuestionResult
                     let newQuestionResponseAnswer = QuestionnaireResponseItemAnswer()
@@ -89,11 +101,11 @@ public class QuestionnaireConverter {
                     if newQuestionResponseAnswer.valueTime != nil && newQuestionResponse.answer != nil {
                         newQuestionResponse.answer! += [newQuestionResponseAnswer]
                     }
-                
+                    
                 case "dateTime":
                     let dateTimeResult = result as! ORKDateQuestionResult
                     let newQuestionResponseAnswer = QuestionnaireResponseItemAnswer()
-                    let newAnswerAsFHIRDateTime = getFHIRDateTime(result: dateTimeResult)
+                    let newAnswerAsFHIRDateTime = getFHIRDateTime(result: dateTimeResult, includeTime: true)
                     newQuestionResponseAnswer.valueDateTime = newAnswerAsFHIRDateTime
                     
                     newQuestionResponse.answer = [QuestionnaireResponseItemAnswer]()
@@ -101,7 +113,19 @@ public class QuestionnaireConverter {
                         newQuestionResponse.answer! += [newQuestionResponseAnswer]
                     }
                     
-                case "open-choice":
+                case "date":
+                    let dateResult = result as! ORKDateQuestionResult
+                    let newQuestionResponseAnswer = QuestionnaireResponseItemAnswer()
+                    let newAnswerAsFHIRDateTime = getFHIRDate(result: dateResult)
+                    newQuestionResponseAnswer.valueDate = newAnswerAsFHIRDateTime
+                    
+                    newQuestionResponse.answer = [QuestionnaireResponseItemAnswer]()
+                    if newQuestionResponseAnswer.valueDate != nil && newQuestionResponse.answer != nil {
+                        newQuestionResponse.answer! += [newQuestionResponseAnswer]
+                    }
+                    
+                    
+                case "choice":
                     let openChoiceResult = result as! ORKChoiceQuestionResult
                     let newQuestionResponseAnswer = QuestionnaireResponseItemAnswer()
                     let answerArray = openChoiceResult.answer as! NSArray
@@ -120,25 +144,29 @@ public class QuestionnaireConverter {
                         newQuestionResponse.answer! += [newQuestionResponseAnswer]
                     }
                     
+                // TODO: finish location - or exclude because it doesn't map well to FHIR?
                 case "reference":
                     let locationResult = result as! ORKLocationQuestionResult
                     print(locationResult)
                     let newQuestionResponseAnswer = QuestionnaireResponseItemAnswer()
                     let newAnswerAsFHIRRef = buildFHIRLocation(result: locationResult)
-                    
-                    /* TODO: finish email
-                    case "email":
-                        let emailResult = result as! ORKTextQuestionResult
-                        let newQuestionResponseAnswer = QuestionnaireResponseItemAnswer()
-                        let newAnswerAsFHIREmail = FHIRString(emailResult.textAnswer!)
-                        newQuestionResponseAnswer.valueString = newAnswerAsFHIREmail
-                        
-                        newQuestionResponse.answer = [QuestionnaireResponseItemAnswer]()
-                        if newQuestionResponseAnswer.valueString != nil && newQuestionResponse.answer != nil {
-                            newQuestionResponse.answer! += [newQuestionResponseAnswer]
-                        }
-                    */
-                    
+                    print (newAnswerAsFHIRRef)
+                // newQuestionResponseAnswer.valueReference = newAnswerAsFHIRRef
+                
+                
+                /* TODO: finish email - or exclude because it doesn't map well to FHIR?
+                 case "email":
+                 let emailResult = result as! ORKTextQuestionResult
+                 let newQuestionResponseAnswer = QuestionnaireResponseItemAnswer()
+                 let newAnswerAsFHIREmail = FHIRString(emailResult.textAnswer!)
+                 newQuestionResponseAnswer.valueString = newAnswerAsFHIREmail
+                 
+                 newQuestionResponse.answer = [QuestionnaireResponseItemAnswer]()
+                 if newQuestionResponseAnswer.valueString != nil && newQuestionResponse.answer != nil {
+                 newQuestionResponse.answer! += [newQuestionResponseAnswer]
+                 }
+                 */
+                
                 default:
                     print("something is wrong")
                 }
@@ -164,14 +192,15 @@ public class QuestionnaireConverter {
         
         FHIRLocation.address = resultAddress
         FHIRLocation.name?.string = (resultLocation?.userInput)!
-        FHIRLocation.position?.latitude = resultLocation?.region?.center.latitude
-        FHIRLocation.position?.longitude = resultLocation?.region?.center.longitude
-        // FHIRLocation.position?.longitude = resultLocation?.region?.identifier[1]
+        
+        let newLatitude = FHIRDecimal(Decimal((resultLocation?.region!.center.latitude)!))
+        let newLongitude = FHIRDecimal(Decimal((resultLocation?.region!.center.longitude)!))
+        FHIRLocation.position? = LocationPosition(latitude: newLatitude, longitude: newLongitude)
         
         return FHIRLocation
     }
     
-    func getFHIRDateTime(result: ORKDateQuestionResult) -> DateTime {
+    func getFHIRDateTime(result: ORKDateQuestionResult, includeTime: Bool) -> DateTime {
         let calendar = Calendar.current
         var components = calendar.dateComponents([.year], from: result.dateAnswer!)
         let resultYear = components.year!
@@ -182,18 +211,39 @@ public class QuestionnaireConverter {
         let resultDay = UInt8(exactly: components.day!)
         let resultDate = FHIRDate(year: resultYear, month: resultMonth, day: resultDay)
         
-        components = calendar.dateComponents([.hour], from: result.dateAnswer!)
-        let resultHour = UInt8(exactly: components.hour ?? 0) ?? 0
-        components = calendar.dateComponents([.minute], from: result.dateAnswer!)
-        let resultMinute = UInt8(exactly: components.minute ?? 0) ?? 0
-        components = calendar.dateComponents([.second], from: result.dateAnswer!)
-        let resultSecond = Double(components.second ?? 0)
-        let resultTime = FHIRTime(hour: resultHour, minute: resultMinute, second: resultSecond)
+        var resultTime = FHIRTime(hour: 0, minute: 0, second: 0)
+        var resultTimeZone = TimeZone.current
         
-        let resultTimeZone = result.timeZone
- 
+        if includeTime {
+            components = calendar.dateComponents([.hour], from: result.dateAnswer!)
+            let resultHour = UInt8(exactly: components.hour ?? 0) ?? 0
+            components = calendar.dateComponents([.minute], from: result.dateAnswer!)
+            let resultMinute = UInt8(exactly: components.minute ?? 0) ?? 0
+            components = calendar.dateComponents([.second], from: result.dateAnswer!)
+            let resultSecond = Double(components.second ?? 0)
+            resultTime = FHIRTime(hour: resultHour, minute: resultMinute, second: resultSecond)
+            
+            if result.timeZone != nil {
+                resultTimeZone = result.timeZone!
+            }
+        }
+        
         let resultDateTime = DateTime(date: resultDate, time: resultTime, timeZone: resultTimeZone)
         return resultDateTime
+    }
+    
+    func getFHIRDate(result: ORKDateQuestionResult) -> FHIRDate {
+        let calendar = Calendar.current
+        var components = calendar.dateComponents([.year], from: result.dateAnswer!)
+        let resultYear = components.year!
+        
+        components = calendar.dateComponents([.month], from: result.dateAnswer!)
+        let resultMonth = UInt8(exactly: components.month!)
+        components = calendar.dateComponents([.day], from: result.dateAnswer!)
+        let resultDay = UInt8(exactly: components.day!)
+        let resultDate = FHIRDate(year: resultYear, month: resultMonth, day: resultDay)
+        
+        return resultDate
     }
     
     func getFHIRTime(result: ORKTimeOfDayQuestionResult) -> FHIRTime {
@@ -206,54 +256,199 @@ public class QuestionnaireConverter {
     
     func FHIRQuestionListToRKQuestions (questions: [QuestionnaireItem], questionnaireTitle: String) -> [ORKStep] {
         var surveySteps = [ORKStep]()
-        var answer = ORKAnswerFormat()
         
         for question in questions {
+            var answer = ORKAnswerFormat()
             switch(question.type?.rawValue){
+            
+            case "group":
+                if question.linkId?.string == nil {
+                    print("error position 1")
+                }
+                let stepForm = ORKFormStep(identifier: question.linkId!.string)
+                var stepFormItems = [ORKFormItem]()
+                
+                if stepForm.formItems == nil {
+                    stepForm.formItems = [ORKFormItem]()
+                }
+                if question.item != nil {
+                    for item in question.item! {
+                        if item.linkId?.string != nil {
+                            let answerFormat = getAnswerFormat(question: item)
+                            
+                            
+                            let newFormItem = ORKFormItem(identifier: item.linkId!.string, text: item.text?.string, answerFormat: getAnswerFormat(question: item))
+                            stepFormItems += [newFormItem]
+                            
+                        } else {
+                            print("error position 2")
+                        }
+                    }
+                    stepForm.formItems! += stepFormItems
+                    surveySteps += [stepForm]
+                }
+                
+            case "text":
+                answer = getAnswerFormat(question: question)
+                let newQuestionStepContent = question.text?.string
+                let newQuestionIdentifier = (question.linkId?.string)!
+                let newStep = ORKQuestionStep(identifier: newQuestionIdentifier, title: questionnaireTitle, question: newQuestionStepContent, answer: answer)
+                surveySteps += [newStep]
+                
             case "string":
-                answer = ORKTextAnswerFormat()
+                answer = getAnswerFormat(question: question)
+                let newQuestionStepContent = question.text?.string
+                let newQuestionIdentifier = (question.linkId?.string)!
+                let newStep = ORKQuestionStep(identifier: newQuestionIdentifier, title: questionnaireTitle, question: newQuestionStepContent, answer: answer)
+                surveySteps += [newStep]
                 
             case "integer":
-                answer = ORKNumericAnswerFormat.integerAnswerFormat(withUnit: "years")
-                // TODO: address units issue - no match in FHIR?
+                answer = getAnswerFormat(question: question)
+                let newQuestionStepContent = question.text?.string
+                let newQuestionIdentifier = (question.linkId?.string)!
+                let newStep = ORKQuestionStep(identifier: newQuestionIdentifier, title: questionnaireTitle, question: newQuestionStepContent, answer: answer)
+                surveySteps += [newStep]
                 
             case "boolean":
-                answer = ORKBooleanAnswerFormat.booleanAnswerFormat()
+                answer = getAnswerFormat(question: question)
+                let newQuestionStepContent = question.text?.string
+                let newQuestionIdentifier = (question.linkId?.string)!
+                let newStep = ORKQuestionStep(identifier: newQuestionIdentifier, title: questionnaireTitle, question: newQuestionStepContent, answer: answer)
+                surveySteps += [newStep]
                 
             case "decimal":
-                answer = ORKNumericAnswerFormat.decimalAnswerFormat(withUnit: "degrees celsius")
-                // TODO: address units issue - no match in FHIR
-            
-            case "time":
-                answer = ORKTimeOfDayAnswerFormat()
-            
-            case "dateTime":
-                answer = ORKDateAnswerFormat(style: ORKDateAnswerStyle.dateAndTime)
+                answer = getAnswerFormat(question: question)
+                let newQuestionStepContent = question.text?.string
+                let newQuestionIdentifier = (question.linkId?.string)!
+                let newStep = ORKQuestionStep(identifier: newQuestionIdentifier, title: questionnaireTitle, question: newQuestionStepContent, answer: answer)
+                surveySteps += [newStep]
                 
-            case "open-choice":
-                let answerOptions = getTextChoiceFromFHIRType(question: question)
-                answer = ORKValuePickerAnswerFormat(textChoices: answerOptions)
+            case "time":
+                answer = getAnswerFormat(question: question)
+                let newQuestionStepContent = question.text?.string
+                let newQuestionIdentifier = (question.linkId?.string)!
+                let newStep = ORKQuestionStep(identifier: newQuestionIdentifier, title: questionnaireTitle, question: newQuestionStepContent, answer: answer)
+                surveySteps += [newStep]
+                
+            case "dateTime":
+                answer = getAnswerFormat(question: question)
+                let newQuestionStepContent = question.text?.string
+                let newQuestionIdentifier = (question.linkId?.string)!
+                let newStep = ORKQuestionStep(identifier: newQuestionIdentifier, title: questionnaireTitle, question: newQuestionStepContent, answer: answer)
+                surveySteps += [newStep]
+                
+            case "choice":
+                answer = getAnswerFormat(question: question)
+                let newQuestionStepContent = question.text?.string
+                let newQuestionIdentifier = (question.linkId?.string)!
+                let newStep = ORKQuestionStep(identifier: newQuestionIdentifier, title: questionnaireTitle, question: newQuestionStepContent, answer: answer)
+                surveySteps += [newStep]
                 
             case "reference":
-                answer = ORKLocationAnswerFormat()
+                answer = getAnswerFormat(question: question)
+                let newQuestionStepContent = question.text?.string
+                let newQuestionIdentifier = (question.linkId?.string)!
+                let newStep = ORKQuestionStep(identifier: newQuestionIdentifier, title: questionnaireTitle, question: newQuestionStepContent, answer: answer)
+                surveySteps += [newStep]
                 
-            /* TODO: finish email
-            case "email":
-                answer = ORKEmailAnswerFormat()
-            */
+            case "date":
+                answer = getAnswerFormat(question: question)
+                let newQuestionStepContent = question.text?.string
+                let newQuestionIdentifier = (question.linkId?.string)!
+                let newStep = ORKQuestionStep(identifier: newQuestionIdentifier, title: questionnaireTitle, question: newQuestionStepContent, answer: answer)
+                surveySteps += [newStep]
                 
             case .none:
                 print("none")
             case .some(_):
-                print("some")
+                print("CONVERSION some")
             }
-            
-            let newQuestionStepContent = question.text?.string
-            let newQuestionIdentifier = (question.linkId?.string)!
-            let newStep = ORKQuestionStep(identifier: newQuestionIdentifier, title: questionnaireTitle, question: newQuestionStepContent, answer: answer)
-            surveySteps += [newStep]
         }
         return surveySteps
+    }
+    
+    func getAnswerFormat(question: QuestionnaireItem) -> ORKAnswerFormat {
+        var answer = ORKAnswerFormat()
+        
+        if question.type?.rawValue != nil {
+            switch(question.type?.rawValue){
+            
+            case "text":
+                if question.maxLength == nil {
+                    answer = ORKTextAnswerFormat()
+                } else {
+                    answer = ORKTextAnswerFormat(maximumLength: question.maxLength!.int)
+                }
+                
+            case "string":
+                answer = ORKTextAnswerFormat()
+            // TODO: multiple lines field not recognized because type seen by compiler as supertype
+            
+            /*
+             if question.maxLength == nil {
+             let answer = ORKTextAnswerFormat()
+             answer.multipleLines = false
+             } else {
+             let answer = ORKTextAnswerFormat(maximumLength: question.maxLength!.int)
+             answer.multipleLines = false
+             }
+             */
+            
+            case "integer":
+                answer = ORKNumericAnswerFormat.integerAnswerFormat(withUnit: "")
+            // TODO: add units somehow?
+            
+            case "boolean":
+                answer = ORKBooleanAnswerFormat.booleanAnswerFormat()
+                
+            case "decimal":
+                answer = ORKNumericAnswerFormat.decimalAnswerFormat(withUnit: "")
+            // TODO: add units?
+            
+            case "time":
+                answer = ORKTimeOfDayAnswerFormat()
+                
+            case "dateTime":
+                answer = ORKDateAnswerFormat(style: ORKDateAnswerStyle.dateAndTime)
+                
+            case "date":
+                answer = ORKDateAnswerFormat(style: ORKDateAnswerStyle.date)
+                
+            case "choice":
+                let answerOptions = getTextChoiceFromFHIRType(question: question)
+                answer = pickMultipleChoiceFormat(choices: answerOptions)
+                
+            case "reference":
+                answer = ORKLocationAnswerFormat()
+                
+            case .none:
+                print("answer format is none")
+                
+            case .some(_):
+                print("answer format is some")
+                print(question.type?.rawValue)
+            }
+        }
+        
+        return answer
+    }
+    
+    func pickMultipleChoiceFormat(choices: [ORKTextChoice]) -> ORKAnswerFormat {
+        var max = 0
+        let maxThreshold = 10
+        for choice in choices {
+            if choice.text.count > max {
+                max = choice.text.count
+            }
+        }
+        var answerFormat = ORKAnswerFormat()
+        if (max > maxThreshold) {
+            // TODO: address single vs. multiple choice issue
+            answerFormat = ORKTextChoiceAnswerFormat(style: ORKChoiceAnswerStyle.singleChoice, textChoices: choices)
+        } else {
+            answerFormat = ORKValuePickerAnswerFormat(textChoices: choices)
+        }
+        return answerFormat
     }
     
     func getTextChoiceFromFHIRType (question: QuestionnaireItem) -> [ORKTextChoice] {
@@ -275,9 +470,9 @@ public class QuestionnaireConverter {
                 return
             }
             let questionnaire = QuestionnaireConverter.FHIRQuestionnaire
-            QuestionnaireConverter.FHIRQuestionMap = self.buildQuestionMap(questionnaire: questionnaire)
+            self.buildQuestionMap(questionItems: questionnaire.item!)
             
-            let steps = self.FHIRQuestionListToRKQuestions(questions: questionnaire.item!, questionnaireTitle: questionnaire.title!.string)
+            let steps = self.FHIRQuestionListToRKQuestions(questions: questionnaire.item!, questionnaireTitle: questionnaire.title?.string ?? "")
             
             QuestionnaireConverter.ORKStepQuestionnaire = steps
             
@@ -285,12 +480,15 @@ public class QuestionnaireConverter {
         }
     }
     
-    func buildQuestionMap (questionnaire: Questionnaire) -> [String: QuestionnaireItem]{
-        var questions: [String: QuestionnaireItem] = [:]
-        for questionItem in questionnaire.item! {
-            questions[questionItem.linkId!.string] = questionItem
+    func buildQuestionMap (questionItems: [QuestionnaireItem]) {
+        for questionItem in questionItems {
+            
+            if questionItem.type?.rawValue == "group" {
+                buildQuestionMap(questionItems: questionItem.item!)
+            } else {
+                QuestionnaireConverter.FHIRQuestionMap[questionItem.linkId!.string] = questionItem
+            }
         }
-        return questions
     }
 }
 
