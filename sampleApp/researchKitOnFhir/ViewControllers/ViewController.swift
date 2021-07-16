@@ -28,7 +28,7 @@ class ViewController: UIViewController {
         if (!didAttemptAuthentication) {
             didAttemptAuthentication = true
             smartClient?.authorize(callback: { (patient, error) in
-                print(error)
+                print("ERROR - ViewController 31: \(error)")
             })
         }
     }
@@ -43,18 +43,6 @@ class ViewController: UIViewController {
         present(taskViewController, animated: true, completion: nil)
     }
     
-    @IBAction func surveyClicked(sender : AnyObject) {
-        let questionnaireConverter = QuestionnaireConverter()
-        questionnaireConverter.extractSteps { (title, steps, error) in
-
-            let surveyTask = ORKOrderedTask(identifier: title ?? "Questionnaire", steps: QuestionnaireConverter.ORKStepQuestionnaire)
-            DispatchQueue.main.async {
-                let taskViewController = ORKTaskViewController(task: surveyTask, taskRun: nil)
-                taskViewController.delegate = self
-                self.present(taskViewController, animated: true, completion: nil)
-            }
-        }
-    }
 }
 
 extension ViewController: ORKTaskViewControllerDelegate {
@@ -64,7 +52,7 @@ extension ViewController: ORKTaskViewControllerDelegate {
         switch (reason) {
         case .completed:
             
-                let questionnaireConverter = QuestionnaireConverter()
+                let questionnaireConverter = RKtoFHIRConverter()
                 
                 let FHIRQuestionnaireResponse: QuestionnaireResponse = questionnaireConverter.RKQuestionResponseToFHIR(results: taskViewController)
             
@@ -75,7 +63,7 @@ extension ViewController: ORKTaskViewControllerDelegate {
             FHIRQuestionnaireResponse.create(smartClient?.server as! FHIRServer) { (error) in
                     //Ensure there is no error
                     guard error == nil else {
-                        print(error)
+                        print("ERROR - SurveyListViewController 66: \(error)")
                         return
                     }
                 }
