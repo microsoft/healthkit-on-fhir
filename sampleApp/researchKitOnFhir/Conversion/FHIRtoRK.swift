@@ -13,6 +13,7 @@ public class FHIRtoRKConverter {
     
     static var FHIRQuestionnaire: Questionnaire = Questionnaire()
     static var FHIRQuestionMap: [String: QuestionnaireItem] = [:]
+    static var currentIndex = Int()
     static var ORKStepQuestionnaire: [ORKStep] = [ORKStep]()
     
     init() {

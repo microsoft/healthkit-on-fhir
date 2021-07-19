@@ -21,7 +21,6 @@ class SurveyListViewController: UIViewController {
     static let startingButtonTopCoordinate = 95
     static var buttonTopCoordinate = startingButtonTopCoordinate
     
-    
     static var questionnaireList = [QuestionnaireType]()
     
     /*
@@ -81,33 +80,8 @@ class SurveyListViewController: UIViewController {
         
         let taskViewController = ORKTaskViewController(task: surveyTask, taskRun: nil)
         taskViewController.delegate = self
+        FHIRtoRKConverter.currentIndex = sender.tag
         self.present(taskViewController, animated: true, completion: nil)
-        
-        /*
-        
-        let questionnaireConverter = FHIRtoRKConverter()
-        
-        let ed = ExternalStoreDelegate()
-        
-        ed.getTasksFromServer { (taskId, error) in
-            
-            let questionnaireId = taskParser.singleTask.basedOn![0].reference!.string
-            taskParser.questionnaireIds = questionnaireId
-            
-            questionnaireConverter.extractSteps(reference: "dummy") { (title, steps, error) in
-                
-                let surveyTask = ORKOrderedTask(identifier: title ?? "Questionnaire", steps: FHIRtoRKConverter.ORKStepQuestionnaire)
-                DispatchQueue.main.async {
-                    let taskViewController = ORKTaskViewController(task: surveyTask, taskRun: nil)
-                    taskViewController.delegate = self
-                    self.present(taskViewController, animated: true, completion: nil)
-                }
-            }
-        }
-         */
-        
-        
-        
     }
     
     func makeNewButton(text: String, newTag: Int) -> UIButton {
@@ -154,7 +128,12 @@ extension SurveyListViewController: ORKTaskViewControllerDelegate  {
                 }
             }
             
+            SurveyListViewController.questionnaireList[FHIRtoRKConverter.currentIndex].questionnaireComplete = true
+            
             taskViewController.dismiss(animated: true, completion: nil)
+            // SurveyListViewController.buttonTopCoordinate = SurveyListViewController.startingButtonTopCoordinate
+            
+            // self.viewDidLoad()
             
         case .saved:
             print("REASON: saved")
