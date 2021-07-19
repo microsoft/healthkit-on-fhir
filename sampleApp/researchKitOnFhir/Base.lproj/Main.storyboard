@@ -86,6 +86,9 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" id="8hf-7r-b4p"/>
+                    <connections>
+                        <outlet property="surveyListButton" destination="EIt-oJ-O5e" id="orT-6A-0BO"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zoC-dx-cR7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

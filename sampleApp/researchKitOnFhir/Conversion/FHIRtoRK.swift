@@ -238,6 +238,22 @@ public class FHIRtoRKConverter {
         }
     }
     
+    func getORKStepsFromQuestionnaire(questionnaire: Questionnaire) -> [ORKStep] {
+        
+        var steps = [ORKStep]()
+        
+        if questionnaire.item != nil {
+            
+            self.buildQuestionMap(questionItems: questionnaire.item!)
+            
+            steps = self.FHIRQuestionListToRKQuestions(questions: questionnaire.item!, questionnaireTitle: questionnaire.title?.string ?? "")
+        
+        }
+        
+        return steps
+        
+    }
+    
     func buildQuestionMap (questionItems: [QuestionnaireItem]) {
         for questionItem in questionItems {
             

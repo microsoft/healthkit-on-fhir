@@ -22,6 +22,7 @@ class LandingScreenViewController: UIViewController {
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
         smartClient = appDelegate?.smartClient
         
+        
         // Do any additional setup after loading the view.
     }
     

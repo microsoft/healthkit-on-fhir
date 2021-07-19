@@ -73,8 +73,16 @@ class SurveyListViewController: UIViewController {
     
     @IBAction func surveyClicked(_ sender: UIButton) {
         
+        let fhirToRk = FHIRtoRKConverter()
+        
         let questionnaire = SurveyListViewController.questionnaireList[sender.tag]
-        print(questionnaire.FHIRquestionnaire.title?.string)
+        
+        let surveyTask = ORKOrderedTask(identifier: title ?? "Questionnaire", steps: fhirToRk.getORKStepsFromQuestionnaire(questionnaire: questionnaire.FHIRquestionnaire))
+        
+        let taskViewController = ORKTaskViewController(task: surveyTask, taskRun: nil)
+        taskViewController.delegate = self
+        self.present(taskViewController, animated: true, completion: nil)
+        
         /*
         
         let questionnaireConverter = FHIRtoRKConverter()
