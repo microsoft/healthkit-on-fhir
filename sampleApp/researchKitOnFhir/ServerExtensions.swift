@@ -10,7 +10,7 @@ import SMART
 
 extension Server {
     
-    public func fetchQuestionnaire(reference: String, completion: @escaping (Questionnaire?, Error?) -> Void) {
+    public func fetchQuestionnaire(reference: String, completion: @escaping (QuestionnaireType?, Error?) -> Void) {
         
         print("SEARCH: \(reference)")
         
@@ -25,8 +25,8 @@ extension Server {
                     for bundleEntry in bundleEntries {
                         if let questionnaire = bundleEntry.resource as? Questionnaire {
                             print("QUESTIONNAIRE TITLE: \(questionnaire.title?.string)")
-                            SurveyListViewController.questionnaireList.append(QuestionnaireType(questionnaire: questionnaire))
-                            completion(questionnaire, nil)
+                            
+                            completion(QuestionnaireType(questionnaire: questionnaire), nil)
                         } else {
                             // No Questionnaire Resource exists
                             completion(nil,nil)

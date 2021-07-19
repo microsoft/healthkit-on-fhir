@@ -210,32 +210,25 @@ public class FHIRtoRKConverter {
                 }
             }
         }
-        
         return answerOptions
     }
     
-    func extractSteps (reference: String, completion: @escaping (String?, [ORKStep]?, Error?) -> Void) {
+    func extractSteps (reference: String, completion: @escaping (QuestionnaireType?, [ORKStep]?, Error?) -> Void) {
         let externalSD = ExternalStoreDelegate()
         
-        externalSD.getQuestionnairesFromServer(reference: reference) { questionnaireId, error in
+        externalSD.getQuestionnairesFromServer(reference: reference) { questionnaire, error in
             guard error == nil,
-                  let questionnaireId = questionnaireId else {
+                  let questionnaire = questionnaire else {
                 completion(nil, nil,error)
                 return
             }
-            let questionnaire = FHIRtoRKConverter.FHIRQuestionnaire
             
-            if questionnaire.item != nil {
-                self.buildQuestionMap(questionItems: questionnaire.item!)
-                
-                let steps = self.FHIRQuestionListToRKQuestions(questions: questionnaire.item!, questionnaireTitle: questionnaire.title?.string ?? "")
-                
-                FHIRtoRKConverter.ORKStepQuestionnaire = steps
-                
-                completion(questionnaire.title?.string, steps, error)
+            if questionnaire.FHIRquestionnaire.item != nil {
+                print("FHIR QUESTIONNAIRE ITEM: \(questionnaire.FHIRquestionnaire.title?.description)")
+                completion(questionnaire, nil, error)
+            } else {
+                completion(nil, nil, error)
             }
-            
-            completion("", nil, error)
         }
     }
     

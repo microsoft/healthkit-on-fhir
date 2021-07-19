@@ -41,28 +41,9 @@ class LandingScreenViewController: UIViewController {
     }
     
     @IBSegueAction func defaultUser(_ coder: NSCoder) -> SurveyListViewController? {
+        
         var surveyList = SurveyListViewController(coder: coder)
-        
-        let questionnaireConverter = FHIRtoRKConverter()
-        
-        let ed = ExternalStoreDelegate()
-        
-        ed.getTasksFromServer { (taskId, error) in
-            
-            let questionnaireId = taskParser.singleTask.basedOn![0].reference!.string
-            taskParser.questionnaireIds = questionnaireId
-            
-            for questionnaireId in taskParser.questionnaireIdList {
-                
-                questionnaireConverter.extractSteps(reference: questionnaireId) { (title, steps, error) in
-                    
-                    let surveyTask = ORKOrderedTask(identifier: title ?? "Questionnaire", steps: FHIRtoRKConverter.ORKStepQuestionnaire)
-                    
-                }
-            }
-            
-        }
-        
+       
         return surveyList
     }
     

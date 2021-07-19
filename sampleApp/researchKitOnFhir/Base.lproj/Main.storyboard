@@ -122,17 +122,27 @@
                     <view key="view" contentMode="scaleToFill" id="oWO-Ph-mVQ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="W9O-gI-56n">
+                                <rect key="frame" x="197" y="465" width="20" height="20"/>
+                            </activityIndicatorView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="kQG-PX-3XH"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="W9O-gI-56n" firstAttribute="centerY" secondItem="kQG-PX-3XH" secondAttribute="centerY" id="WaX-7I-YqQ"/>
+                            <constraint firstItem="W9O-gI-56n" firstAttribute="centerX" secondItem="kQG-PX-3XH" secondAttribute="centerX" id="o0o-UR-Iz8"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Questionnaires" id="s3c-R3-pmE"/>
                     <connections>
                         <outlet property="backButton" destination="s3c-R3-pmE" id="QyY-ya-beq"/>
+                        <outlet property="surveyListLoadingIndicator" destination="W9O-gI-56n" id="cXC-di-hdO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jUu-hC-b8N" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1029" y="876"/>
+            <point key="canvasLocation" x="1028.985507246377" y="875.89285714285711"/>
         </scene>
         <!--SignInViewContoller-->
         <scene sceneID="zFP-qO-YEg">

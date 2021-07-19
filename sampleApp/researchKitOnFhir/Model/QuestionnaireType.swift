@@ -9,7 +9,7 @@ import Foundation
 import ResearchKit
 import SMART
 
-class QuestionnaireType {
+public class QuestionnaireType {
     
     var FHIRquestionnaire: Questionnaire
     var questionnaireComplete: Bool
