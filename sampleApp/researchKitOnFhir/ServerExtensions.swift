@@ -10,25 +10,33 @@ import SMART
 
 extension Server {
     
-    public func fetchQuestionnaire(completion: @escaping (Questionnaire?, Error?) -> Void) {
+    public func fetchQuestionnaire(reference: String, completion: @escaping (Questionnaire?, Error?) -> Void) {
         
-        Questionnaire.search(taskParser.questionnaireIds)
+        print("SEARCH: \(reference)")
+        
+        Questionnaire.search(["identifier": reference])
             .perform(self) { (bundle, error) in
                 guard error == nil else {
                     completion(nil, error)
                     return
                 }
                 
-                if let bundleEntry = bundle?.entry?.first,
-                   let questionnaire = bundleEntry.resource as? Questionnaire {
-                    // Complete with a Questionnaire Resource
-                    print(questionnaire)
-                    completion(questionnaire, nil)
+                if let bundleEntries = bundle?.entry {
+                    for bundleEntry in bundleEntries {
+                        if let questionnaire = bundleEntry.resource as? Questionnaire {
+                            print("QUESTIONNAIRE TITLE: \(questionnaire.title?.string)")
+                            SurveyListViewController.questionnaireList.append(QuestionnaireType(questionnaire: questionnaire))
+                            completion(questionnaire, nil)
+                        } else {
+                            // No Questionnaire Resource exists
+                            completion(nil,nil)
+                        }
+                    }
                 } else {
                     // No Questionnaire Resource exists
                     completion(nil,nil)
                 }
-        }
+            }
     }
     
     public func fetchTasks(completion: @escaping (Task?, Error?) -> Void) {
@@ -43,7 +51,7 @@ extension Server {
                 if let bundleEntries = bundle?.entry {
                     for taskBundleEntry in bundleEntries {
                         let task = taskBundleEntry.resource as? Task
-                        taskParser.questionnaireIdList.append((task?.basedOn![0].reference!.string) ?? "")
+                        taskParser.questionnaireIdList.append(task?.basedOn![0].reference!.string ?? "")
                     }
                 }
                 
@@ -59,5 +67,11 @@ extension Server {
                     completion(nil,nil)
                 }
         }
+    }
+    
+    func removeQuestionnairePrefix(query: String) -> String {
+        var substringArray = query.split(separator: "/")
+        print(substringArray)
+        return String(substringArray[1])
     }
 }

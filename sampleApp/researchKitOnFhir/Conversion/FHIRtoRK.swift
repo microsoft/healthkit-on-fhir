@@ -213,10 +213,10 @@ public class FHIRtoRKConverter {
         return answerOptions
     }
     
-    func extractSteps (completion: @escaping (String?, [ORKStep]?, Error?) -> Void) {
+    func extractSteps (reference: String, completion: @escaping (String?, [ORKStep]?, Error?) -> Void) {
         let externalSD = ExternalStoreDelegate()
         
-        externalSD.getQuestionnairesFromServer() { questionnaireId, error in
+        externalSD.getQuestionnairesFromServer(reference: reference) { questionnaireId, error in
             guard error == nil,
                   let questionnaireId = questionnaireId else {
                 completion(nil, nil,error)

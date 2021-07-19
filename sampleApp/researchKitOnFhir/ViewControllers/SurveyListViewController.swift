@@ -15,33 +15,68 @@ class SurveyListViewController: UIViewController {
     var didAttemptAuthentication = false
     @IBOutlet var surveyButton: UIButton!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        let appDelegate = UIApplication.shared.delegate as? AppDelegate
-        smartClient = appDelegate?.smartClient
-        
-        // Do any additional setup after loading the view.
+    static let buttonGap = 5
+    static let buttonHeight = 70
+    // TODO: find way to dynamically set
+    static let startingButtonTopCoordinate = 95
+    static var buttonTopCoordinate = startingButtonTopCoordinate
+    
+    
+    static var questionnaireList = [QuestionnaireType]()
+    
+    /*
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
         
     }
+     */
     
-    override func viewDidAppear(_ animated: Bool) {
-       
-        super.viewDidAppear(animated)
+    @IBOutlet weak var backButton: UINavigationItem!
+    
+    
+    override func loadView() {
+        super.loadView()
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        smartClient = appDelegate?.smartClient
         
         if (!didAttemptAuthentication) {
             didAttemptAuthentication = true
             smartClient?.authorize(callback: { (patient, error) in
                 DispatchQueue.main.async {
                     print("ERROR - SurveyListViewController 45: \(error)")
+                    print("HELLO")
                     // self.surveyButton.isHidden = false
                 }
             })
         }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+            var tagNum = 0
+        
+            for questionnaireTypeItem in SurveyListViewController.questionnaireList {
+                if !questionnaireTypeItem.questionnaireComplete {
+                    let questionnaireTitle = (questionnaireTypeItem.FHIRquestionnaire.title?.string)!
+                    self.view.addSubview(self.makeNewButton(text: questionnaireTitle, newTag: tagNum))
+                    SurveyListViewController.buttonTopCoordinate += SurveyListViewController.buttonHeight + SurveyListViewController.buttonGap
+                }
+                tagNum += 1
+            }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
     }
     
     @IBAction func surveyClicked(_ sender: UIButton) {
+        
+        let questionnaire = SurveyListViewController.questionnaireList[sender.tag]
+        print(questionnaire.FHIRquestionnaire.title?.string)
+        /*
+        
         let questionnaireConverter = FHIRtoRKConverter()
         
         let ed = ExternalStoreDelegate()
@@ -51,7 +86,7 @@ class SurveyListViewController: UIViewController {
             let questionnaireId = taskParser.singleTask.basedOn![0].reference!.string
             taskParser.questionnaireIds = questionnaireId
             
-            questionnaireConverter.extractSteps { (title, steps, error) in
+            questionnaireConverter.extractSteps(reference: "dummy") { (title, steps, error) in
                 
                 let surveyTask = ORKOrderedTask(identifier: title ?? "Questionnaire", steps: FHIRtoRKConverter.ORKStepQuestionnaire)
                 DispatchQueue.main.async {
@@ -61,9 +96,32 @@ class SurveyListViewController: UIViewController {
                 }
             }
         }
+         */
+        
+        
         
     }
+    
+    func makeNewButton(text: String, newTag: Int) -> UIButton {
+        let newButton = UIButton(type: UIButton.ButtonType.system)
+        let buttonWidth = Int(view.frame.size.width)-(SurveyListViewController.buttonGap*2)
+        
+        newButton.setTitle(text, for: .normal)
+        newButton.setTitleColor(UIColor.black, for: .normal)
+        newButton.frame(forAlignmentRect: CGRect(x: SurveyListViewController.buttonGap, y: SurveyListViewController.buttonTopCoordinate, width: buttonWidth, height: SurveyListViewController.buttonHeight))
+        newButton.backgroundColor = UIColor(cgColor: CGColor(red: 0.4, green: 0, blue: 0.6, alpha: 0.5))
+        newButton.bounds = CGRect(x: 0, y: 0, width: buttonWidth, height: SurveyListViewController.buttonHeight)
+        newButton.center = CGPoint(x: Int(view.frame.size.width)/2, y: Int(SurveyListViewController.buttonTopCoordinate + SurveyListViewController.buttonHeight/2))
+        newButton.layer.borderWidth = 2
+        newButton.layer.borderColor = CGColor(red: 0.4, green: 0, blue: 0.6, alpha: 1)
+        newButton.tag = newTag
+        newButton.addTarget(self, action: #selector(surveyClicked), for: .touchUpInside)
+        
+        return newButton
+    }
+
 }
+
 
 extension SurveyListViewController: ORKTaskViewControllerDelegate  {
     
@@ -94,6 +152,7 @@ extension SurveyListViewController: ORKTaskViewControllerDelegate  {
             print("REASON: saved")
         case .discarded:
             taskViewController.dismiss(animated: true, completion: nil)
+            SurveyListViewController.buttonTopCoordinate = SurveyListViewController.startingButtonTopCoordinate
             print("REASON: discarded")
         case .failed:
             taskViewController.dismiss(animated: true, completion: nil)

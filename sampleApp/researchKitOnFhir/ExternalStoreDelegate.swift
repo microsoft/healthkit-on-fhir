@@ -14,12 +14,12 @@ public class ExternalStoreDelegate {
     private let questionnaireMapSyncObject = NSObject()
     private let taskMapSyncObject = NSObject()
     
-    public func getQuestionnairesFromServer (completion: @escaping (String?, Error?) -> Void) {
+    public func getQuestionnairesFromServer (reference: String, completion: @escaping (String?, Error?) -> Void) {
         
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
         let smartClient = appDelegate?.smartClient
         
-        smartClient?.server.fetchQuestionnaire { (questionnaire, error) in
+        smartClient?.server.fetchQuestionnaire(reference: reference) { (questionnaire, error) in
             // Ensure there is no error
             guard error == nil else {
                 completion(nil, error)

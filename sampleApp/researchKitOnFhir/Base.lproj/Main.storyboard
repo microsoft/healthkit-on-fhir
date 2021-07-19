@@ -78,7 +78,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Default User"/>
                                 <connections>
-                                    <segue destination="Omj-ch-x6p" kind="show" id="uEK-Cc-08V"/>
+                                    <segue destination="Omj-ch-x6p" kind="show" destinationCreationSelector="defaultUser:" id="uEK-Cc-08V"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -98,32 +98,15 @@
                     <view key="view" contentMode="scaleToFill" id="oWO-Ph-mVQ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eb6-iz-ejy">
-                                <rect key="frame" x="85" y="235" width="58" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Consent"/>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j0V-Z1-HyH">
-                                <rect key="frame" x="289" y="235" width="48" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Survey"/>
-                                <connections>
-                                    <action selector="surveyClicked:" destination="4bg-1N-dFw" eventType="touchUpInside" id="ovj-x8-yKO"/>
-                                    <action selector="surveyClicked:" destination="Omj-ch-x6p" eventType="touchUpInside" id="wEn-Bd-Wgm"/>
-                                </connections>
-                            </button>
-                        </subviews>
                         <viewLayoutGuide key="safeArea" id="kQG-PX-3XH"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" title="Questionnaires" id="s3c-R3-pmE"/>
                     <connections>
-                        <outlet property="surveyButton" destination="j0V-Z1-HyH" id="Ym8-G9-aRH"/>
+                        <outlet property="backButton" destination="s3c-R3-pmE" id="QyY-ya-beq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jUu-hC-b8N" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <exit id="4bg-1N-dFw" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1029" y="876"/>
         </scene>
