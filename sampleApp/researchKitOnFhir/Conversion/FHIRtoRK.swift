@@ -213,10 +213,10 @@ public class FHIRtoRKConverter {
         return answerOptions
     }
     
-    func extractSteps (reference: String, completion: @escaping (QuestionnaireType?, [ORKStep]?, Error?) -> Void) {
+    func extractSteps (reference: String, complete: Bool, completion: @escaping (QuestionnaireType?, Bool?, Error?) -> Void) {
         let externalSD = ExternalStoreDelegate()
         
-        externalSD.getQuestionnairesFromServer(reference: reference) { questionnaire, error in
+        externalSD.getQuestionnairesFromServer(reference: reference, complete: complete) { (questionnaire, error) in
             guard error == nil,
                   let questionnaire = questionnaire else {
                 completion(nil, nil,error)
@@ -224,7 +224,7 @@ public class FHIRtoRKConverter {
             }
             
             if questionnaire.FHIRquestionnaire.item != nil {
-                print("FHIR QUESTIONNAIRE ITEM: \(questionnaire.FHIRquestionnaire.title?.description)")
+                print("FHIR QUESTIONNAIRE ITEM: \(String(describing: questionnaire.FHIRquestionnaire.title?.description))")
                 completion(questionnaire, nil, error)
             } else {
                 completion(nil, nil, error)

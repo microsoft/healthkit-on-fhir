@@ -16,27 +16,35 @@ class LandingScreenViewController: UIViewController {
     
     var didAttemptAuthentication = false
     
+    @IBOutlet weak var defaultPatientButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.defaultPatientButton.isHidden = true
+        
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
         smartClient = appDelegate?.smartClient
+        
+        if (!didAttemptAuthentication) {
+            didAttemptAuthentication = true
+            smartClient?.authorize(callback: { (patient, error) in
+                DispatchQueue.main.async {
+                    if error == nil {
+                        print("Connection to server complete")
+                        self.defaultPatientButton.isHidden = false
+                    } else {
+                        print(error)
+                    }
+                }
+            })
+        }
         
         // Do any additional setup after loading the view.
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        if (!didAttemptAuthentication) {
-            didAttemptAuthentication = true
-            smartClient?.authorize(callback: { (patient, error) in
-                DispatchQueue.main.async {
-                    print("Connection to server complete")
-                    // self.surveyButton.isHidden = false
-                }
-            })
-        }
         
     }
     

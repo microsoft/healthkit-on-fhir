@@ -17,7 +17,7 @@ public class taskParser {
     static var singleTask = Task()
      
     static var questionnaireIds = String()
-    static var questionnaireIdList = [String]()
+    static var questionnaireIdList = [String:Bool]()
     
     
 }

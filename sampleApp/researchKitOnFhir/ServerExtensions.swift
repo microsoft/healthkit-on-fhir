@@ -10,14 +10,14 @@ import SMART
 
 extension Server {
     
-    public func fetchQuestionnaire(reference: String, completion: @escaping (QuestionnaireType?, Error?) -> Void) {
+    public func fetchQuestionnaire(reference: String, completed: Bool, completion: @escaping (QuestionnaireType?, Error?) -> Void) {
         
         print("SEARCH: \(reference)")
         
         Questionnaire.search(["identifier": reference])
             .perform(self) { (bundle, error) in
                 guard error == nil else {
-                    completion(nil, error)
+                    completion(nil,error)
                     return
                 }
                 
@@ -26,10 +26,10 @@ extension Server {
                         if let questionnaire = bundleEntry.resource as? Questionnaire {
                             print("QUESTIONNAIRE TITLE: \(questionnaire.title?.string)")
                             
-                            completion(QuestionnaireType(questionnaire: questionnaire), nil)
+                            completion(QuestionnaireType(questionnaire: questionnaire, complete: completed), nil)
                         } else {
                             // No Questionnaire Resource exists
-                            completion(nil,nil)
+                            completion(nil, nil)
                         }
                     }
                 } else {
@@ -51,11 +51,24 @@ extension Server {
                 if let bundleEntries = bundle?.entry {
                     for taskBundleEntry in bundleEntries {
                         let task = taskBundleEntry.resource as? Task
-                        taskParser.questionnaireIdList.append(task?.basedOn![0].reference!.string ?? "")
+                        
+                        var taskComplete: Bool
+                        
+                        if task?.status != nil || task?.status?.rawValue != nil {
+                            if task?.status?.rawValue == "completed" {
+                                taskComplete = true
+                            } else {
+                                taskComplete = false
+                            }
+                        } else {
+                            taskComplete = false
+                        }
+                        taskParser.questionnaireIdList[(task?.basedOn![0].reference!.string)!] = taskComplete
                     }
                 }
                 
-                print(taskParser.questionnaireIdList)
+                print("QUESTIONNAIRE ID LIST: \(taskParser.questionnaireIdList)")
+                
                 
                 if let bundleEntry = bundle?.entry?.first,
                    let task = bundleEntry.resource as? Task {
@@ -66,6 +79,7 @@ extension Server {
                     // No Questionnaire Resource exists
                     completion(nil,nil)
                 }
+                
         }
     }
     

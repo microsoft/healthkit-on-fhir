@@ -108,6 +108,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="8hf-7r-b4p"/>
                     <connections>
+                        <outlet property="defaultPatientButton" destination="EIt-oJ-O5e" id="8a4-jK-v6n"/>
                         <outlet property="surveyListButton" destination="EIt-oJ-O5e" id="orT-6A-0BO"/>
                     </connections>
                 </viewController>

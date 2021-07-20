@@ -14,9 +14,9 @@ public class QuestionnaireType {
     var FHIRquestionnaire: Questionnaire
     var questionnaireComplete: Bool
     
-    init(questionnaire: Questionnaire) {
+    init(questionnaire: Questionnaire, complete: Bool) {
         FHIRquestionnaire = questionnaire
-        questionnaireComplete = false
+        questionnaireComplete = complete
     }
     
 }
