@@ -14,6 +14,7 @@
 		844D31C326A514AD00010466 /* QuestionnaireType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844D31C226A514AD00010466 /* QuestionnaireType.swift */; };
 		845A1516269F68640011B506 /* LandingScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845A1515269F68640011B506 /* LandingScreenViewController.swift */; };
 		845A1530269F6DA30011B506 /* SurveyListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845A152F269F6DA30011B506 /* SurveyListViewController.swift */; };
+		84814BB326AA05AE007DF055 /* QListCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84814BB226AA05AE007DF055 /* QListCategory.swift */; };
 		8496FCB626935B41008E54C1 /* ConfigHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8496FCB526935B41008E54C1 /* ConfigHelper.swift */; };
 		84BBA1F126A07847000483D8 /* samplePatient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BBA1F026A07847000483D8 /* samplePatient.swift */; };
 		84BBA1F926A0B631000483D8 /* taskParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BBA1F826A0B631000483D8 /* taskParser.swift */; };
@@ -118,6 +119,7 @@
 		844D31C226A514AD00010466 /* QuestionnaireType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionnaireType.swift; sourceTree = "<group>"; };
 		845A1515269F68640011B506 /* LandingScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingScreenViewController.swift; sourceTree = "<group>"; };
 		845A152F269F6DA30011B506 /* SurveyListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyListViewController.swift; sourceTree = "<group>"; };
+		84814BB226AA05AE007DF055 /* QListCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QListCategory.swift; sourceTree = "<group>"; };
 		8492BEB6267921B600088582 /* ResearchKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ResearchKit.xcodeproj; path = "../../../ResearchKit-stable/ResearchKit.xcodeproj"; sourceTree = "<group>"; };
 		8496FCB526935B41008E54C1 /* ConfigHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigHelper.swift; sourceTree = "<group>"; };
 		84BBA1F026A07847000483D8 /* samplePatient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = samplePatient.swift; sourceTree = "<group>"; };
@@ -259,6 +261,7 @@
 			children = (
 				844D31C226A514AD00010466 /* QuestionnaireType.swift */,
 				84D04DC726A99D7C001BA808 /* CustomTableViewCell.swift */,
+				84814BB226AA05AE007DF055 /* QListCategory.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -695,6 +698,7 @@
 				840584D42684F0C200986AC5 /* ServerExtensions.swift in Sources */,
 				84EDAAB72683969D003A0AE2 /* ViewController.swift in Sources */,
 				840584DC2685055100986AC5 /* ExternalStoreDelegate.swift in Sources */,
+				84814BB326AA05AE007DF055 /* QListCategory.swift in Sources */,
 				845A1516269F68640011B506 /* LandingScreenViewController.swift in Sources */,
 				845A1530269F6DA30011B506 /* SurveyListViewController.swift in Sources */,
 				84EDAAFB26839B3D003A0AE2 /* ConsentDocument.swift in Sources */,

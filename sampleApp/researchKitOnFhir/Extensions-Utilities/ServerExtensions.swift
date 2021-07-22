@@ -74,18 +74,6 @@ extension Server {
                 } else {
                     completion(nil, error)
                 }
-                
-                /*
-                if let bundleEntry = bundle?.entry?.first,
-                   let task = bundleEntry.resource as? Task {
-                    // Complete with a Questionnaire Resource
-                    print("FETCH TASK: \(task)")
-                    completion(task, nil)
-                } else {
-                    // No Questionnaire Resource exists
-                    completion(nil,nil)
-                }
-                */
         }
     }
     

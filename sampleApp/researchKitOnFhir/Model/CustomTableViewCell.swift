@@ -10,33 +10,36 @@ import UIKit
 
 public class CustomTableViewCell: UITableViewCell {
     
-    public override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        addSubview(backView)
-        backView.addSubview(button)
+    var button = UILabel()
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        addSubview(button)
+        configureButton()
+        setButtonConstraints()
     }
     
-    public override func layoutSubviews() {
-        contentView.backgroundColor = UIColor.white
-        backgroundColor = UIColor.white
-        backView.layer.cornerRadius = 5
-        backView.clipsToBounds = true
-        button.layer.cornerRadius = 5
-        button.clipsToBounds = true
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
-    lazy var backView: UIView = buildBackView()
-    lazy var button: UIButton = buildMemberButton()
-        
-    func buildBackView() -> UIView {
-        let view = UIView(frame: CGRect(x: 5, y: 5, width: self.frame.width, height: self.frame.height))
-        view.backgroundColor = UIColor.clear
-        return view
+    func set(questionnaire: QuestionnaireType) {
+        button.text = questionnaire.FHIRquestionnaire.title?.string
+        button.textColor = UIColor.black
+        button.textAlignment = .left
+        button.tag = questionnaire.tagNum
     }
     
-    func buildMemberButton() -> UIButton {
-        let button = UIButton()
-        button.frame = CGRect(x: 5, y: 5, width: backView.frame.width, height: backView.frame.height)
-        return button
-    }  
+    func configureButton() {
+        button.numberOfLines = 0
+        button.adjustsFontSizeToFitWidth = true
+    }
+    
+    func setButtonConstraints() {
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        button.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 25).isActive = true
+        button.heightAnchor.constraint(equalTo: heightAnchor).isActive = true
+        button.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+    }
 }

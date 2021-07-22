@@ -15,34 +15,27 @@ class SurveyListViewController: UIViewController {
     var didAttemptAuthentication = false
     @IBOutlet var surveyButton: UIButton!
     
+    struct Cells {
+        static let buttonCell = "buttonCell"
+    }
+    
     let tableView = UITableView()
     
-    @IBOutlet weak var contentView: UIView!
-    
-    static let buttonGap = 5
-    static let buttonHeight = 70
-    // TODO: find way to dynamically set
-    static var startingButtonTopCoordinate = 0
-    static var buttonTopCoordinate = startingButtonTopCoordinate
-    
-    var todoButtonList = [Int:String]()
-    var completeButtonList = [Int: String]()
-    var questionnaireTableView = UITableView()
-    
-    static var questionnaireList = [QuestionnaireType]()
+    static var questionnaireList = [QuestionnaireType]() // this one currently
     var todoQList = [QuestionnaireType]()
     var completeQList = [QuestionnaireType]()
+    
+    static var QList = [QListCategory]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureTableView()
     }
     
     func configureTableView() {
-        view.addSubview(tableView)
+        self.view.addSubview(tableView)
         setTableViewDelegates()
-        tableView.rowHeight = 70
-        
+        tableView.rowHeight = 50
+        tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: Cells.buttonCell)
         tableView.pin(to: view)
     }
     
@@ -51,24 +44,13 @@ class SurveyListViewController: UIViewController {
         tableView.dataSource = self
     }
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         populateQuestionnaireList()
     }
-    
-    /*
-    func setTableView() {
-        questionnaireTableView.frame = self.view.frame
-        questionnaireTableView.delegate = self
-        questionnaireTableView.dataSource = self
-        questionnaireTableView.separatorColor = UIColor.gray
-        questionnaireTableView.backgroundColor = UIColor.white
-        questionnaireTableView.rowHeight = 70
-        
-        self.view.addSubview(self.questionnaireTableView)
-        
-        questionnaireTableView.register(CustomTableViewCell.self, forCellReuseIdentifier: "Cell")
-    }
-    */
     
     func populateQuestionnaireList() {
         
@@ -77,9 +59,6 @@ class SurveyListViewController: UIViewController {
         let ed = ExternalStoreDelegate()
         
         SurveyListViewController.questionnaireList.removeAll()
-        SurveyListViewController.buttonTopCoordinate = SurveyListViewController.startingButtonTopCoordinate
-        
-        SurveyListViewController.startingButtonTopCoordinate = Int(self.contentView.frame.minY) + 5
         
         ed.getTasksFromServer { (tasks, error) in
             
@@ -92,45 +71,27 @@ class SurveyListViewController: UIViewController {
                         let questionnaireTitle = (questionnaire?.FHIRquestionnaire.title?.string)!
                         questionnaire?.tagNum = tagNum
                         
-                        SurveyListViewController.questionnaireList.append(questionnaire!)
-                        tagNum += 1
-                        /*
-                        DispatchQueue.main.async {
-                            
-                            if questionnaire!.FHIRtask.status?.rawValue != "completed" {
-                               
-                                /*
-                                self.contentView.addSubview(self.makeNewButton(text: questionnaireTitle, newTag: tagNum, complete: false))
-                                
-                                self.surveyListLoadingIndicator.isHidden = true
-                                */
-                                
-                                self.completeButtonList[tagNum] = questionnaireTitle
-                                    tagNum += 1
+                        if questionnaire!.FHIRtask.status?.rawValue != "completed" {
+                        
+                            self.todoQList.append(questionnaire!)
+                            tagNum += 1
                                   
-                            } else {
+                        } else {
                                 
-                                self.todoButtonList[tagNum] = questionnaireTitle
-                                tagNum += 1
+                            self.completeQList.append(questionnaire!)
+                            tagNum += 1
                                 
-                            }
-                            
-                            if tagNum == taskParser.questionnaireIdList.count {
-                                print("TAGNUM REACHED MAX")
-                                
-                                for (buttonTag,buttonTitle) in self.buttonList {
-                                    self.contentView.addSubview(self.makeNewButton(text: buttonTitle, newTag: buttonTag, complete: true))
-                                }
-                                
-                                self.surveyListLoadingIndicator.isHidden = true
-                                
-                            }
-                        }*/
-                        if tagNum == taskParser.questionnaireIdList.count {
-                            print("TAGNUM REACHED MAX")
-                            //self.setTableView()
+                        }
+                        
+                        if tagNum == self.todoQList.count + self.completeQList.count {
+                            print(self.todoQList)
+                            print(self.completeQList)
+                            print(SurveyListViewController.questionnaireList.count)
+                            self.createQListCategories(todoQ: self.todoQList, completeQ: self.completeQList)
+                            self.configureTableView()
                             self.surveyListLoadingIndicator.isHidden = true
                         }
+                        
                     }
                     
                 }
@@ -139,44 +100,59 @@ class SurveyListViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak var surveyListLoadingIndicator: UIActivityIndicatorView!
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
+    func createQListCategories(todoQ: [QuestionnaireType], completeQ: [QuestionnaireType]) {
+        let todoQItem = QListCategory(completion: "Requested", questionnaires: todoQ)
+        let completeQItem = QListCategory(completion: "Completed", questionnaires: completeQ)
+        SurveyListViewController.QList.append(todoQItem)
+        SurveyListViewController.QList.append(completeQItem)
     }
     
-    @IBAction func surveyClicked(_ sender: UIButton) {
-        
+    @IBOutlet weak var surveyListLoadingIndicator: UIActivityIndicatorView!
+
+    func surveySelected(tagNum: Int) {
         let fhirToRk = FHIRtoRKConverter()
-        let questionnaire = SurveyListViewController.questionnaireList[sender.tag]
+        let questionnaire = SurveyListViewController.questionnaireList[tagNum]
         
         let surveyTask = ORKOrderedTask(identifier: title ?? "Questionnaire", steps: fhirToRk.getORKStepsFromQuestionnaire(questionnaire: questionnaire.FHIRquestionnaire))
         
         let taskViewController = ORKTaskViewController(task: surveyTask, taskRun: nil)
         taskViewController.delegate = self
-        FHIRtoRKConverter.currentIndex = sender.tag
+        FHIRtoRKConverter.currentIndex = tagNum
         self.present(taskViewController, animated: true, completion: nil)
     }
-
 
 }
 
 extension SurveyListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return SurveyListViewController.questionnaireList.count
+        return SurveyListViewController.QList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? CustomTableViewCell else {fatalError("Unable to create cell")}
-        cell.button.setTitle(SurveyListViewController.questionnaireList[indexPath.row].FHIRquestionnaire.title?.string, for: .normal)
-        cell.button.setTitleColor(UIColor.black, for: .normal)
-        cell.button.contentHorizontalAlignment = .left
-        cell.button.tag = SurveyListViewController.questionnaireList[indexPath.row].tagNum
-        cell.button.addTarget(self, action: #selector(SurveyListViewController.surveyClicked), for: .touchUpInside)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: Cells.buttonCell, for: indexPath) as? CustomTableViewCell else {fatalError("Unable to create cell")}
+        
+        print("SECTION: \(indexPath.section). ROW: \(indexPath.row)")
+        let questionnaire = SurveyListViewController.QList[indexPath.section].questionnairesDisplayed![indexPath.row]
+        cell.set(questionnaire: questionnaire)
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 35))
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: headerView.frame.width, height: 35))
+        headerView.addSubview(label)
+        label.backgroundColor = UIColor.lightGray
+        label.font = UIFont.systemFont(ofSize: 16)
+        label.leftAnchor.constraint(equalTo: headerView.leftAnchor, constant: 20).isActive = true
+        label.text = SurveyListViewController.QList[section].completionHeader
+        
+        return headerView
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        surveySelected(tagNum: indexPath.row)
     }
     
 }
@@ -206,6 +182,7 @@ extension SurveyListViewController: ORKTaskViewControllerDelegate  {
             
             // update locally
             SurveyListViewController.questionnaireList[FHIRtoRKConverter.currentIndex].FHIRtask.status = TaskStatus(rawValue: "completed")
+            
             let questionnaireId = SurveyListViewController.questionnaireList[FHIRtoRKConverter.currentIndex].FHIRtask.basedOn![0].reference?.string
             taskParser.questionnaireIdList[questionnaireId!] = true
             
@@ -221,53 +198,17 @@ extension SurveyListViewController: ORKTaskViewControllerDelegate  {
             
         case .saved:
             print("REASON: saved")
+            
         case .discarded:
             taskViewController.dismiss(animated: true, completion: nil)
-            SurveyListViewController.buttonTopCoordinate = SurveyListViewController.startingButtonTopCoordinate
             print("REASON: discarded")
+            
         case .failed:
             taskViewController.dismiss(animated: true, completion: nil)
             print("REASON: failed")
+            
         @unknown default:
             print("REASON: unknown default")
         }
     }
 }
-
-/*
-func makeNewButton(text: String, newTag: Int, complete: Bool) -> UIButton {
-    let newButton = UIButton(type: UIButton.ButtonType.system)
-    // let buttonWidth = Int(self.backView.frame.width)
-    
-    newButton.setTitle(text, for: .normal)
-    
-    newButton.frame(forAlignmentRect: CGRect(x: SurveyListViewController.buttonGap, y: SurveyListViewController.buttonTopCoordinate, width: buttonWidth, height: SurveyListViewController.buttonHeight))
-    
-    if complete {
-        newButton.backgroundColor = UIColor(cgColor: CGColor(red: 0, green: 0, blue: 0, alpha: 0.3))
-        newButton.setTitleColor(UIColor.darkGray, for: .normal)
-        newButton.layer.borderWidth = 2
-        newButton.layer.borderColor = CGColor(red: 0, green: 0, blue: 0, alpha: 0.4)
-    } else {
-        newButton.backgroundColor = UIColor(cgColor: CGColor(red: 0.4, green: 0, blue: 0.6, alpha: 0.5))
-        newButton.setTitleColor(UIColor.black, for: .normal)
-        newButton.layer.borderWidth = 2
-        newButton.layer.borderColor = CGColor(red: 0.4, green: 0, blue: 0.6, alpha: 1)
-        /*
-        newButton.addTarget(self, action: #selector(SurveyListViewController.surveyClicked), for: .touchUpInside)
-        */
-    }
-    
-    newButton.bounds = CGRect(x: 0, y: 0, width: buttonWidth, height: SurveyListViewController.buttonHeight)
-    newButton.center = CGPoint(x: Int(view.frame.size.width)/2, y: Int(SurveyListViewController.buttonTopCoordinate + SurveyListViewController.buttonHeight/2))
-
-    newButton.tag = newTag
-    
-    SurveyListViewController.buttonTopCoordinate += SurveyListViewController.buttonHeight + SurveyListViewController.buttonGap
-    
-    return newButton
-}
- */
-    
-    
-  

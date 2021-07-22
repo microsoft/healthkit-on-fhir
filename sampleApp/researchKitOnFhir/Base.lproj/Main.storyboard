@@ -157,7 +157,6 @@
                     </view>
                     <navigationItem key="navigationItem" title="Questionnaires" id="s3c-R3-pmE"/>
                     <connections>
-                        <outlet property="contentView" destination="932-J2-kPy" id="MR0-ZI-bz2"/>
                         <outlet property="surveyListLoadingIndicator" destination="W9O-gI-56n" id="cXC-di-hdO"/>
                     </connections>
                 </viewController>
