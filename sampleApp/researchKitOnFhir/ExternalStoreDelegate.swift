@@ -14,13 +14,13 @@ public class ExternalStoreDelegate {
     private let questionnaireMapSyncObject = NSObject()
     private let taskMapSyncObject = NSObject()
     
-    public func getQuestionnairesFromServer (reference: String, complete: Bool, completion: @escaping (QuestionnaireType?, Error?) -> Void) {
+    public func getQuestionnairesFromServer (reference: String, task: Task, completion: @escaping (QuestionnaireType?, Error?) -> Void) {
         
         DispatchQueue.main.async {
             let appDelegate = UIApplication.shared.delegate as? AppDelegate
             let smartClient = appDelegate?.smartClient
             
-            smartClient?.server.fetchQuestionnaire(reference: reference, completed: complete) { (questionnaire, error) in
+            smartClient?.server.fetchQuestionnaire(reference: reference, task: task) { (questionnaire, error) in
                 // Ensure there is no error
                 guard error == nil else {
                     completion(nil, error)
@@ -38,28 +38,24 @@ public class ExternalStoreDelegate {
         
     }
     
-    public func getTasksFromServer (completion: @escaping (String?, Error?) -> Void) {
+    public func getTasksFromServer (completion: @escaping ([Task]?, Error?) -> Void) {
         
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
         let smartClient = appDelegate?.smartClient
         
-        smartClient?.server.fetchTasks { (task, error) in
+        smartClient?.server.fetchTasks { (tasks, error) in
             // Ensure there is no error
             guard error == nil else {
                 completion(nil, error)
                 return
             }
             
-            guard let taskId = task?.id?.description else {
+            if tasks == nil || tasks?.count == 0 {
                 completion(nil, ExternalStoreDelegateError.noValidTaskInServer)
                 return
             }
             
-            objc_sync_enter(self.questionnaireMapSyncObject)
-            taskParser.singleTask = task!
-            objc_sync_exit(self.questionnaireMapSyncObject)
-            
-            completion(task!.id?.string, error)
+            completion(tasks, error)
         }
     }
 }

@@ -47,36 +47,18 @@ public class FHIRtoRKConverter {
                     surveySteps += [stepForm]
                 }
                 
-            case "text":
+            case "text",
+                 "string",
+                 "integer",
+                 "boolean",
+                 "decimal",
+                 "time",
+                 "dateTime",
+                 "choice",
+                 "reference",
+                 "date":
                 surveySteps += [buildNewQuestion(question: question,  questionnaireTitle: questionnaireTitle)]
-                
-            case "string":
-                surveySteps += [buildNewQuestion(question: question,  questionnaireTitle: questionnaireTitle)]
-                
-            case "integer":
-                surveySteps += [buildNewQuestion(question: question,  questionnaireTitle: questionnaireTitle)]
-                
-            case "boolean":
-                surveySteps += [buildNewQuestion(question: question,  questionnaireTitle: questionnaireTitle)]
-                
-            case "decimal":
-                surveySteps += [buildNewQuestion(question: question,  questionnaireTitle: questionnaireTitle)]
-                
-            case "time":
-                surveySteps += [buildNewQuestion(question: question,  questionnaireTitle: questionnaireTitle)]
-                
-            case "dateTime":
-                surveySteps += [buildNewQuestion(question: question,  questionnaireTitle: questionnaireTitle)]
-                
-            case "choice":
-                surveySteps += [buildNewQuestion(question: question,  questionnaireTitle: questionnaireTitle)]
-                
-            case "reference":
-                surveySteps += [buildNewQuestion(question: question,  questionnaireTitle: questionnaireTitle)]
-                
-            case "date":
-                surveySteps += [buildNewQuestion(question: question,  questionnaireTitle: questionnaireTitle)]
-                
+             
             case .none:
                 print("none")
             case .some(_):
@@ -213,21 +195,21 @@ public class FHIRtoRKConverter {
         return answerOptions
     }
     
-    func extractSteps (reference: String, complete: Bool, completion: @escaping (QuestionnaireType?, Bool?, Error?) -> Void) {
+    func extractSteps (reference: String, task: Task, completion: @escaping (QuestionnaireType?, Error?) -> Void) {
         let externalSD = ExternalStoreDelegate()
         
-        externalSD.getQuestionnairesFromServer(reference: reference, complete: complete) { (questionnaire, error) in
+        externalSD.getQuestionnairesFromServer(reference: reference, task: task) { (questionnaire, error) in
             guard error == nil,
                   let questionnaire = questionnaire else {
-                completion(nil, nil,error)
+                completion(nil, error)
                 return
             }
             
             if questionnaire.FHIRquestionnaire.item != nil {
                 print("FHIR QUESTIONNAIRE ITEM: \(String(describing: questionnaire.FHIRquestionnaire.title?.description))")
-                completion(questionnaire, nil, error)
+                completion(questionnaire, error)
             } else {
-                completion(nil, nil, error)
+                completion(nil, error)
             }
         }
     }

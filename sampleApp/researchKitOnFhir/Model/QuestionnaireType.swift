@@ -12,11 +12,12 @@ import SMART
 public class QuestionnaireType {
     
     var FHIRquestionnaire: Questionnaire
-    var questionnaireComplete: Bool
+    var FHIRtask: Task
+    var tagNum: Int
     
-    init(questionnaire: Questionnaire, complete: Bool) {
+    init(task: Task, questionnaire: Questionnaire) {
         FHIRquestionnaire = questionnaire
-        questionnaireComplete = complete
+        FHIRtask = task
+        tagNum = -1
     }
-    
 }
