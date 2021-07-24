@@ -78,7 +78,7 @@ extension Server {
     }
     
     func removeQuestionnairePrefix(query: String) -> String {
-        var substringArray = query.split(separator: "/")
+        let substringArray = query.split(separator: "/")
         print(substringArray)
         return String(substringArray[1])
     }
