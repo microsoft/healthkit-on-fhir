@@ -68,48 +68,76 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4ei-Wf-kgh">
-                                <rect key="frame" x="118" y="658" width="179" height="42"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4ei-Wf-kgh">
+                                <rect key="frame" x="117" y="658" width="180" height="42"/>
                                 <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="42" id="yJ7-sF-50M"/>
+                                </constraints>
                                 <state key="normal" title="Sign-in">
                                     <color key="titleColor" systemColor="labelColor"/>
                                 </state>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EIt-oJ-O5e">
-                                <rect key="frame" x="268" y="801" width="93" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EIt-oJ-O5e">
+                                <rect key="frame" x="231" y="801" width="130" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="32" id="jPB-sy-bfc"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                <state key="normal" title="Default Patient">
+                                <state key="normal" title="Authenticated Patient">
                                     <color key="titleColor" systemColor="labelColor"/>
                                 </state>
                                 <connections>
-                                    <segue destination="Omj-ch-x6p" kind="show" destinationCreationSelector="defaultUser:" id="uEK-Cc-08V"/>
+                                    <segue destination="Omj-ch-x6p" kind="show" destinationCreationSelector="authenticatedUserSegue:" id="uEK-Cc-08V"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Welcome" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f14-ja-cxb">
-                                <rect key="frame" x="104" y="174" width="207" height="89"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="43"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vuY-en-wRh">
-                                <rect key="frame" x="118" y="585" width="179" height="42"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="systemPurpleColor"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vuY-en-wRh">
+                                <rect key="frame" x="117" y="597" width="180" height="30"/>
+                                <color key="backgroundColor" systemColor="systemBlueColor"/>
                                 <state key="normal" title="Sign-up">
                                     <color key="titleColor" systemColor="labelColor"/>
                                 </state>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f14-ja-cxb">
+                                <rect key="frame" x="121" y="153.5" width="172" height="51.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="43"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="49m-7K-ptL">
+                                <rect key="frame" x="117" y="247" width="180" height="238"/>
+                                <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="238" id="EJh-De-D8r"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="AOk-Yi-4iH"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="4ei-Wf-kgh" firstAttribute="top" secondItem="vuY-en-wRh" secondAttribute="bottom" constant="31" id="3UX-3q-p3H"/>
+                            <constraint firstItem="49m-7K-ptL" firstAttribute="centerX" secondItem="vuY-en-wRh" secondAttribute="centerX" id="7lo-zl-Yhn"/>
+                            <constraint firstItem="49m-7K-ptL" firstAttribute="top" secondItem="Pgc-nE-M0e" secondAttribute="top" constant="247" id="DsP-Yu-zpg"/>
+                            <constraint firstItem="49m-7K-ptL" firstAttribute="centerX" secondItem="AOk-Yi-4iH" secondAttribute="centerX" id="Nw9-pK-uU7"/>
+                            <constraint firstItem="AOk-Yi-4iH" firstAttribute="trailing" secondItem="EIt-oJ-O5e" secondAttribute="trailing" constant="53" id="QRW-TC-gzg"/>
+                            <constraint firstItem="EIt-oJ-O5e" firstAttribute="leading" secondItem="AOk-Yi-4iH" secondAttribute="leading" constant="231" id="TZj-9k-ZyN"/>
+                            <constraint firstItem="49m-7K-ptL" firstAttribute="trailing" secondItem="4ei-Wf-kgh" secondAttribute="trailing" id="XMW-S0-XP4"/>
+                            <constraint firstAttribute="bottom" secondItem="4ei-Wf-kgh" secondAttribute="bottom" constant="196" id="YxI-43-CPB"/>
+                            <constraint firstItem="49m-7K-ptL" firstAttribute="centerX" secondItem="4ei-Wf-kgh" secondAttribute="centerX" id="eoh-6Q-tvt"/>
+                            <constraint firstItem="AOk-Yi-4iH" firstAttribute="bottom" secondItem="EIt-oJ-O5e" secondAttribute="bottom" constant="29" id="kDB-11-GbK"/>
+                            <constraint firstItem="49m-7K-ptL" firstAttribute="trailing" secondItem="vuY-en-wRh" secondAttribute="trailing" id="s3B-dT-roj"/>
+                            <constraint firstItem="49m-7K-ptL" firstAttribute="centerX" secondItem="f14-ja-cxb" secondAttribute="centerX" id="s5x-ro-8BF"/>
+                            <constraint firstItem="49m-7K-ptL" firstAttribute="width" secondItem="Pgc-nE-M0e" secondAttribute="width" multiplier="0.434783" id="uv0-3Q-yo9"/>
+                            <constraint firstItem="49m-7K-ptL" firstAttribute="top" secondItem="f14-ja-cxb" secondAttribute="bottom" constant="42" id="yBx-Ei-Cgy"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="8hf-7r-b4p"/>
                     <connections>
-                        <outlet property="defaultPatientButton" destination="EIt-oJ-O5e" id="8a4-jK-v6n"/>
-                        <outlet property="surveyListButton" destination="EIt-oJ-O5e" id="orT-6A-0BO"/>
+                        <outlet property="authenticatedPatientButton" destination="EIt-oJ-O5e" id="6P3-LP-6jd"/>
+                        <outlet property="configMessageLabel" destination="49m-7K-ptL" id="5US-m2-RZg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zoC-dx-cR7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -232,8 +260,8 @@
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
-        <systemColor name="systemPurpleColor">
-            <color red="0.68627450980392157" green="0.32156862745098042" blue="0.87058823529411766" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <systemColor name="systemBlueColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

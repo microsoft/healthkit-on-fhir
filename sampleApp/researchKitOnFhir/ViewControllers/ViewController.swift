@@ -2,8 +2,6 @@
 //  ViewController.swift
 //  sampleApp
 //
-//  Created by admin on 6/22/21.
-//
 
 import UIKit
 import ResearchKit
@@ -35,12 +33,6 @@ class ViewController: UIViewController {
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning();
-    }
-    
-    @IBAction func consentTapped(sender : AnyObject) {
-        let taskViewController = ORKTaskViewController(task: ConsentTask, taskRun: nil)
-        taskViewController.delegate = self
-        present(taskViewController, animated: true, completion: nil)
     }
     
 }

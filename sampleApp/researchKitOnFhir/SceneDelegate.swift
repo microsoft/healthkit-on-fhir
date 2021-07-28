@@ -6,11 +6,12 @@
 //
 
 import UIKit
-// import 
+import SMART
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    public var smartClient: Client?
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -47,19 +48,31 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         if let url = URLContexts.first?.url {
             // Handle URL
-
-                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                
-                if url.scheme == AppDelegate.callbackScheme {
-                    guard appDelegate.smartClient != nil else {
-                        return
-                    }
-                    
-                    if appDelegate.smartClient!.awaitingAuthCallback {
-                        _ = appDelegate.smartClient!.didRedirect(to: url)
-                    }
+            
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            
+            if url.scheme == AppDelegate.callbackScheme {
+                guard appDelegate.smartClient != nil else {
+                    return
                 }
-                // Process the URL similarly to the UIApplicationDelegate example.
+                
+                if appDelegate.smartClient!.awaitingAuthCallback {
+                    _ = appDelegate.smartClient!.didRedirect(to: url)
+                }
+            }
+            
+            if ConfigHelper.loadConfiguration(url: url) {
+                do {
+                    // The configuration has already been loaded - Delete the JSON file
+                    try FileManager.default.removeItem(at: url)
+                } catch {
+                    print("Unable to delete configuration file - \(error)")
+                }
+                appDelegate.initializeServices()
+                NotificationCenter.default.post(name: AppDelegate.servicesDidUpdateNotification, object: nil)
+                
+                // landingScreen.loadLandingScreenView()
+            }
         }
     }
 

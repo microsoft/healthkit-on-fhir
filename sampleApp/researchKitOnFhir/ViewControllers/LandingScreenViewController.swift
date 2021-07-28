@@ -2,60 +2,86 @@
 //  LandingPageViewController.swift
 //  researchKitOnFhir
 //
-//  Created by admin on 7/14/21.
-//
 
 import UIKit
 import SMART
-import ResearchKit
 
-class LandingScreenViewController: UIViewController {
-
-    @IBOutlet var surveyListButton: UIButton!
-    var smartClient: Client?
+class LandingScreenViewController: ViewControllerBase {
+    
+    @IBOutlet weak var configMessageLabel: UILabel!
     
     var didAttemptAuthentication = false
     
-    @IBOutlet weak var defaultPatientButton: UIButton!
+    @IBOutlet weak var authenticatedPatientButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.defaultPatientButton.isHidden = true
+        #if targetEnvironment(simulator)
+        configMessageLabel.text = "Drag the Config.json file onto the Simulator screen to begin."
+        #endif
         
-        let appDelegate = UIApplication.shared.delegate as? AppDelegate
-        smartClient = appDelegate?.smartClient
-        
-        if (!didAttemptAuthentication) {
-            didAttemptAuthentication = true
-            smartClient?.authorize(callback: { (patient, error) in
-                DispatchQueue.main.async {
-                    if error == nil {
-                        print("Connection to server complete")
-                        self.defaultPatientButton.isHidden = false
-                    } else {
-                        print(error)
-                    }
-                }
-            })
-        }
-        
-        // Do any additional setup after loading the view.
+        self.authenticatedPatientButton.isHidden = true
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+        super.viewWillAppear(animated)
         
+        // Hide the loading indicator
+        loadLandingScreenView()
     }
     
-    @IBSegueAction func defaultUser(_ coder: NSCoder) -> SurveyListViewController? {
+    func loadLandingScreenView () {
+        updateViewState(isLoading: false)
         
-        var surveyList = SurveyListViewController(coder: coder)
-       
-        return surveyList
+        if !didAttemptAuthentication {
+            authenticate();
+        }
     }
     
+    @objc public override func servicesDidUpdate() {
+        super.servicesDidUpdate()
+        updateViewState(isLoading: false)
+        authenticate()
     }
     
+    public func updateViewState(isLoading: Bool, message: String? = nil) {
+        DispatchQueue.main.async {
+            self.configMessageLabel.isHidden = self.smartClient != nil
+            
+        }
+    }
+    
+    private func authenticate() {
+        didAttemptAuthentication = true
+        
+        updateViewState(isLoading: smartClient != nil)
+        
+        // Authorize the application using the SMART on FHIR Framework.
+        smartClient?.authorize(callback: { (patient, error) in
+            if let error = error {
+                print(error)
+                
+                // An error occurred, reset the client to force the authentication UI flow.
+                self.smartClient?.reset()
+                self.updateViewState(isLoading: false)
+                
+                return
+            }
+            
+            // display navigation button to authenticated patient questionnaire list once authentication is complete
+            DispatchQueue.main.async {
+                self.authenticatedPatientButton.isHidden = false
+            }
+        })
+    }
+    
+    
+    @IBSegueAction func authenticatedUserSegue(_ coder: NSCoder) -> SurveyListViewController? {
+        return SurveyListViewController(coder: coder)
+    }
+    
+}
+
 
 

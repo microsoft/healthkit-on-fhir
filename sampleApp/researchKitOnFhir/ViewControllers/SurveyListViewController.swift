@@ -14,6 +14,11 @@ class SurveyListViewController: UIViewController {
     var smartClient: Client?
     var didAttemptAuthentication = false
     @IBOutlet var surveyButton: UIButton!
+    static var questionnaireList = [Int: QuestionnaireType]()
+    var todoQList = [QuestionnaireType]()
+    var completeQList = [QuestionnaireType]()
+    let tableView = UITableView()
+    static var QList = [QListCategory]()
     
     struct Cells {
         static let buttonCell = "buttonCell"
@@ -23,14 +28,6 @@ class SurveyListViewController: UIViewController {
         static let toDo = "Requested"
         static let complete = "Complete"
     }
-    
-    let tableView = UITableView()
-    
-    static var questionnaireList = [Int: QuestionnaireType]() // this one currently
-    var todoQList = [QuestionnaireType]()
-    var completeQList = [QuestionnaireType]()
-    
-    static var QList = [QListCategory]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -188,46 +185,43 @@ extension SurveyListViewController: ORKTaskViewControllerDelegate  {
             
             let questionnaireConverter = RKtoFHIRConverter()
             
+            // convert the questionnaire response from ResearchKit type to FHIR QuestionnaireResponse resource
             let FHIRQuestionnaireResponse: QuestionnaireResponse = questionnaireConverter.RKQuestionResponseToFHIR(results: taskViewController)
+            
+            // set the questionnaireResponse's associated questionnaire
             FHIRQuestionnaireResponse.questionnaire = FHIRCanonical((SurveyListViewController.questionnaireList[FHIRtoRKConverter.currentIndex]!.FHIRtask.basedOn?[0].reference?.string)!)
             
             let appDelegate = UIApplication.shared.delegate as? AppDelegate
             let smartClient = appDelegate?.smartClient
             
-            // Post the Device to the FHIR server
+            // Post the response to the FHIR server
             FHIRQuestionnaireResponse.create(smartClient?.server as! FHIRServer) { (error) in
                 //Ensure there is no error
                 guard error == nil else {
-                    print("ERROR - SurveyListViewController 85: \(String(describing: error))")
                     return
                 }
             }
             
-            // update locally
-            SurveyListViewController.questionnaireList[FHIRtoRKConverter.currentIndex]!.FHIRtask.status = TaskStatus(rawValue: "completed")
-            
-            let questionnaireId = SurveyListViewController.questionnaireList[FHIRtoRKConverter.currentIndex]!.FHIRtask.basedOn![0].reference?.string
-            taskParser.questionnaireIdList[questionnaireId!] = true
-            
-            
-            // update in server
+            // update task completion status in server
             let task = SurveyListViewController.questionnaireList[FHIRtoRKConverter.currentIndex]!.FHIRtask
+            task.status = TaskStatus(rawValue: "completed")
+            
             task.update(callback: { error in
-                print(error)
-                DispatchQueue.main.async {
-                    self.view.subviews.forEach { (uiView) in
-                        if uiView != self.surveyListLoadingIndicator {
-                            uiView.removeFromSuperview()
-                            self.surveyListLoadingIndicator.isHidden = false
+                
+                // ensure there is no error
+                if error == nil {
+                    DispatchQueue.main.async {
+                        self.view.subviews.forEach { (uiView) in
+                            if uiView != self.surveyListLoadingIndicator {
+                                uiView.removeFromSuperview()
+                                self.surveyListLoadingIndicator.isHidden = false
+                            }
                         }
+                        self.populateQuestionnaireList()
+                        taskViewController.dismiss(animated: true, completion: nil)
                     }
-                    self.populateQuestionnaireList()
-                    taskViewController.dismiss(animated: true, completion: nil)
                 }
             })
-            
-            // TODO: make change visible in UI when taskViewController is dismissed
-            
             
         case .saved:
             print("REASON: saved")

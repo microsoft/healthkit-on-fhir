@@ -24,48 +24,62 @@ public class FHIRtoRKConverter {
         var surveySteps = [ORKStep]()
         
         for question in questions {
-            var answer = ORKAnswerFormat()
-            switch(question.type?.rawValue){
-            
-            case "group":
-                if question.linkId?.string == nil {
-                    print("error position 1")
-                }
-                let stepForm = ORKFormStep(identifier: question.linkId!.string)
-                var stepFormItems = [ORKFormItem]()
+            // ensures the question text is not empty
+            if question.text != nil {
                 
-                if stepForm.formItems == nil {
-                    stepForm.formItems = [ORKFormItem]()
-                }
-                if question.item != nil {
-                    for item in question.item! {
-                        let itemLinkId = getQuestionId(question: item)
-                        let newFormItem = ORKFormItem(identifier: itemLinkId, text: item.text?.string, answerFormat: getAnswerFormat(question: item))
-                        stepFormItems += [newFormItem]
+                switch(question.type?.rawValue){
+                
+                case "group":
+                    let newFormStep = createGroupItem(question: question)
+                    if newFormStep.formItems != nil {
+                        if newFormStep.formItems!.count > 0 {
+                            surveySteps += [newFormStep]
+                        }
                     }
-                    stepForm.formItems! += stepFormItems
-                    surveySteps += [stepForm]
+                    
+                case "text",
+                     "string",
+                     "integer",
+                     "boolean",
+                     "decimal",
+                     "time",
+                     "dateTime",
+                     "choice",
+                     "reference",
+                     "date":
+                    surveySteps += [buildNewQuestion(question: question,  questionnaireTitle: questionnaireTitle)]
+                    
+                case .none:
+                    question.type = QuestionnaireItemType(rawValue: "string")
+                    surveySteps += [buildNewQuestion(question: question,  questionnaireTitle: questionnaireTitle)]
+                    print("none")
+                case .some(_):
+                    question.type = QuestionnaireItemType(rawValue: "string")
+                    surveySteps += [buildNewQuestion(question: question,  questionnaireTitle: questionnaireTitle)]
+                    print("CONVERSION some")
                 }
-                
-            case "text",
-                 "string",
-                 "integer",
-                 "boolean",
-                 "decimal",
-                 "time",
-                 "dateTime",
-                 "choice",
-                 "reference",
-                 "date":
-                surveySteps += [buildNewQuestion(question: question,  questionnaireTitle: questionnaireTitle)]
-             
-            case .none:
-                print("none")
-            case .some(_):
-                print("CONVERSION some")
             }
         }
         return surveySteps
+    }
+    
+    // converts FHIR "group" type to ORKFormStep with list of ORKFormItems
+    func createGroupItem (question: QuestionnaireItem) -> ORKFormStep {
+        let stepForm = ORKFormStep(identifier: question.linkId!.string)
+        var stepFormItems = [ORKFormItem]()
+        
+        if stepForm.formItems == nil {
+            stepForm.formItems = [ORKFormItem]()
+        }
+        if question.item != nil {
+            for item in question.item! {
+                let itemLinkId = getQuestionId(question: item)
+                let newFormItem = ORKFormItem(identifier: itemLinkId, text: item.text?.string, answerFormat: getAnswerFormat(question: item))
+                stepFormItems += [newFormItem]
+            }
+            stepForm.formItems! += stepFormItems
+        }
+        return stepForm
     }
     
     func buildNewQuestion(question: QuestionnaireItem, questionnaireTitle: String) -> ORKQuestionStep {
@@ -85,7 +99,7 @@ public class FHIRtoRKConverter {
         if question.linkId?.string != nil {
             newQuestionIdentifier = (question.linkId?.string)!
         } else {
-            // TODO: let newQuestionIdentifier = assignLinkId(...)
+            // TODO: assign linkId to question if none was provided
         }
         
         return newQuestionIdentifier
@@ -106,28 +120,15 @@ public class FHIRtoRKConverter {
                 
             case "string":
                 answer = ORKTextAnswerFormat()
-            // TODO: multiple lines field not recognized because type seen by compiler as supertype
-            
-            /*
-             if question.maxLength == nil {
-             let answer = ORKTextAnswerFormat()
-             answer.multipleLines = false
-             } else {
-             let answer = ORKTextAnswerFormat(maximumLength: question.maxLength!.int)
-             answer.multipleLines = false
-             }
-             */
             
             case "integer":
                 answer = ORKNumericAnswerFormat.integerAnswerFormat(withUnit: "")
-            // TODO: add units somehow?
             
             case "boolean":
                 answer = ORKBooleanAnswerFormat.booleanAnswerFormat()
                 
             case "decimal":
                 answer = ORKNumericAnswerFormat.decimalAnswerFormat(withUnit: "")
-            // TODO: add units?
             
             case "time":
                 answer = ORKTimeOfDayAnswerFormat()
@@ -145,15 +146,10 @@ public class FHIRtoRKConverter {
                     answer = pickMultipleChoiceFormat(choices: answerOptions)
                 }
                 
-            case "reference":
-                answer = ORKLocationAnswerFormat()
-                
             case .none:
                 answer = ORKTextAnswerFormat()
                 
             case .some(_):
-                print("answer format is some")
-                // TODO: ask about better solution
                 answer = ORKTextAnswerFormat()
             }
         } else {
@@ -165,6 +161,8 @@ public class FHIRtoRKConverter {
     
     func pickMultipleChoiceFormat(choices: [ORKTextChoice]) -> ORKAnswerFormat {
         var max = 0
+        
+        // somewhat arbitrary threshold to choose Value Picker vs. Multiple Choice UI
         let maxThreshold = 10
         for choice in choices {
             if choice.text.count > max {
@@ -172,8 +170,9 @@ public class FHIRtoRKConverter {
             }
         }
         var answerFormat = ORKAnswerFormat()
+        
         if (max > maxThreshold) {
-            // TODO: address single vs. multiple choice issue
+            // TODO: currently only supports single choice (FHIR does not provide field for choosing multiple answers)
             answerFormat = ORKTextChoiceAnswerFormat(style: ORKChoiceAnswerStyle.singleChoice, textChoices: choices)
         } else {
             answerFormat = ORKValuePickerAnswerFormat(textChoices: choices)
@@ -206,7 +205,6 @@ public class FHIRtoRKConverter {
             }
             
             if questionnaire.FHIRquestionnaire.item != nil {
-                print("FHIR QUESTIONNAIRE ITEM: \(String(describing: questionnaire.FHIRquestionnaire.title?.description))")
                 completion(questionnaire, error)
             } else {
                 completion(nil, error)

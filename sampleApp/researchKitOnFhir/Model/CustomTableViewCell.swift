@@ -2,19 +2,17 @@
 //  CustomTableViewCell.swift
 //  researchKitOnFhir
 //
-//  Created by admin on 7/22/21.
-//
 
 import Foundation
 import UIKit
 
 public class CustomTableViewCell: UITableViewCell {
     
-    var button = UILabel()
+    var questionnaireLabel = UILabel()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        addSubview(button)
+        addSubview(questionnaireLabel)
         configureButton()
         setButtonConstraints()
     }
@@ -24,22 +22,22 @@ public class CustomTableViewCell: UITableViewCell {
     }
     
     func set(questionnaire: QuestionnaireType) {
-        button.text = questionnaire.FHIRquestionnaire.title?.string
-        button.textColor = UIColor.black
-        button.textAlignment = .left
-        button.tag = questionnaire.tagNum
+        questionnaireLabel.text = questionnaire.FHIRquestionnaire.title?.string
+        questionnaireLabel.textColor = UIColor.black
+        questionnaireLabel.textAlignment = .left
+        questionnaireLabel.tag = questionnaire.tagNum
     }
     
     func configureButton() {
-        button.numberOfLines = 0
-        button.adjustsFontSizeToFitWidth = true
+        questionnaireLabel.numberOfLines = 0
+        questionnaireLabel.adjustsFontSizeToFitWidth = true
     }
     
     func setButtonConstraints() {
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        button.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 25).isActive = true
-        button.heightAnchor.constraint(equalTo: heightAnchor).isActive = true
-        button.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+        questionnaireLabel.translatesAutoresizingMaskIntoConstraints = false
+        questionnaireLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        questionnaireLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 25).isActive = true
+        questionnaireLabel.heightAnchor.constraint(equalTo: heightAnchor).isActive = true
+        questionnaireLabel.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
     }
 }
