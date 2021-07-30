@@ -1,0 +1,5 @@
+{
+    "smartClientBaseUrl": "{YOUR_FHIR_SERVER_URL}",
+    "smartClientClientId": "{YOUR_CLIENT_ID}",
+    "patientId": "{YOUR_PATIENT_ID}"
+}

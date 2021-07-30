@@ -2,8 +2,6 @@
 //  ExternalStoreDelegate.swift
 //  researchKitOnFhir
 //
-//  Created by admin on 6/24/21.
-//
 
 import Foundation
 import SMART
@@ -27,6 +25,7 @@ public class ExternalStoreDelegate {
                     return
                 }
                 
+                // Ensure the questionnaire exists
                 guard let questionnaireId = questionnaire?.FHIRquestionnaire.id?.description else {
                     completion(nil, ExternalStoreDelegateError.noQuestionnairesInServer)
                     return

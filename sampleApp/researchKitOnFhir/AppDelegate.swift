@@ -2,8 +2,6 @@
 //  AppDelegate.swift
 //  researchKitOnFhir
 //
-//  Created by admin on 6/22/21.
-//
 
 import UIKit
 import SMART
@@ -26,18 +24,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         return true
     }
+    
     public func initializeServices() {
         // Create the SMART on FHIR client
         let smartClientBaseUrl = ConfigHelper.smartClientBaseUrl
         let smartClientClientId = ConfigHelper.smartClientClientId
-        let redirect = ConfigHelper.appRedirect
-        let patientId = ConfigHelper.patientId
+        let redirect = "\(AppDelegate.callbackScheme)://callback"
         
         smartClient = Client(
             baseURL: URL(string: smartClientBaseUrl)!,
             settings: ["client_id": smartClientClientId, "redirect": redirect])
         
         smartClient?.authProperties.granularity = .tokenOnly
+        
+        // TODO: implement token refresh capability - authentication times out with current implementation
     }
 
     func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {

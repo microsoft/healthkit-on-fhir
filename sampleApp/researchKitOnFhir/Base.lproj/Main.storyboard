@@ -91,8 +91,8 @@
                                     <segue destination="Omj-ch-x6p" kind="show" destinationCreationSelector="authenticatedUserSegue:" id="uEK-Cc-08V"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vuY-en-wRh">
-                                <rect key="frame" x="117" y="597" width="180" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vuY-en-wRh">
+                                <rect key="frame" x="117" y="597" width="180" height="43"/>
                                 <color key="backgroundColor" systemColor="systemBlueColor"/>
                                 <state key="normal" title="Sign-up">
                                     <color key="titleColor" systemColor="labelColor"/>
@@ -104,9 +104,9 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="49m-7K-ptL">
-                                <rect key="frame" x="117" y="247" width="180" height="238"/>
-                                <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="49m-7K-ptL">
+                                <rect key="frame" x="20" y="272" width="374" height="238"/>
+                                <color key="backgroundColor" red="0.7458404970114505" green="0.90166896294387311" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="238" id="EJh-De-D8r"/>
                                 </constraints>
@@ -126,6 +126,7 @@
                             <constraint firstItem="EIt-oJ-O5e" firstAttribute="leading" secondItem="AOk-Yi-4iH" secondAttribute="leading" constant="231" id="TZj-9k-ZyN"/>
                             <constraint firstItem="49m-7K-ptL" firstAttribute="trailing" secondItem="4ei-Wf-kgh" secondAttribute="trailing" id="XMW-S0-XP4"/>
                             <constraint firstAttribute="bottom" secondItem="4ei-Wf-kgh" secondAttribute="bottom" constant="196" id="YxI-43-CPB"/>
+                            <constraint firstItem="49m-7K-ptL" firstAttribute="centerX" secondItem="AOk-Yi-4iH" secondAttribute="centerX" id="e3K-lZ-I9z"/>
                             <constraint firstItem="49m-7K-ptL" firstAttribute="centerX" secondItem="4ei-Wf-kgh" secondAttribute="centerX" id="eoh-6Q-tvt"/>
                             <constraint firstItem="AOk-Yi-4iH" firstAttribute="bottom" secondItem="EIt-oJ-O5e" secondAttribute="bottom" constant="29" id="kDB-11-GbK"/>
                             <constraint firstItem="49m-7K-ptL" firstAttribute="trailing" secondItem="vuY-en-wRh" secondAttribute="trailing" id="s3B-dT-roj"/>

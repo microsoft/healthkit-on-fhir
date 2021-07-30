@@ -2,8 +2,6 @@
 //  RKtoFHIR.swift
 //  researchKitOnFhir
 //
-//  Created by admin on 7/13/21.
-//
 
 import Foundation
 import SMART
@@ -36,17 +34,7 @@ public class RKtoFHIRConverter {
                         switch(type) {
                         
                         case "text", "string":
-                            let newResult = result as! ORKTextQuestionResult
-                            let newQuestionResponseAnswer = QuestionnaireResponseItemAnswer()
-                            
-                            if newResult.textAnswer != nil {
-                                let newAnswerAsFHIRString = FHIRString(newResult.textAnswer!)
-                                newQuestionResponseAnswer.valueString = newAnswerAsFHIRString
-                                newQuestionResponse.answer = [QuestionnaireResponseItemAnswer]()
-                                if newQuestionResponseAnswer.valueString != nil && newQuestionResponse.answer != nil {
-                                    newQuestionResponse.answer! += [newQuestionResponseAnswer]
-                                }
-                            }
+                            convertTextResponse(result, newQuestionResponse)
                             
                         case "integer":
                             let newResult = result as! ORKNumericQuestionResult
@@ -135,25 +123,28 @@ public class RKtoFHIRConverter {
                         case "choice":
                             let newResult = result as! ORKChoiceQuestionResult
                             let newQuestionResponseAnswer = QuestionnaireResponseItemAnswer()
-                            let answerArray = newResult.answer as! NSArray
                             
-                            var newAnswerAsFHIRString = FHIRString("no response")
-                            
-                            if answerArray.count > 0 {
-                                // FHIR standard only allows for one answer to be selected from multiple choice question
-                                newAnswerAsFHIRString.string = answerArray[0] as! String
-                            }
-                            
-                            newQuestionResponseAnswer.valueString = newAnswerAsFHIRString
-                            
-                            newQuestionResponse.answer = [QuestionnaireResponseItemAnswer]()
-                            
-                            if newQuestionResponseAnswer.valueString != nil && newQuestionResponse.answer != nil {
-                                newQuestionResponse.answer! += [newQuestionResponseAnswer]
+                            if newResult.answer != nil {
+                                let answerArray = newResult.answer as! NSArray
+                                
+                                var newAnswerAsFHIRString = FHIRString("no response")
+                                
+                                if answerArray.count > 0 {
+                                    // FHIR standard only allows for one answer to be selected from multiple choice question
+                                    newAnswerAsFHIRString.string = answerArray[0] as! String
+                                }
+                                
+                                newQuestionResponseAnswer.valueString = newAnswerAsFHIRString
+                                
+                                newQuestionResponse.answer = [QuestionnaireResponseItemAnswer]()
+                                
+                                if newQuestionResponseAnswer.valueString != nil && newQuestionResponse.answer != nil {
+                                    newQuestionResponse.answer! += [newQuestionResponseAnswer]
+                                }
                             }
                             
                         default:
-                            print("something is wrong")
+                            convertTextResponse(result, newQuestionResponse)
                         }
                         if newQuestionResponse.answer != nil {
                             FHIRQuestionResponses += [newQuestionResponse]
@@ -224,4 +215,17 @@ public class RKtoFHIRConverter {
         return FHIRTime(hour: answerHour, minute: answerMinute, second: answerSecond)
     }
     
+    private func convertTextResponse(_ result: ORKResult, _ newQuestionResponse: QuestionnaireResponseItem) {
+        let newResult = result as! ORKTextQuestionResult
+        let newQuestionResponseAnswer = QuestionnaireResponseItemAnswer()
+        
+        if newResult.textAnswer != nil {
+            let newAnswerAsFHIRString = FHIRString(newResult.textAnswer!)
+            newQuestionResponseAnswer.valueString = newAnswerAsFHIRString
+            newQuestionResponse.answer = [QuestionnaireResponseItemAnswer]()
+            if newQuestionResponseAnswer.valueString != nil && newQuestionResponse.answer != nil {
+                newQuestionResponse.answer! += [newQuestionResponseAnswer]
+            }
+        }
+    }   
 }

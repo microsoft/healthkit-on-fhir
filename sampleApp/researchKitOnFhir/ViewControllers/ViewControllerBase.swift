@@ -2,8 +2,6 @@
 //  ViewControllerBase.swift
 //  researchKitOnFhir
 //
-//  Created by admin on 7/26/21.
-//
 
 import Foundation
 import UIKit

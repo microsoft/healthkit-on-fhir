@@ -2,8 +2,6 @@
 //  SceneDelegate.swift
 //  researchKitOnFhir
 //
-//  Created by admin on 6/23/21.
-//
 
 import UIKit
 import SMART

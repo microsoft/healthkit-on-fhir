@@ -2,8 +2,6 @@
 //  FHIRtoRK.swift
 //  researchKitOnFhir
 //
-//  Created by admin on 7/13/21.
-//
 
 import Foundation
 import SMART
@@ -25,12 +23,12 @@ public class FHIRtoRKConverter {
         
         for question in questions {
             // ensures the question text is not empty
-            if question.text != nil {
+            if question.text != nil || question.type?.rawValue == "group" {
                 
                 switch(question.type?.rawValue){
                 
                 case "group":
-                    let newFormStep = createGroupItem(question: question)
+                    let newFormStep = createGroupItem(question: question, title: questionnaireTitle)
                     if newFormStep.formItems != nil {
                         if newFormStep.formItems!.count > 0 {
                             surveySteps += [newFormStep]
@@ -45,16 +43,15 @@ public class FHIRtoRKConverter {
                      "time",
                      "dateTime",
                      "choice",
-                     "reference",
                      "date":
                     surveySteps += [buildNewQuestion(question: question,  questionnaireTitle: questionnaireTitle)]
                     
                 case .none:
-                    question.type = QuestionnaireItemType(rawValue: "string")
+                    question.type = QuestionnaireItemType(rawValue: "text")
                     surveySteps += [buildNewQuestion(question: question,  questionnaireTitle: questionnaireTitle)]
                     print("none")
                 case .some(_):
-                    question.type = QuestionnaireItemType(rawValue: "string")
+                    question.type = QuestionnaireItemType(rawValue: "text")
                     surveySteps += [buildNewQuestion(question: question,  questionnaireTitle: questionnaireTitle)]
                     print("CONVERSION some")
                 }
@@ -64,8 +61,9 @@ public class FHIRtoRKConverter {
     }
     
     // converts FHIR "group" type to ORKFormStep with list of ORKFormItems
-    func createGroupItem (question: QuestionnaireItem) -> ORKFormStep {
+    func createGroupItem (question: QuestionnaireItem, title: String) -> ORKFormStep {
         let stepForm = ORKFormStep(identifier: question.linkId!.string)
+        stepForm.title = title
         var stepFormItems = [ORKFormItem]()
         
         if stepForm.formItems == nil {
@@ -73,7 +71,9 @@ public class FHIRtoRKConverter {
         }
         if question.item != nil {
             for item in question.item! {
-                let itemLinkId = getQuestionId(question: item)
+                
+                // linkId has 1-1 cardinality per FHIR spec
+                let itemLinkId = (item.linkId?.string)!
                 let newFormItem = ORKFormItem(identifier: itemLinkId, text: item.text?.string, answerFormat: getAnswerFormat(question: item))
                 stepFormItems += [newFormItem]
             }
@@ -86,23 +86,13 @@ public class FHIRtoRKConverter {
         
         let answer = getAnswerFormat(question: question)
         let newQuestionStepContent = question.text?.string
-        let newQuestionIdentifier = getQuestionId(question: question)
+        
+        // linkId has 1-1 cardinality per FHIR spec
+        let newQuestionIdentifier = (question.linkId?.string)!
         
         let newStep = ORKQuestionStep(identifier: newQuestionIdentifier, title: questionnaireTitle, question: newQuestionStepContent, answer: answer)
         
         return newStep
-    }
-    
-    func getQuestionId (question: QuestionnaireItem) -> String {
-        var newQuestionIdentifier = String()
-        
-        if question.linkId?.string != nil {
-            newQuestionIdentifier = (question.linkId?.string)!
-        } else {
-            // TODO: assign linkId to question if none was provided
-        }
-        
-        return newQuestionIdentifier
     }
     
     func getAnswerFormat(question: QuestionnaireItem) -> ORKAnswerFormat {

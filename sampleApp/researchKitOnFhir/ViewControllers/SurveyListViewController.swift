@@ -2,8 +2,6 @@
 //  SurveyListViewController.swift
 //  researchKitOnFhir
 //
-//  Created by admin on 7/14/21.
-//
 
 import UIKit
 import ResearchKit
@@ -13,7 +11,6 @@ class SurveyListViewController: UIViewController {
     
     var smartClient: Client?
     var didAttemptAuthentication = false
-    @IBOutlet var surveyButton: UIButton!
     static var questionnaireList = [Int: QuestionnaireType]()
     var todoQList = [QuestionnaireType]()
     var completeQList = [QuestionnaireType]()
@@ -75,27 +72,26 @@ class SurveyListViewController: UIViewController {
                 questionnaireConverter.extractSteps(reference: questionnaireId!, task: task) { (questionnaire, error) in
                     DispatchQueue.main.async {
                         
-                        if questionnaire!.FHIRtask.status?.rawValue != "completed" {
+                        if questionnaire != nil {
+                            if questionnaire!.FHIRtask.status?.rawValue != "completed" {
+                                
+                                self.todoQList.append(questionnaire!)
+                                
+                            } else {
+                                
+                                self.completeQList.append(questionnaire!)
+                                
+                            }
                             
-                            self.todoQList.append(questionnaire!)
-                            counter += 1
-                            
-                        } else {
-                            
-                            self.completeQList.append(questionnaire!)
-                            counter += 1
-                            
-                        }
-                        
-                        // TODO: change to a different metric
-                        if counter == tasks?.count {
-                            
-                            self.createQListCategories(todoQ: self.todoQList, completeQ: self.completeQList)
-                            self.configureTableView()
-                            self.surveyListLoadingIndicator.isHidden = true
-                            
+                            if counter == tasks?.count {
+                                
+                                self.createQListCategories(todoQ: self.todoQList, completeQ: self.completeQList)
+                                self.configureTableView()
+                                self.surveyListLoadingIndicator.isHidden = true
+                            }
                         }
                     }
+                    counter += 1
                 }
             }
         }
@@ -148,7 +144,6 @@ extension SurveyListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: Cells.buttonCell, for: indexPath) as? CustomTableViewCell else {fatalError("Unable to create cell")}
         
-        print("SECTION: \(indexPath.section). ROW: \(indexPath.row)")
         let questionnaire = SurveyListViewController.QList[indexPath.section].questionnairesDisplayed?[indexPath.row]
         cell.set(questionnaire: questionnaire!)
         
@@ -183,49 +178,9 @@ extension SurveyListViewController: ORKTaskViewControllerDelegate  {
         switch (reason) {
         case .completed:
             
-            let questionnaireConverter = RKtoFHIRConverter()
-            
-            // convert the questionnaire response from ResearchKit type to FHIR QuestionnaireResponse resource
-            let FHIRQuestionnaireResponse: QuestionnaireResponse = questionnaireConverter.RKQuestionResponseToFHIR(results: taskViewController)
-            
-            // set the questionnaireResponse's associated questionnaire
-            FHIRQuestionnaireResponse.questionnaire = FHIRCanonical((SurveyListViewController.questionnaireList[FHIRtoRKConverter.currentIndex]!.FHIRtask.basedOn?[0].reference?.string)!)
-            
-            let appDelegate = UIApplication.shared.delegate as? AppDelegate
-            let smartClient = appDelegate?.smartClient
-            
-            // Post the response to the FHIR server
-            FHIRQuestionnaireResponse.create(smartClient?.server as! FHIRServer) { (error) in
-                //Ensure there is no error
-                guard error == nil else {
-                    return
-                }
-            }
-            
-            // update task completion status in server
-            let task = SurveyListViewController.questionnaireList[FHIRtoRKConverter.currentIndex]!.FHIRtask
-            task.status = TaskStatus(rawValue: "completed")
-            
-            task.update(callback: { error in
-                
-                // ensure there is no error
-                if error == nil {
-                    DispatchQueue.main.async {
-                        self.view.subviews.forEach { (uiView) in
-                            if uiView != self.surveyListLoadingIndicator {
-                                uiView.removeFromSuperview()
-                                self.surveyListLoadingIndicator.isHidden = false
-                            }
-                        }
-                        self.populateQuestionnaireList()
-                        taskViewController.dismiss(animated: true, completion: nil)
-                    }
-                }
-            })
-            
-        case .saved:
-            print("REASON: saved")
-            
+            persistResultsAsQResponse(taskViewController)
+            updateTaskStatus(taskViewController)
+             
         case .discarded:
             taskViewController.dismiss(animated: true, completion: nil)
             print("REASON: discarded")
@@ -234,8 +189,55 @@ extension SurveyListViewController: ORKTaskViewControllerDelegate  {
             taskViewController.dismiss(animated: true, completion: nil)
             print("REASON: failed")
             
+        case .saved:
+            taskViewController.dismiss(animated: true, completion: nil)
         @unknown default:
+            taskViewController.dismiss(animated: true, completion: nil)
             print("REASON: unknown default")
         }
+    }
+    
+    fileprivate func persistResultsAsQResponse (_ taskViewController: ORKTaskViewController) {
+        let questionnaireConverter = RKtoFHIRConverter()
+        
+        // convert the questionnaire response from ResearchKit type to FHIR QuestionnaireResponse resource
+        let FHIRQuestionnaireResponse: QuestionnaireResponse = questionnaireConverter.RKQuestionResponseToFHIR(results: taskViewController)
+        
+        // set the questionnaireResponse's associated questionnaire
+        FHIRQuestionnaireResponse.questionnaire = FHIRCanonical((SurveyListViewController.questionnaireList[FHIRtoRKConverter.currentIndex]!.FHIRtask.basedOn?[0].reference?.string)!)
+        
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        let smartClient = appDelegate?.smartClient
+        
+        // Post the response to the FHIR server
+        FHIRQuestionnaireResponse.create(smartClient?.server as! FHIRServer) { (error) in
+            //Ensure there is no error
+            guard error == nil else {
+                return
+            }
+        }
+    }
+    
+    fileprivate func updateTaskStatus(_ taskViewController: ORKTaskViewController) {
+        // update task completion status in server
+        let task = SurveyListViewController.questionnaireList[FHIRtoRKConverter.currentIndex]!.FHIRtask
+        task.status = TaskStatus(rawValue: "completed")
+        
+        task.update(callback: { error in
+            
+            // ensure there is no error
+            if error == nil {
+                DispatchQueue.main.async {
+                    self.view.subviews.forEach { (uiView) in
+                        if uiView != self.surveyListLoadingIndicator {
+                            uiView.removeFromSuperview()
+                            self.surveyListLoadingIndicator.isHidden = false
+                        }
+                    }
+                    self.populateQuestionnaireList()
+                    taskViewController.dismiss(animated: true, completion: nil)
+                }
+            }
+        })
     }
 }
