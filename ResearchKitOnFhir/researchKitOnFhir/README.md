@@ -1,8 +1,8 @@
 #  ResearchKit-on-Fhir
 
 ResearchKitOnFhir is an iOS template app that integrates Apple ResearchKit with FHIR® by:
-1. Automating the import of FHIR® Questionnaires from a FHIR® Server and their conversion to corresponding ResearchKit UI modules
-2. Automating the conversion of ResearchKit Survey responses to FHIR® QuestionnaireResponses and their export to a FHIR® Server
+1. Automating the import of [FHIR® Questionnaires](https://www.hl7.org/fhir/questionnaire.html#resource) from a FHIR® Server and their conversion to corresponding ResearchKit UI modules
+2. Automating the conversion of ResearchKit Survey responses to [FHIR® QuestionnaireResponses](https://www.hl7.org/fhir/questionnaireresponse.html#resource) and their export to a FHIR® Server
 
 
 ## Supported Types
@@ -26,14 +26,15 @@ ResearchKitOnFhir currently supports conversion between the following [ResearchK
 ## Authentication and Configuration
 ResearchKitOnFhir uses [SMART on FHIR](https://docs.smarthealthit.org) to integrate the app with a FHIR® Server. Current implementation supports configuration through the Config.json file, which the user populates with their FHIR® Server URL, SMART Client ID, and Patient ID, corresponding to ID of [Patient Resource](https://www.hl7.org/fhir/patient.html#resource) linked to intended app user. For example, a Patient who is accessed in the FHIR® Server through the URI "Patient/samplePatientName" will require a Config.json file with:
 
-```"patientId": "samplePatientName"
+```
+"patientId": "samplePatientName"
 ```
 Implementation is still needed to handle authentication token timeout (see TODO in AppDelegate.swift).
 
 
 ## Building Questionnaires
 
-Each [FHIR® Questionnaire](https://www.hl7.org/fhir/questionnaire.html#resource) must be associated with a [FHIR® Task](https://www.hl7.org/fhir/patient.html#resource), which is linked to the [FHIR® Patient](https://www.hl7.org/fhir/patient.html#resource) assigned to it through the "owner" field, and linked to the Questionnaire it assigns through the "basedOn" field. The Patient will only be asked to complete those questionnaires that are linked to a Task without status set to "completed". 
+Each [FHIR® Questionnaire](https://www.hl7.org/fhir/questionnaire.html#resource) must be associated with a [FHIR® Task](https://www.hl7.org/fhir/task.html#resource), which is linked to the [FHIR® Patient](https://www.hl7.org/fhir/patient.html#resource) assigned to it through the "owner" field, and linked to the Questionnaire it assigns through the "basedOn" field. The Patient will only be asked to complete those questionnaires that are linked to a Task without status set to "completed". 
 
 When the user completes a Survey through the app, a [FHIR® QuestionnaireResponse](https://www.hl7.org/fhir/questionnaireresponse.html#resource) will be created and linked to the corresponding Questionnaire through the "questionnaire" field. Each questionnaire response (if not nil) of the QuestionnaireResponse will be linked to its corresponding question in the corresponding Questionnaire through the "linkId" field in both resources. 
 
