@@ -71,7 +71,7 @@ class SurveyListViewController: UIViewController {
                 let questionnaireId = task.basedOn?[0].reference?.string
                 questionnaireConverter.extractSteps(reference: questionnaireId!, task: task) { (questionnaire, error) in
                     DispatchQueue.main.async {
-                        
+                    
                         if questionnaire != nil {
                             if questionnaire!.FHIRtask.status?.rawValue != "completed" {
                                 
@@ -82,16 +82,17 @@ class SurveyListViewController: UIViewController {
                                 self.completeQList.append(questionnaire!)
                                 
                             }
+                        }
+                        
+                        counter += 1
+                        
+                        if counter == tasks?.count {
                             
-                            if counter == tasks?.count {
-                                
-                                self.createQListCategories(todoQ: self.todoQList, completeQ: self.completeQList)
-                                self.configureTableView()
-                                self.surveyListLoadingIndicator.isHidden = true
-                            }
+                            self.createQListCategories(todoQ: self.todoQList, completeQ: self.completeQList)
+                            self.configureTableView()
+                            self.surveyListLoadingIndicator.isHidden = true
                         }
                     }
-                    counter += 1
                 }
             }
         }
