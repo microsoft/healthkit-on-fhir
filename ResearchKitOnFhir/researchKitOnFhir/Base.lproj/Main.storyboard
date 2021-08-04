@@ -78,8 +78,8 @@
                                     <color key="titleColor" systemColor="labelColor"/>
                                 </state>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EIt-oJ-O5e">
-                                <rect key="frame" x="231" y="801" width="130" height="32"/>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EIt-oJ-O5e">
+                                <rect key="frame" x="195" y="801" width="166" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="32" id="jPB-sy-bfc"/>
                                 </constraints>
