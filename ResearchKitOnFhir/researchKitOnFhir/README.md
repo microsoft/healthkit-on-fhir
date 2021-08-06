@@ -1,8 +1,8 @@
 #  ResearchKit-on-Fhir
 
-ResearchKitOnFhir is an iOS template app that integrates Apple ResearchKit with FHIR® by:
-1. Automating the import of [FHIR® Questionnaires](https://www.hl7.org/fhir/questionnaire.html#resource) from a FHIR® Server and their conversion to corresponding ResearchKit UI modules
-2. Automating the conversion of ResearchKit Survey responses to [FHIR® QuestionnaireResponses](https://www.hl7.org/fhir/questionnaireresponse.html#resource) and their export to a FHIR® Server
+ResearchKitOnFhir is an iOS template app that integrates Apple ResearchKit with FHIR by:
+1. Automating the import of [FHIR Questionnaires](https://www.hl7.org/fhir/questionnaire.html#resource) from a FHIR Server and their conversion to corresponding ResearchKit UI modules
+2. Automating the conversion of ResearchKit Survey responses to [FHIR QuestionnaireResponses](https://www.hl7.org/fhir/questionnaireresponse.html#resource) and their export to a FHIR Server
 
 
 ## Supported Types
@@ -20,13 +20,13 @@ ResearchKitOnFhir currently supports conversion between the following [ResearchK
 | date                  | ORKDateAnswerFormat                                                               | style: ORKDateAnswerStyle.date                                                                                                                   |
 | dateTime          | ORKDateAnswerFormat                                                               | style: ORKDateAnswerStyle.dateAndTime                                                                                                     |
 
-**Threshold of 10 arbitrarily set in func MultipleChoiceFormat in FHIRtoRK.swift: if all responses are shorter than 10 characters, Value Picker format is displayed. Otherwise, TextChoice format is displayed.
+**Threshold of 10 arbitrarily set in func MultipleChoiceFormat in FhirToResearchKit.swift: if all responses are shorter than 10 characters, Value Picker format is displayed. Otherwise, TextChoice format is displayed.
 
 
 ## Authentication and Configuration
-ResearchKitOnFhir uses [SMART on FHIR](https://docs.smarthealthit.org) to integrate the app with a FHIR® Server. Current implementation supports configuration through the Config.json file, which the user populates with their FHIR® Server URL, SMART Client ID, and Patient ID, corresponding to ID of [Patient Resource](https://www.hl7.org/fhir/patient.html#resource) linked to intended app user. For example, a Patient who is accessed in the FHIR® Server through the URI "Patient/samplePatientName" will require a Config.json file with:
+ResearchKitOnFhir uses [SMART on FHIR](https://docs.smarthealthit.org) to integrate the app with a FHIR Server. Current implementation supports configuration through the Config.json file, which the user populates with their FHIR Server URL, SMART Client ID, and Patient ID (the FHIR id of the [Patient Resource](https://www.hl7.org/fhir/patient.html#resource) representing the intended app user). For example, a Patient who is accessed in the FHIR Server through the URI "Patient/samplePatientName" will require a Config.json file with:
 
-```
+```json
 "patientId": "samplePatientName"
 ```
 Implementation is still needed to handle authentication token timeout (see TODO in AppDelegate.swift).
@@ -34,14 +34,14 @@ Implementation is still needed to handle authentication token timeout (see TODO 
 
 ## Building Questionnaires
 
-Each [FHIR® Questionnaire](https://www.hl7.org/fhir/questionnaire.html#resource) must be associated with a [FHIR® Task](https://www.hl7.org/fhir/task.html#resource), which is linked to the [FHIR® Patient](https://www.hl7.org/fhir/patient.html#resource) assigned to it through the "owner" field, and linked to the Questionnaire it assigns through the "basedOn" field. The Patient will only be asked to complete those questionnaires that are linked to a Task without status set to "completed". 
+Each [FHIR Questionnaire](https://www.hl7.org/fhir/questionnaire.html#resource) must be associated with a [FHIR® Task](https://www.hl7.org/fhir/task.html#resource), which is linked to the [FHIR Patient](https://www.hl7.org/fhir/patient.html#resource) assigned to it through the "owner" field, and linked to the Questionnaire it assigns through the "basedOn" field. The Patient will only be asked to complete those questionnaires that are linked to a Task without status set to "completed". 
 
-When the user completes a Survey through the app, a [FHIR® QuestionnaireResponse](https://www.hl7.org/fhir/questionnaireresponse.html#resource) will be created and linked to the corresponding Questionnaire through the "questionnaire" field. Each questionnaire response (if not nil) of the QuestionnaireResponse will be linked to its corresponding question in the corresponding Questionnaire through the "linkId" field in both resources. 
+When the user completes a Survey through the app, a [FHIR QuestionnaireResponse](https://www.hl7.org/fhir/questionnaireresponse.html#resource) will be created and linked to the corresponding Questionnaire through the "questionnaire" field. Each questionnaire response (if not nil) of the QuestionnaireResponse will be linked to its corresponding question in the corresponding Questionnaire through the "linkId" field in both resources. 
 
-Below is a set of sample FHIR® Resources that have all fields required to facilitate the functionality of the app:
+Below is a set of sample FHIR Resources that have all fields required to facilitate the functionality of the app:
 
 ### Sample Task:
-```
+```json
 { 
     "resourceType": "Task", 
     "id": "sampleTask1", 
@@ -63,7 +63,7 @@ Below is a set of sample FHIR® Resources that have all fields required to facil
 ```
 
 ### Corresponding Questionnaire:
-```
+```json
 { 
     "resourceType": "Questionnaire", 
     "id": "bloodSugar", 
@@ -145,7 +145,7 @@ Below is a set of sample FHIR® Resources that have all fields required to facil
 ### Sample QuestionnaireResponse 
 Generated by the app upon completion of above Questionnaire
 
-```
+```json
 { 
   "resourceType": "QuestionnaireResponse",
   "id": "7a382ed7-5390-4b45-9ab6-d33b85f1f625",
@@ -210,4 +210,4 @@ Generated by the app upon completion of above Questionnaire
 
 ## Adding Additional Types
 
-The addition of FHIR® QuestionTypes and their conversion to and from ResearchKit UI formats requires additions to func RKQuestionResponseToFHIR in RKtoFHIR.swift and func FHIRQuestionListToRKQuestions in FHIRtoRK.swift.
+The addition of FHIR QuestionTypes and their conversion to and from ResearchKit UI formats requires additions to func researchKitQuestionResponseToFhir in ResearchKitToFhir.swift and func fhirQuestionListToResearchKitQuestions in FhirToResearchKit.swift.

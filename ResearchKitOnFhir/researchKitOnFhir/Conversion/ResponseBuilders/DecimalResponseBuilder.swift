@@ -1,6 +1,9 @@
 //
 //  DecimalResponseBuilder.swift
-//  researchKitOnFhir
+//  ResearchKitOnFhir
+//
+//  Copyright (c) Microsoft Corporation.
+//  Licensed under the MIT License.
 //
 
 import Foundation
@@ -11,11 +14,11 @@ public class DecimalResponseBuilder: FHIRResponseBuilder {
     
     public func convertResponse() -> QuestionnaireResponseItem {
         
-        let newResult = result as! ORKNumericQuestionResult
+        let newResult = result as? ORKNumericQuestionResult
         let newQuestionResponseAnswer = QuestionnaireResponseItemAnswer()
         
-        if newResult.numericAnswer != nil {
-            let newAnswerAsFHIRDecimal = FHIRDecimal(newResult.numericAnswer as! Decimal)
+        if let numericAnswer = newResult?.numericAnswer as? Decimal {
+            let newAnswerAsFHIRDecimal = FHIRDecimal(numericAnswer)
             newQuestionResponseAnswer.valueDecimal = newAnswerAsFHIRDecimal
             
             newQuestionResponse.answer = [QuestionnaireResponseItemAnswer]()

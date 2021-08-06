@@ -1,6 +1,9 @@
 //
 //  IntegerResponseBuilder.swift
-//  researchKitOnFhir
+//  ResearchKitOnFhir
+//
+//  Copyright (c) Microsoft Corporation.
+//  Licensed under the MIT License.
 //
 
 import Foundation
@@ -11,11 +14,11 @@ public class IntegerResponseBuilder: FHIRResponseBuilder {
     
     public func convertResponse() -> QuestionnaireResponseItem {
         
-        let newResult = result as! ORKNumericQuestionResult
+        let newResult = result as? ORKNumericQuestionResult
         let newQuestionResponseAnswer = QuestionnaireResponseItemAnswer()
         
-        if newResult.numericAnswer != nil {
-            let newAnswerAsFHIRInteger = FHIRInteger(newResult.numericAnswer as! Int32)
+        if let numericAnswer = newResult?.numericAnswer as? Int32 {
+            let newAnswerAsFHIRInteger = FHIRInteger(numericAnswer)
             newQuestionResponseAnswer.valueInteger = newAnswerAsFHIRInteger
             
             newQuestionResponse.answer = [QuestionnaireResponseItemAnswer]()

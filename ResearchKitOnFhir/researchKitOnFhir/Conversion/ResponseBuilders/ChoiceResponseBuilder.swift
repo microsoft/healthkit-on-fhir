@@ -1,6 +1,9 @@
 //
 //  ChoiceResponseBuilder.swift
-//  researchKitOnFhir
+//  ResearchKitOnFhir
+//
+//  Copyright (c) Microsoft Corporation.
+//  Licensed under the MIT License.
 //
 
 import Foundation
@@ -11,25 +14,27 @@ public class ChoiceResponseBuilder: FHIRResponseBuilder {
     
     public func convertResponse() -> QuestionnaireResponseItem {
         
-        let newResult = result as! ORKChoiceQuestionResult
         let newQuestionResponseAnswer = QuestionnaireResponseItemAnswer()
         
-        if newResult.answer != nil {
-            let answerArray = newResult.answer as! NSArray
+        if let newResult = result as? ORKChoiceQuestionResult {
             
-            var newAnswerAsFHIRString = FHIRString("no response")
+            var newAnswerAsFHIRString: FHIRString
             
-            if answerArray.count > 0 {
-                // FHIR standard only allows for one answer to be selected from multiple choice question
-                newAnswerAsFHIRString.string = answerArray[0] as! String
-            }
-            
-            newQuestionResponseAnswer.valueString = newAnswerAsFHIRString
-            
-            newQuestionResponse.answer = [QuestionnaireResponseItemAnswer]()
-            
-            if newQuestionResponseAnswer.valueString != nil && newQuestionResponse.answer != nil {
-                newQuestionResponse.answer! += [newQuestionResponseAnswer]
+            if newResult.answer != nil {
+                if let answerArray = newResult.answer as? NSArray {
+                    if answerArray.count > 0 {
+                        // FHIR standard only allows for one answer to be selected from multiple choice question
+                        newAnswerAsFHIRString = FHIRString(answerArray[0] as? String ?? ResponseMessage.noResponse)
+                        
+                        newQuestionResponseAnswer.valueString = newAnswerAsFHIRString
+                        
+                        newQuestionResponse.answer = [QuestionnaireResponseItemAnswer]()
+                        
+                        if newQuestionResponse.answer != nil {
+                            newQuestionResponse.answer! += [newQuestionResponseAnswer]
+                        }
+                    }
+                }
             }
         }
         

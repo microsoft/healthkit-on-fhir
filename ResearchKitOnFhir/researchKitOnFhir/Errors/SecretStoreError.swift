@@ -1,8 +1,9 @@
 //
 //  SecretStoreError.swift
-//  researchKitOnFhir
+//  ResearchKitOnFhir
 //
-//  Created by admin on 7/26/21.
+//  Copyright (c) Microsoft Corporation.
+//  Licensed under the MIT License.
 //
 
 import Foundation

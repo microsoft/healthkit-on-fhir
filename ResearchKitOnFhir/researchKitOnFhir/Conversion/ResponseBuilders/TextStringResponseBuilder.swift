@@ -1,6 +1,9 @@
 //
 //  TextStringResponseBuilder.swift
-//  researchKitOnFhir
+//  ResearchKitOnFhir
+//
+//  Copyright (c) Microsoft Corporation.
+//  Licensed under the MIT License.
 //
 
 import Foundation
@@ -11,17 +14,24 @@ public class TextStringResponseBuilder: FHIRResponseBuilder {
     
     public func convertResponse() -> QuestionnaireResponseItem {
         
-        let newResult = self.result as! ORKTextQuestionResult
         let newQuestionResponseAnswer = QuestionnaireResponseItemAnswer()
         
-        if newResult.textAnswer != nil {
-            let newAnswerAsFHIRString = FHIRString(newResult.textAnswer!)
-            newQuestionResponseAnswer.valueString = newAnswerAsFHIRString
-            newQuestionResponse.answer = [QuestionnaireResponseItemAnswer]()
-            if newQuestionResponseAnswer.valueString != nil && newQuestionResponse.answer != nil {
-                newQuestionResponse.answer! += [newQuestionResponseAnswer]
+        // set default to no response in case result is nil
+        newQuestionResponseAnswer.valueString = FHIRString(ResponseMessage.noResponse)
+        
+        if let newResult = self.result as? ORKTextQuestionResult {
+            if let textAnswer = newResult.textAnswer {
+                let newAnswerAsFHIRString = FHIRString(textAnswer)
+                newQuestionResponseAnswer.valueString = newAnswerAsFHIRString
             }
         }
+        
+        newQuestionResponse.answer = [QuestionnaireResponseItemAnswer]()
+        
+        if newQuestionResponseAnswer.valueString != nil && newQuestionResponse.answer != nil {
+            newQuestionResponse.answer! += [newQuestionResponseAnswer]
+        }
+        
         return newQuestionResponse
     }
     

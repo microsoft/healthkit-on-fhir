@@ -1,6 +1,9 @@
 //
 //  BooleanResponseBuilder.swift
-//  researchKitOnFhir
+//  ResearchKitOnFhir
+//
+//  Copyright (c) Microsoft Corporation.
+//  Licensed under the MIT License.
 //
 
 import Foundation
@@ -11,11 +14,11 @@ public class BooleanResponseBuilder: FHIRResponseBuilder {
     
     public func convertResponse() -> QuestionnaireResponseItem {
         
-        let newResult = result as! ORKBooleanQuestionResult
+        let newResult = result as? ORKBooleanQuestionResult
         let newQuestionResponseAnswer = QuestionnaireResponseItemAnswer()
         
-        if newResult.booleanAnswer != nil {
-            let newAnswerAsFHIRBoolean = FHIRBool(booleanLiteral: (newResult.booleanAnswer != nil))
+        if let booleanAnswer = newResult?.booleanAnswer {
+            let newAnswerAsFHIRBoolean = FHIRBool(booleanLiteral: booleanAnswer.boolValue)
             newQuestionResponseAnswer.valueBoolean = newAnswerAsFHIRBoolean
             
             newQuestionResponse.answer = [QuestionnaireResponseItemAnswer]()

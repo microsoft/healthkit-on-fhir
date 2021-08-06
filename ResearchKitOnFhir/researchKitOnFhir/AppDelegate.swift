@@ -1,6 +1,9 @@
 //
 //  AppDelegate.swift
-//  researchKitOnFhir
+//  ResearchKitOnFhir
+//
+//  Copyright (c) Microsoft Corporation.
+//  Licensed under the MIT License.
 //
 
 import UIKit

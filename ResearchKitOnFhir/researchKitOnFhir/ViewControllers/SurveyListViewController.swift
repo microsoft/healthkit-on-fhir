@@ -1,6 +1,9 @@
 //
 //  SurveyListViewController.swift
-//  researchKitOnFhir
+//  ResearchKitOnFhir
+//
+//  Copyright (c) Microsoft Corporation.
+//  Licensed under the MIT License.
 //
 
 import UIKit
@@ -17,10 +20,6 @@ class SurveyListViewController: UIViewController {
     let tableView = UITableView()
     static var QList = [QListCategory]()
     
-    struct Cells {
-        static let buttonCell = "buttonCell"
-    }
-    
     struct SectionTitles {
         static let toDo = "Requested"
         static let complete = "Complete"
@@ -28,7 +27,7 @@ class SurveyListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: Cells.buttonCell)
+        tableView.register(QuestionnaireListTableViewCell.self, forCellReuseIdentifier: QuestionnaireListTableViewCell.buttonCellIdentifier)
     }
     
     func configureTableView() {
@@ -54,7 +53,7 @@ class SurveyListViewController: UIViewController {
     
     func populateQuestionnaireList() {
         
-        let questionnaireConverter = FHIRtoRKConverter()
+        let questionnaireConverter = FhirToResearchKitConverter()
         
         let ed = ExternalStoreDelegate()
         
@@ -68,32 +67,32 @@ class SurveyListViewController: UIViewController {
             var counter = 0
             
             for task in tasks! {
+                
                 let questionnaireId = task.basedOn?[0].reference?.string
                 questionnaireConverter.extractSteps(reference: questionnaireId!, task: task) { (questionnaire, error) in
-                    DispatchQueue.main.async {
-                    
-                        if questionnaire != nil {
-                            if questionnaire!.FHIRtask.status?.rawValue != "completed" {
+                        DispatchQueue.main.async {
+                        
+                            if questionnaire != nil {
+                                if questionnaire!.FHIRtask.status?.rawValue != "completed" {
+                                    
+                                    self.todoQList.append(questionnaire!)
+                                    
+                                } else {
+                                    
+                                    self.completeQList.append(questionnaire!)
+                                    
+                                }
+                            }
+                            counter += 1
+                            
+                            if counter == tasks?.count {
                                 
-                                self.todoQList.append(questionnaire!)
-                                
-                            } else {
-                                
-                                self.completeQList.append(questionnaire!)
-                                
+                                self.createQListCategories(todoQ: self.todoQList, completeQ: self.completeQList)
+                                self.configureTableView()
+                                self.surveyListLoadingIndicator.isHidden = true
                             }
                         }
-                        
-                        counter += 1
-                        
-                        if counter == tasks?.count {
-                            
-                            self.createQListCategories(todoQ: self.todoQList, completeQ: self.completeQList)
-                            self.configureTableView()
-                            self.surveyListLoadingIndicator.isHidden = true
-                        }
                     }
-                }
             }
         }
     }
@@ -124,14 +123,14 @@ class SurveyListViewController: UIViewController {
     @IBOutlet weak var surveyListLoadingIndicator: UIActivityIndicatorView!
     
     func surveySelected(tagNum: Int) {
-        let fhirToRk = FHIRtoRKConverter()
+        let FhirToResearchKit = FhirToResearchKitConverter()
         let questionnaire = SurveyListViewController.questionnaireList[tagNum]
         
-        let surveyTask = ORKOrderedTask(identifier: title ?? "Questionnaire", steps: fhirToRk.getORKStepsFromQuestionnaire(questionnaire: questionnaire!.FHIRquestionnaire))
+        let surveyTask = ORKOrderedTask(identifier: title ?? "Questionnaire", steps: FhirToResearchKit.getORKStepsFromQuestionnaire(questionnaire: questionnaire!.FHIRquestionnaire))
         
         let taskViewController = ORKTaskViewController(task: surveyTask, taskRun: nil)
         taskViewController.delegate = self
-        FHIRtoRKConverter.currentIndex = tagNum
+        FhirToResearchKitConverter.currentIndex = tagNum
         self.present(taskViewController, animated: true, completion: nil)
     }
 }
@@ -143,7 +142,7 @@ extension SurveyListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: Cells.buttonCell, for: indexPath) as? CustomTableViewCell else {fatalError("Unable to create cell")}
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: QuestionnaireListTableViewCell.buttonCellIdentifier, for: indexPath) as? QuestionnaireListTableViewCell else {fatalError("Unable to create cell")}
         
         let questionnaire = SurveyListViewController.QList[indexPath.section].questionnairesDisplayed?[indexPath.row]
         cell.set(questionnaire: questionnaire!)
@@ -199,13 +198,13 @@ extension SurveyListViewController: ORKTaskViewControllerDelegate  {
     }
     
     fileprivate func persistResultsAsQResponse (_ taskViewController: ORKTaskViewController) {
-        let questionnaireConverter = RKtoFHIRConverter()
+        let questionnaireConverter = ResearchKitToFhirConverter()
         
         // convert the questionnaire response from ResearchKit type to FHIR QuestionnaireResponse resource
-        let FHIRQuestionnaireResponse: QuestionnaireResponse = questionnaireConverter.RKQuestionResponseToFHIR(results: taskViewController)
+        let FHIRQuestionnaireResponse: QuestionnaireResponse = questionnaireConverter.researchKitQuestionResponseToFhir(results: taskViewController)
         
         // set the questionnaireResponse's associated questionnaire
-        FHIRQuestionnaireResponse.questionnaire = FHIRCanonical((SurveyListViewController.questionnaireList[FHIRtoRKConverter.currentIndex]!.FHIRtask.basedOn?[0].reference?.string)!)
+        FHIRQuestionnaireResponse.questionnaire = FHIRCanonical((SurveyListViewController.questionnaireList[FhirToResearchKitConverter.currentIndex]!.FHIRtask.basedOn?[0].reference?.string)!)
         
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
         let smartClient = appDelegate?.smartClient
@@ -221,7 +220,7 @@ extension SurveyListViewController: ORKTaskViewControllerDelegate  {
     
     fileprivate func updateTaskStatus(_ taskViewController: ORKTaskViewController) {
         // update task completion status in server
-        let task = SurveyListViewController.questionnaireList[FHIRtoRKConverter.currentIndex]!.FHIRtask
+        let task = SurveyListViewController.questionnaireList[FhirToResearchKitConverter.currentIndex]!.FHIRtask
         task.status = TaskStatus(rawValue: "completed")
         
         task.update(callback: { error in

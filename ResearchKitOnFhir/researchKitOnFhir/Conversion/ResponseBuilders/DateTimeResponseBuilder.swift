@@ -1,6 +1,9 @@
 //
 //  DateTimeResponseBuilder.swift
-//  researchKitOnFhir
+//  ResearchKitOnFhir
+//
+//  Copyright (c) Microsoft Corporation.
+//  Licensed under the MIT License.
 //
 
 import Foundation
@@ -11,13 +14,13 @@ public class DateTimeResponseBuilder: FHIRResponseBuilder {
     
     public func convertResponse(type: String) -> QuestionnaireResponseItem {
         
+        let newQuestionResponseAnswer = QuestionnaireResponseItemAnswer()
+        
         switch(type) {
         
         case "dateTime":
-            let newResult = result as! ORKDateQuestionResult
-            let newQuestionResponseAnswer = QuestionnaireResponseItemAnswer()
             
-            if newResult.dateAnswer != nil {
+            if let newResult = result as? ORKDateQuestionResult {
                 let newAnswerAsFHIRDateTime = getFHIRDateTime(result: newResult, includeTime: true)
                 newQuestionResponseAnswer.valueDateTime = newAnswerAsFHIRDateTime
                 
@@ -29,10 +32,8 @@ public class DateTimeResponseBuilder: FHIRResponseBuilder {
             return newQuestionResponse
         
         case "time":
-            let newResult = result as! ORKTimeOfDayQuestionResult
-            let newQuestionResponseAnswer = QuestionnaireResponseItemAnswer()
             
-            if newResult.dateComponentsAnswer != nil {
+            if let newResult = result as? ORKTimeOfDayQuestionResult {
                 let newAnswerAsFHIRTime = getFHIRTime(result: newResult)
                 newQuestionResponseAnswer.valueTime = newAnswerAsFHIRTime
                 
@@ -43,10 +44,8 @@ public class DateTimeResponseBuilder: FHIRResponseBuilder {
             }
             
         case "date":
-            let newResult = result as! ORKDateQuestionResult
-            let newQuestionResponseAnswer = QuestionnaireResponseItemAnswer()
             
-            if newResult.dateAnswer != nil {
+            if let newResult = result as? ORKDateQuestionResult {
                 let newAnswerAsFHIRDateTime = getFHIRDate(result: newResult)
                 newQuestionResponseAnswer.valueDate = newAnswerAsFHIRDateTime
                 
@@ -62,25 +61,29 @@ public class DateTimeResponseBuilder: FHIRResponseBuilder {
         return newQuestionResponse
     }
 
-    func getFHIRDateTime(result: ORKDateQuestionResult, includeTime: Bool) -> DateTime {
+    func getFHIRDateTime(result: ORKDateQuestionResult, includeTime: Bool) -> DateTime? {
         
-        let resultDate = getFHIRDate(result: result)
-        
-        // set default time in case no time selected
-        var resultTime = FHIRTime(hour: 0, minute: 0, second: 0)
-        
-        var resultTimeZone = TimeZone.current
-        
-        if includeTime {
-           resultTime = getTimeFromDateTime(result: result)
+        // date is required for FHIR DateTime; time is optional
+        if let resultDate = getFHIRDate(result: result) {
             
-            if result.timeZone != nil {
-                resultTimeZone = result.timeZone!
+            // set default time in case no time selected
+            var resultTime = FHIRTime(hour: 0, minute: 0, second: 0)
+            
+            var resultTimeZone = TimeZone.current
+            
+            if includeTime {
+               resultTime = getTimeFromDateTime(result: result)
+                
+                if result.timeZone != nil {
+                    resultTimeZone = result.timeZone!
+                }
             }
+            
+            let resultDateTime = DateTime(date: resultDate, time: resultTime, timeZone: resultTimeZone)
+            return resultDateTime
         }
         
-        let resultDateTime = DateTime(date: resultDate, time: resultTime, timeZone: resultTimeZone)
-        return resultDateTime
+        return nil
     }
     
     func getTimeFromDateTime(result: ORKDateQuestionResult) -> FHIRTime {
@@ -96,18 +99,26 @@ public class DateTimeResponseBuilder: FHIRResponseBuilder {
         
     }
     
-    func getFHIRDate(result: ORKDateQuestionResult) -> FHIRDate {
+    func getFHIRDate(result: ORKDateQuestionResult) -> FHIRDate? {
         let calendar = Calendar.current
-        var components = calendar.dateComponents([.year], from: result.dateAnswer!)
-        let resultYear = components.year!
         
-        components = calendar.dateComponents([.month], from: result.dateAnswer!)
-        let resultMonth = UInt8(exactly: components.month!)
-        components = calendar.dateComponents([.day], from: result.dateAnswer!)
-        let resultDay = UInt8(exactly: components.day!)
-        let resultDate = FHIRDate(year: resultYear, month: resultMonth, day: resultDay)
+        if let dateResult = result.dateAnswer {
+            var components = calendar.dateComponents([.year], from: dateResult)
+            
+            // year is a required field for FHIRDate; month and day are optional
+            if let resultYear = components.year {
+                components = calendar.dateComponents([.month], from: dateResult)
+                let resultMonth = UInt8(exactly: components.month ?? 0)
+                
+                components = calendar.dateComponents([.day], from: dateResult)
+                let resultDay = UInt8(exactly: components.day ?? 0)
+                
+                let resultDate = FHIRDate(year: resultYear, month: resultMonth, day: resultDay)
+                return resultDate
+            }
+        }
         
-        return resultDate
+        return nil
     }
     
     func getFHIRTime(result: ORKTimeOfDayQuestionResult) -> FHIRTime {

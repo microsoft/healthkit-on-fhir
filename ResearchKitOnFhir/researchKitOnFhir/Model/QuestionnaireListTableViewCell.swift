@@ -1,14 +1,18 @@
 //
-//  CustomTableViewCell.swift
-//  researchKitOnFhir
+//  QuestionnaireListTableViewCell.swift
+//  ResearchKitOnFhir
+//
+//  Copyright (c) Microsoft Corporation.
+//  Licensed under the MIT License.
 //
 
 import Foundation
 import UIKit
 
-public class CustomTableViewCell: UITableViewCell {
+public class QuestionnaireListTableViewCell: UITableViewCell {
     
     var questionnaireLabel = UILabel()
+    static let buttonCellIdentifier = "buttonCell"
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

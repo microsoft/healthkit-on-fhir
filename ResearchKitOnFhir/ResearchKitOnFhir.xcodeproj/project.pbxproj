@@ -28,17 +28,15 @@
 		84C0C50D26AF4FBD00FF5E35 /* SecretStoreError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C0C50C26AF4FBD00FF5E35 /* SecretStoreError.swift */; };
 		84C0C51526AF706300FF5E35 /* ViewControllerBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C0C51426AF706300FF5E35 /* ViewControllerBase.swift */; };
 		84C2A56326A9E6A9003F59C0 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C2A56226A9E6A9003F59C0 /* UIView.swift */; };
-		84CBB8A5269E005300F2D507 /* FHIRtoRK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CBB8A4269E005300F2D507 /* FHIRtoRK.swift */; };
-		84CBB8B0269E007100F2D507 /* RKtoFHIR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CBB8AF269E007100F2D507 /* RKtoFHIR.swift */; };
-		84D04DC826A99D7C001BA808 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D04DC726A99D7C001BA808 /* CustomTableViewCell.swift */; };
+		84CBB8A5269E005300F2D507 /* FhirToResearchKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CBB8A4269E005300F2D507 /* FhirToResearchKit.swift */; };
+		84CBB8B0269E007100F2D507 /* ResearchKitToFhir.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CBB8AF269E007100F2D507 /* ResearchKitToFhir.swift */; };
+		84D04DC826A99D7C001BA808 /* QuestionnaireListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D04DC726A99D7C001BA808 /* QuestionnaireListTableViewCell.swift */; };
+		84DBBCF426BB3E400007EB33 /* FhirTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DBBCF326BB3E400007EB33 /* FhirTypes.swift */; };
 		84EDAAB32683969D003A0AE2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EDAAB22683969D003A0AE2 /* AppDelegate.swift */; };
 		84EDAAB52683969D003A0AE2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EDAAB42683969D003A0AE2 /* SceneDelegate.swift */; };
-		84EDAAB72683969D003A0AE2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EDAAB62683969D003A0AE2 /* ViewController.swift */; };
 		84EDAABA2683969D003A0AE2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84EDAAB82683969D003A0AE2 /* Main.storyboard */; };
 		84EDAABC268396A1003A0AE2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84EDAABB268396A1003A0AE2 /* Assets.xcassets */; };
 		84EDAABF268396A1003A0AE2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84EDAABD268396A1003A0AE2 /* LaunchScreen.storyboard */; };
-		84EDAACA268396A2003A0AE2 /* researchKitOnFhirTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EDAAC9268396A2003A0AE2 /* researchKitOnFhirTests.swift */; };
-		84EDAAD5268396A2003A0AE2 /* researchKitOnFhirUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EDAAD4268396A2003A0AE2 /* researchKitOnFhirUITests.swift */; };
 		84EDAB1626839CFE003A0AE2 /* ResearchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8492BEBD267921B700088582 /* ResearchKit.framework */; };
 		84EDAB1726839CFE003A0AE2 /* ResearchKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8492BEBD267921B700088582 /* ResearchKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		84EDAB2026839D03003A0AE2 /* SMART in Frameworks */ = {isa = PBXBuildFile; productRef = 84EDAB1F26839D03003A0AE2 /* SMART */; };
@@ -112,22 +110,20 @@
 		84C0C50C26AF4FBD00FF5E35 /* SecretStoreError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretStoreError.swift; sourceTree = "<group>"; };
 		84C0C51426AF706300FF5E35 /* ViewControllerBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerBase.swift; sourceTree = "<group>"; };
 		84C2A56226A9E6A9003F59C0 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
-		84CBB8A4269E005300F2D507 /* FHIRtoRK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FHIRtoRK.swift; sourceTree = "<group>"; };
-		84CBB8AF269E007100F2D507 /* RKtoFHIR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RKtoFHIR.swift; sourceTree = "<group>"; };
-		84D04DC726A99D7C001BA808 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
+		84CBB8A4269E005300F2D507 /* FhirToResearchKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FhirToResearchKit.swift; sourceTree = "<group>"; };
+		84CBB8AF269E007100F2D507 /* ResearchKitToFhir.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResearchKitToFhir.swift; sourceTree = "<group>"; };
+		84D04DC726A99D7C001BA808 /* QuestionnaireListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionnaireListTableViewCell.swift; sourceTree = "<group>"; };
+		84DBBCF326BB3E400007EB33 /* FhirTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FhirTypes.swift; sourceTree = "<group>"; };
 		84EDAAB02683969D003A0AE2 /* researchKitOnFhir.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = researchKitOnFhir.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84EDAAB22683969D003A0AE2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		84EDAAB42683969D003A0AE2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		84EDAAB62683969D003A0AE2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		84EDAAB92683969D003A0AE2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		84EDAABB268396A1003A0AE2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		84EDAABE268396A1003A0AE2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		84EDAAC0268396A1003A0AE2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		84EDAAC5268396A2003A0AE2 /* researchKitOnFhirTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = researchKitOnFhirTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		84EDAAC9268396A2003A0AE2 /* researchKitOnFhirTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = researchKitOnFhirTests.swift; sourceTree = "<group>"; };
 		84EDAACB268396A2003A0AE2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		84EDAAD0268396A2003A0AE2 /* researchKitOnFhirUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = researchKitOnFhirUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		84EDAAD4268396A2003A0AE2 /* researchKitOnFhirUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = researchKitOnFhirUITests.swift; sourceTree = "<group>"; };
 		84EDAAD6268396A2003A0AE2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -194,8 +190,9 @@
 			isa = PBXGroup;
 			children = (
 				844D31C226A514AD00010466 /* QuestionnaireType.swift */,
-				84D04DC726A99D7C001BA808 /* CustomTableViewCell.swift */,
+				84D04DC726A99D7C001BA808 /* QuestionnaireListTableViewCell.swift */,
 				84814BB226AA05AE007DF055 /* QListCategory.swift */,
+				84DBBCF326BB3E400007EB33 /* FhirTypes.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -205,7 +202,6 @@
 			children = (
 				845A1515269F68640011B506 /* LandingScreenViewController.swift */,
 				845A152F269F6DA30011B506 /* SurveyListViewController.swift */,
-				84EDAAB62683969D003A0AE2 /* ViewController.swift */,
 				84C0C51426AF706300FF5E35 /* ViewControllerBase.swift */,
 			);
 			path = ViewControllers;
@@ -276,7 +272,6 @@
 		84EDAAC8268396A2003A0AE2 /* researchKitOnFhirTests */ = {
 			isa = PBXGroup;
 			children = (
-				84EDAAC9268396A2003A0AE2 /* researchKitOnFhirTests.swift */,
 				84EDAACB268396A2003A0AE2 /* Info.plist */,
 			);
 			path = researchKitOnFhirTests;
@@ -285,7 +280,6 @@
 		84EDAAD3268396A2003A0AE2 /* researchKitOnFhirUITests */ = {
 			isa = PBXGroup;
 			children = (
-				84EDAAD4268396A2003A0AE2 /* researchKitOnFhirUITests.swift */,
 				84EDAAD6268396A2003A0AE2 /* Info.plist */,
 			);
 			path = researchKitOnFhirUITests;
@@ -295,8 +289,8 @@
 			isa = PBXGroup;
 			children = (
 				8462E91E26B4C409003CC235 /* ResponseBuilders */,
-				84CBB8A4269E005300F2D507 /* FHIRtoRK.swift */,
-				84CBB8AF269E007100F2D507 /* RKtoFHIR.swift */,
+				84CBB8A4269E005300F2D507 /* FhirToResearchKit.swift */,
+				84CBB8AF269E007100F2D507 /* ResearchKitToFhir.swift */,
 			);
 			path = Conversion;
 			sourceTree = "<group>";
@@ -465,7 +459,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				840584D42684F0C200986AC5 /* ServerExtensions.swift in Sources */,
-				84EDAAB72683969D003A0AE2 /* ViewController.swift in Sources */,
 				840584DC2685055100986AC5 /* ExternalStoreDelegate.swift in Sources */,
 				8462E90726B4C054003CC235 /* DateTimeResponseBuilder.swift in Sources */,
 				84814BB326AA05AE007DF055 /* QListCategory.swift in Sources */,
@@ -476,14 +469,15 @@
 				8462E91726B4C36F003CC235 /* ChoiceResponseBuilder.swift in Sources */,
 				8462E8F726B4BE11003CC235 /* DecimalResponseBuilder.swift in Sources */,
 				84EDAAB32683969D003A0AE2 /* AppDelegate.swift in Sources */,
-				84D04DC826A99D7C001BA808 /* CustomTableViewCell.swift in Sources */,
+				84D04DC826A99D7C001BA808 /* QuestionnaireListTableViewCell.swift in Sources */,
 				8462E8D326B4B46D003CC235 /* FHIRResponseBuilder.swift in Sources */,
 				8496FCB626935B41008E54C1 /* ConfigHelper.swift in Sources */,
 				8462E8DB26B4B616003CC235 /* TextStringResponseBuilder.swift in Sources */,
+				84DBBCF426BB3E400007EB33 /* FhirTypes.swift in Sources */,
 				844D31C326A514AD00010466 /* QuestionnaireType.swift in Sources */,
 				84C0C50D26AF4FBD00FF5E35 /* SecretStoreError.swift in Sources */,
-				84CBB8B0269E007100F2D507 /* RKtoFHIR.swift in Sources */,
-				84CBB8A5269E005300F2D507 /* FHIRtoRK.swift in Sources */,
+				84CBB8B0269E007100F2D507 /* ResearchKitToFhir.swift in Sources */,
+				84CBB8A5269E005300F2D507 /* FhirToResearchKit.swift in Sources */,
 				84C2A56326A9E6A9003F59C0 /* UIView.swift in Sources */,
 				8462E8E326B4BCA8003CC235 /* IntegerResponseBuilder.swift in Sources */,
 				84EDAAB52683969D003A0AE2 /* SceneDelegate.swift in Sources */,
@@ -496,7 +490,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84EDAACA268396A2003A0AE2 /* researchKitOnFhirTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -504,7 +497,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84EDAAD5268396A2003A0AE2 /* researchKitOnFhirUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

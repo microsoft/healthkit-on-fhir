@@ -1,57 +1,56 @@
 //
-//  FHIRtoRK.swift
-//  researchKitOnFhir
+//  FhirToResearchKit.swift
+//  ResearchKitOnFhir
+//
+//  Copyright (c) Microsoft Corporation.
+//  Licensed under the MIT License.
 //
 
 import Foundation
 import SMART
 import ResearchKit
 
-public class FHIRtoRKConverter {
+public class FhirToResearchKitConverter {
     
-    static var FHIRQuestionnaire: Questionnaire = Questionnaire()
-    static var FHIRQuestionMap: [String: QuestionnaireItem] = [:]
+    static var fhirQuestionnaire: Questionnaire = Questionnaire()
+    static var fhirQuestionMap: [String: QuestionnaireItem] = [:]
     static var currentIndex = Int()
-    static var ORKStepQuestionnaire: [ORKStep] = [ORKStep]()
     
-    init() {
-        // do nothing
-    }
-    
-    func FHIRQuestionListToRKQuestions (questions: [QuestionnaireItem], questionnaireTitle: String) -> [ORKStep] {
+    func fhirQuestionListToResearchKitQuestions (questions: [QuestionnaireItem], questionnaireTitle: String) -> [ORKStep] {
         var surveySteps = [ORKStep]()
         
         for question in questions {
             // ensures the question text is not empty
-            if question.text != nil || question.type?.rawValue == "group" {
+            if question.text != nil || question.type?.rawValue == fhirTypes.group {
                 
                 switch(question.type?.rawValue){
                 
-                case "group":
-                    let newFormStep = createGroupItem(question: question, title: questionnaireTitle)
-                    if newFormStep.formItems != nil {
-                        if newFormStep.formItems!.count > 0 {
-                            surveySteps += [newFormStep]
+                case fhirTypes.group:
+                    if let newFormStep = createGroupItem(question: question, title: questionnaireTitle){
+                        if let formItems = newFormStep.formItems {
+                            if formItems.count > 0 {
+                                surveySteps += [newFormStep]
+                            }
                         }
                     }
                     
-                case "text",
-                     "string",
-                     "integer",
-                     "boolean",
-                     "decimal",
-                     "time",
-                     "dateTime",
-                     "choice",
-                     "date":
+                case fhirTypes.text,
+                     fhirTypes.string,
+                     fhirTypes.integer,
+                     fhirTypes.boolean,
+                     fhirTypes.decimal,
+                     fhirTypes.time,
+                     fhirTypes.dateTime,
+                     fhirTypes.choice,
+                     fhirTypes.date:
                     surveySteps += [buildNewQuestion(question: question,  questionnaireTitle: questionnaireTitle)]
                     
                 case .none:
-                    question.type = QuestionnaireItemType(rawValue: "text")
+                    question.type = QuestionnaireItemType(rawValue: fhirTypes.text)
                     surveySteps += [buildNewQuestion(question: question,  questionnaireTitle: questionnaireTitle)]
                     print("none")
                 case .some(_):
-                    question.type = QuestionnaireItemType(rawValue: "text")
+                    question.type = QuestionnaireItemType(rawValue: fhirTypes.text)
                     surveySteps += [buildNewQuestion(question: question,  questionnaireTitle: questionnaireTitle)]
                     print("CONVERSION some")
                 }
@@ -61,8 +60,16 @@ public class FHIRtoRKConverter {
     }
     
     // converts FHIR "group" type to ORKFormStep with list of ORKFormItems
-    func createGroupItem (question: QuestionnaireItem, title: String) -> ORKFormStep {
-        let stepForm = ORKFormStep(identifier: question.linkId!.string)
+    func createGroupItem (question: QuestionnaireItem, title: String) -> ORKFormStep? {
+        
+        var stepForm: ORKFormStep
+        
+        if let linkId = question.linkId {
+            stepForm = ORKFormStep(identifier: linkId.string)
+        } else  {
+            return nil
+        }
+        
         stepForm.title = title
         var stepFormItems = [ORKFormItem]()
         
@@ -101,35 +108,35 @@ public class FHIRtoRKConverter {
         if question.type?.rawValue != nil {
             switch(question.type?.rawValue){
             
-            case "text":
+            case fhirTypes.text:
                 if question.maxLength == nil {
                     answer = ORKTextAnswerFormat()
                 } else {
                     answer = ORKTextAnswerFormat(maximumLength: question.maxLength!.int)
                 }
                 
-            case "string":
+            case fhirTypes.string:
                 answer = ORKTextAnswerFormat()
             
-            case "integer":
+            case fhirTypes.integer:
                 answer = ORKNumericAnswerFormat.integerAnswerFormat(withUnit: "")
             
-            case "boolean":
+            case fhirTypes.boolean:
                 answer = ORKBooleanAnswerFormat.booleanAnswerFormat()
                 
-            case "decimal":
+            case fhirTypes.decimal:
                 answer = ORKNumericAnswerFormat.decimalAnswerFormat(withUnit: "")
             
-            case "time":
+            case fhirTypes.time:
                 answer = ORKTimeOfDayAnswerFormat()
                 
-            case "dateTime":
+            case fhirTypes.dateTime:
                 answer = ORKDateAnswerFormat(style: ORKDateAnswerStyle.dateAndTime)
                 
-            case "date":
+            case fhirTypes.date:
                 answer = ORKDateAnswerFormat(style: ORKDateAnswerStyle.date)
                 
-            case "choice":
+            case fhirTypes.choice:
                 let answerOptions = getTextChoiceFromFHIRType(question: question)
                 
                 if answerOptions.count > 0 {
@@ -210,7 +217,7 @@ public class FHIRtoRKConverter {
             
             self.buildQuestionMap(questionItems: questionnaire.item!)
             
-            steps = self.FHIRQuestionListToRKQuestions(questions: questionnaire.item!, questionnaireTitle: questionnaire.title?.string ?? "")
+            steps = self.fhirQuestionListToResearchKitQuestions(questions: questionnaire.item!, questionnaireTitle: questionnaire.title?.string ?? "")
         
         }
         
@@ -221,10 +228,10 @@ public class FHIRtoRKConverter {
     func buildQuestionMap (questionItems: [QuestionnaireItem]) {
         for questionItem in questionItems {
             
-            if questionItem.type?.rawValue == "group" {
+            if questionItem.type?.rawValue == fhirTypes.group {
                 buildQuestionMap(questionItems: questionItem.item!)
             } else {
-                FHIRtoRKConverter.FHIRQuestionMap[questionItem.linkId!.string] = questionItem
+                FhirToResearchKitConverter.fhirQuestionMap[questionItem.linkId!.string] = questionItem
             }
         }
     }

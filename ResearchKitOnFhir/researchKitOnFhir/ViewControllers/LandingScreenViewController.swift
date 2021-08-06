@@ -1,6 +1,9 @@
 //
-//  LandingPageViewController.swift
-//  researchKitOnFhir
+//  LandingScreenViewController.swift
+//  ResearchKitOnFhir
+//
+//  Copyright (c) Microsoft Corporation.
+//  Licensed under the MIT License.
 //
 
 import UIKit
@@ -18,7 +21,9 @@ class LandingScreenViewController: ViewControllerBase {
         super.viewDidLoad()
         
         #if targetEnvironment(simulator)
-        configMessageLabel.text = "Drag the Config.json file onto the Simulator screen to begin."
+            configMessageLabel.text = "Drag the Config.json file onto the Simulator screen to begin."
+        #else
+            configMessageLabel.text = "Tap on your configuration file and choose this application to open it."
         #endif
         
         self.authenticatedPatientButton.isHidden = true
