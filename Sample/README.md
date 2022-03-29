@@ -28,6 +28,34 @@ When the application is launched (before it is configured), a message will appea
 
 After the application has been configured, subsequent launches will not show this screen again.
 
+## Azure Active Directory SMART on FHIR Proxy Configuration
+
+Azure has 2 fully managed FHIR service offerings ([Azure API for FHIR](https://docs.microsoft.com/azure/healthcare-apis/azure-api-for-fhir) and [Azure Healthcare APIs FHIR service](https://docs.microsoft.com/azure/healthcare-apis/fhir)) that support SMART on FHIR applications through the use of the [Azure Active Directory SMART on FHIR Proxy](https://docs.microsoft.com/azure/healthcare-apis/azure-api-for-fhir/use-smart-on-fhir-proxy).
+
+### Prerequisites
+
+1. A provisioned instance of **Azure API for FHIR** or **Azure Healthcare APIs FHIR service**
+1. [SMART on FHIR Proxy enabled on the FHIR service](https://docs.microsoft.com/azure/healthcare-apis/azure-api-for-fhir/use-smart-on-fhir-proxy#enable-the-smart-on-fhir-proxy)
+1. A [Public Client Application Registration](https://docs.microsoft.com/en-us/azure/healthcare-apis/azure-api-for-fhir/register-public-azure-ad-client-app) in Azure Active Directory
+
+### Add the Reply URLs
+
+The **SMART on FHIR Proxy** will forward authentication requests to Azure Active Directory. Once the request has been completed, Azure Active Directory responds back to the **SMART on FHIR Proxy**, and the **SMART on FHIR Proxy** replies back to the application. Because the application is not calling Azure Active Directory directly, a special proxy Redirect URI needs to be added to the **Public Client Application Registration**. The Redirect URI is a **SMART on FHIR Proxy** URI with the Base64 encoded Redirect URI for the application.
+
+1. Navigate to the **Public Client Application Registration** in Azure Active directory
+1. Under the **Authentication** tab add the 2 Redirect URIs below under **Mobile and desktop applications** (you may need to **Add a platform** if Mobile and desktop applications is not listed)
+
+```
+https://{ YOUR_FHIR_SERVER_URL }/AadSmartOnFhirProxy/callback/aGVhbHRoa2l0b25maGlyOi8vY2FsbGJhY2s
+https://{ YOUR_FHIR_SERVER_URL }/AadSmartOnFhirProxy/callback/aGVhbHRoa2l0b25maGlyOi8vY2FsbGJhY2sv
+```
+
+It's recommended that both Redirect URIs should be added. The difference between the 2 is that one contains a trailing slash.
+
+**healthkitonfhir://callback** == **aGVhbHRoa2l0b25maGlyOi8vY2FsbGJhY2s**
+
+**healthkitonfhir://callback/** == **aGVhbHRoa2l0b25maGlyOi8vY2FsbGJhY2sv**
+
 ## Delegate Implementations
 
 There are several useful examples of how HealthKitOnFhir delegates and HealthDataSync delegates can be used in an application.
